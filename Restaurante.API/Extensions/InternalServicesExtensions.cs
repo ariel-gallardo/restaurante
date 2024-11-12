@@ -8,6 +8,7 @@ namespace Restaurante.API
         {
             services.AddTransient<IPasswordServices, PasswordServices>();
             services.AddTransient<IUserServices, UserServices>();
+            services.AddTransient<IProductoServices, ProductoServices>();
         }
     }
 }

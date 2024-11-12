@@ -38,6 +38,8 @@ namespace Restaurante.Migrations
         {
             mB.MapRelationShips<Persona>();
             mB.MapRelationShips<Usuario>();
+            mB.MapRelationShips<Producto>();
+            mB.MapRelationShips<ProductoIngrediente>();
         }
 
         private void GenerateDemoData(ref ModelBuilder mB)

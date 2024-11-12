@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurante.Migrations;
 
@@ -11,9 +12,10 @@ using Restaurante.Migrations;
 namespace Restaurante.Migrations.Migrations
 {
     [DbContext(typeof(RestauranteContext))]
-    partial class RestauranteContextModelSnapshot : ModelSnapshot
+    [Migration("20241112165908_ProductoIngredienteUpdate")]
+    partial class ProductoIngredienteUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 994, DateTimeKind.Utc).AddTicks(7185))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 384, DateTimeKind.Utc).AddTicks(2751))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -89,7 +91,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 993, DateTimeKind.Utc).AddTicks(4879))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 382, DateTimeKind.Utc).AddTicks(8813))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -172,7 +174,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 994, DateTimeKind.Utc).AddTicks(1319))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 383, DateTimeKind.Utc).AddTicks(6614))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -228,8 +230,6 @@ namespace Restaurante.Migrations.Migrations
 
                     b.HasIndex("DeletedAt");
 
-                    b.HasIndex("Nombre");
-
                     b.HasIndex("Unidad");
 
                     b.HasIndex("UpdatedAt");
@@ -247,7 +247,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 994, DateTimeKind.Utc).AddTicks(8544))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 384, DateTimeKind.Utc).AddTicks(4394))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -291,7 +291,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 993, DateTimeKind.Utc).AddTicks(7757))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 383, DateTimeKind.Utc).AddTicks(2361))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -387,7 +387,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 994, DateTimeKind.Utc).AddTicks(5101))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 384, DateTimeKind.Utc).AddTicks(569))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -443,8 +443,6 @@ namespace Restaurante.Migrations.Migrations
 
                     b.HasIndex("DeletedAt");
 
-                    b.HasIndex("Nombre");
-
                     b.HasIndex("Unidad");
 
                     b.HasIndex("UpdatedAt");
@@ -466,7 +464,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 994, DateTimeKind.Utc).AddTicks(3443))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 383, DateTimeKind.Utc).AddTicks(8497))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -521,7 +519,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 993, DateTimeKind.Utc).AddTicks(2984))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 382, DateTimeKind.Utc).AddTicks(6444))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -599,7 +597,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 993, DateTimeKind.Utc).AddTicks(6361))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 383, DateTimeKind.Utc).AddTicks(631))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -674,7 +672,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 12, 17, 20, 3, 993, DateTimeKind.Utc).AddTicks(9235))
+                        .HasDefaultValue(new DateTime(2024, 11, 12, 16, 59, 8, 383, DateTimeKind.Utc).AddTicks(4120))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurante.Models
 {
@@ -16,6 +17,15 @@ namespace Restaurante.Models
         [Column("stock_alerta")]
         public double StockAlerta { get; set; }
         [Column("unidad")]
+        [Required]
+        [MaxLength(2)]
         public string Unidad { get; set; }
+        [Column("nombre")]
+        [MaxLength(50)]
+        [Required]
+        public string Nombre { get; set; }
+        [MaxLength(200)]
+        [Column("descripcion")]
+        public string Descripcion { get; set; }
     }
 }

@@ -12,6 +12,9 @@ namespace Restaurante.Migrations.Extensions
             modelBuilder.Entity<T>().Property(x => x.CreatedAt).HasColumnName("created_at").HasDefaultValue(DateTime.UtcNow);
             modelBuilder.Entity<T>().Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired(false);
             modelBuilder.Entity<T>().Property(x => x.DeletedAt).HasColumnName("deleted_at").IsRequired(false);
+            modelBuilder.Entity<T>().HasIndex(x => x.CreatedAt);
+            modelBuilder.Entity<T>().HasIndex(x => x.UpdatedAt);
+            modelBuilder.Entity<T>().HasIndex(x => x.DeletedAt);
             return modelBuilder;
         }
 
@@ -22,6 +25,9 @@ namespace Restaurante.Migrations.Extensions
             modelBuilder.Entity<T>().Property(x => x.CreatedAt).HasColumnName("created_at").HasDefaultValue(DateTime.UtcNow);
             modelBuilder.Entity<T>().Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired(false);
             modelBuilder.Entity<T>().Property(x => x.DeletedAt).HasColumnName("deleted_at").IsRequired(false);
+            modelBuilder.Entity<T>().HasIndex(x => x.CreatedAt);
+            modelBuilder.Entity<T>().HasIndex(x => x.UpdatedAt);
+            modelBuilder.Entity<T>().HasIndex(x => x.DeletedAt);
             return modelBuilder;
         }
     }

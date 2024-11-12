@@ -27,6 +27,11 @@ namespace Restaurante.Migrations
             mB.Map<Telefono>();
             mB.Map<Persona>();
             mB.Map<Usuario>();
+            mB.Map<Ingrediente>();
+            mB.Map<ProductoIngrediente>();
+            mB.Map<Producto>();
+            mB.Map<DetallePedido>();
+            mB.Map<Pedido>();
         }
 
         private void MapRelationShips(ref ModelBuilder mB)

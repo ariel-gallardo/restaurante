@@ -19,5 +19,6 @@
         }
         public static string JWTSecretKey { get; set; }
         public static int JWTHourExpirationTime { get; set; }
+        public static string MSSQLConnectionString { get; set; }
     }
 }

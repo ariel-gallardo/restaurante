@@ -85,6 +85,7 @@ namespace Restaurante.API
             services.AddInternalServices();
             services
                 .AddSqliteCFG(_cfg)
+                .AddSqlServerCFG(_cfg)
                 .AddUnitOfWork()
                 .AddCustomJWT();
             services.AddSwaggerExamplesFromAssemblyOf<Startup>();

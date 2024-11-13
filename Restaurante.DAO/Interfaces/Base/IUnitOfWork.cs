@@ -10,5 +10,8 @@ namespace Restaurante.DAO
         IRepository<Rol> Rol { get; }
         IRepository<Telefono> Telefono { get; }
         IUsuarioRepository Usuario { get; }
+        IProductoRepository Producto { get; }
+        IIngredienteRepository Ingrediente { get; }
+        IProductoIngredienteRepository ProductoIngrediente { get; }
     }
 }

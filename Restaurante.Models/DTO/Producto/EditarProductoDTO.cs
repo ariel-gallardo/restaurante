@@ -24,5 +24,7 @@ namespace Restaurante.Models
         public double? StockAlerta { get; set; }
         [MaxLength(2, ErrorMessage = "ERROR_MAX_LENGTH_2")]
         public string? Unidad { get; set; }
+        [Required(ErrorMessage = "ID_PRODUCT_REQUIRED")]
+        public string ProductoId { get; set; }
     }
 }

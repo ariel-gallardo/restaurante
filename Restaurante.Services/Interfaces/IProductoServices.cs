@@ -9,6 +9,6 @@ namespace Restaurante.Services
         public Task<ResultResponse> Editar(EditarProductoDTO dTO);
         public Task<ResultResponse> Eliminar(string productId);
         public Task<ResultResponse> Restaurar(string productId);
-        public Task<ResultResponse> Listar(Expression<Func<Producto,bool>> whereExpression);
+        public Task<ResultResponse> Listar(Expression<Func<Producto,bool>> whereExpression, int page);
     }
 }

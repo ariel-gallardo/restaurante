@@ -28,7 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Restaurante.Assets\Restaurante.Assets.csproj" />
     <ProjectReference Include="..\Restaurante.DAO\Restaurante.DAO.csproj" />
+    <ProjectReference Include="..\Restaurante.Infraestructure\Restaurante.Infraestructure.csproj" />
     <ProjectReference Include="..\Restaurante.Migrations\Restaurante.Migrations.csproj" />
     <ProjectReference Include="..\Restaurante.Services\Restaurante.Services.csproj" />
   </ItemGroup>

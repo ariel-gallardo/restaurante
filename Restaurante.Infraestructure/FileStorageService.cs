@@ -5,7 +5,7 @@ namespace Restaurante.Infraestructure
 {
     public static class FileStorageService
     {
-        public static IFormFile CreateFormFileFromFile(string filePath)
+        public static CustomFormFile CreateFormFileFromFile(string filePath)
         => new CustomFormFile(filePath);
     }
 }

@@ -18,4 +18,8 @@
     <Folder Include="Converters\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Restaurante.Infraestructure\Restaurante.Infraestructure.csproj" />
+  </ItemGroup>
+
 </Project>

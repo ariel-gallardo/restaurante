@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Restaurante.Infraestructure;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +14,7 @@ namespace Restaurante.Models
         /// Unidad
         /// </summary>
         public (string, double, string)[]? Ingredientes { get; set; }
-        public IFormFile? Imagen { get; set; }
+        public CustomFormFile? Imagen { get; set; }
         [MaxLength(50, ErrorMessage = "ERROR_MAX_LENGTH_50")]
         [Required(ErrorMessage = "NAME_REQUIRED")]
         [Trim]

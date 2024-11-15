@@ -20,16 +20,14 @@ namespace Restaurante.Services
         {
             var result = new ResultResponse();
             var newProduct = _mappper.Map<CrearProductoDTO, Producto>(dTO);
-            if(await _unitOfWork.Producto.Where(x => x.Nombre.ToLowerInvariant() == dTO.Nombre.ToLowerInvariant()).CountAsync() < 1)
+            if(await _unitOfWork.Producto.Where(x => EF.Functions.Like(x.Nombre, dTO.Nombre)).CountAsync() < 1)
             {
                 await _unitOfWork.Producto.Insert(newProduct);
-                if(newProduct.Ingredientes != null)
+                foreach (var i in newProduct.Ingredientes)
                 {
-                    foreach (var i in newProduct.Ingredientes)
-                    {
 
-                    }
                 }
+                await _unitOfWork.SaveChangesAsync();
             }
             else
             {

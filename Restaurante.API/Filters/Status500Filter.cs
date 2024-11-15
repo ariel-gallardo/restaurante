@@ -11,8 +11,8 @@ namespace Restaurante.API.Filters
             context.Result = new JsonResult(
                 new ResultResponse 
                 {
-                    Content = context.Exception.StackTrace,
-                    Message = context.Exception.Message,
+                    Content = !string.IsNullOrEmpty(context.Exception.StackTrace) ? context.Exception.StackTrace.Replace("\r\n", " ") : "",
+                    Message = context.Exception.InnerException != null ? context.Exception.InnerException.Message.Replace("\r\n",string.Empty) : context.Exception.Message.Replace("\r\n", " "),
                     StatusCode = StatusCodes.Status500InternalServerError
                 }
             )

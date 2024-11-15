@@ -9,16 +9,17 @@ namespace Restaurante.Migrations
         public static void Map<T>(this ModelBuilder modelBuilder) where T : Producto
         {
             modelBuilder.MapBaseString<T>();
-            modelBuilder.Entity<T>().Property(x => x.ImagenUrl);
-            modelBuilder.Entity<T>().Property(x => x.StockActual);
-            modelBuilder.Entity<T>().Property(x => x.StockAlerta);
-            modelBuilder.Entity<T>().Property(x => x.PrecioCompra);
-            modelBuilder.Entity<T>().Property(x => x.PrecioVenta);
+            modelBuilder.Entity<T>().Property(x => x.ImagenUrl).IsRequired(false);
+            modelBuilder.Entity<T>().Property(x => x.StockActual).IsRequired(false);
+            modelBuilder.Entity<T>().Property(x => x.StockAlerta).IsRequired(false);
+            modelBuilder.Entity<T>().Property(x => x.PrecioCompra).IsRequired(false);
+            modelBuilder.Entity<T>().Property(x => x.PrecioVenta).IsRequired(false);
             modelBuilder.Entity<T>().Property(x => x.Unidad);
             modelBuilder.Entity<T>().Property(x => x.Nombre);
-            modelBuilder.Entity<T>().Property(x => x.Descripcion);
+            modelBuilder.Entity<T>().Property(x => x.Descripcion).IsRequired(false);
             modelBuilder.Entity<T>().HasIndex(x => x.Unidad);
             modelBuilder.Entity<T>().HasIndex(x => x.Nombre);
+            modelBuilder.Entity<T>().HasIndex(x => x.ImagenUrl);
         }
 
         public static void MapRelationShips<T>(this ModelBuilder modelBuilder) where T : Producto

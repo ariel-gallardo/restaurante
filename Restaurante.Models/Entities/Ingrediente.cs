@@ -9,13 +9,13 @@ namespace Restaurante.Models
         [Column("imagen")]
         public string ImagenUrl { get; set; }
         [Column("precio_compra")]
-        public double PrecioCompra { get; set; }
+        public double? PrecioCompra { get; set; }
         [Column("precio_venta")]
-        public double PrecioVenta { get; set; }
+        public double? PrecioVenta { get; set; }
         [Column("stock_actual")]
-        public double StockActual { get; set; }
+        public double? StockActual { get; set; }
         [Column("stock_alerta")]
-        public double StockAlerta { get; set; }
+        public double? StockAlerta { get; set; }
         [Column("unidad")]
         [Required]
         [MaxLength(2)]

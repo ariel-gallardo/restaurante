@@ -18,7 +18,7 @@ namespace Restaurante.API.Controllers
 
         [HttpPost]
         [SwaggerRequestExample(typeof(CrearProductoDTO), typeof(CrearProductoRequestExample))]
-        public async Task<IActionResult> CrearProducto([FromBody] CrearProductoDTO dto)
+        public async Task<IActionResult> CrearProductoExample([FromBody] CrearProductoDTO dto)
         {
             var operation = await _services.Crear(dto);
             if (operation.StatusCode != StatusCodes.Status201Created)

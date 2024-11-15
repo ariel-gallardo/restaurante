@@ -21,10 +21,10 @@ namespace Restaurante.Models.Profiles
             ))
             .ForMember(y => y.Unidad, x => x.MapFrom(xx => xx.Unidad))
             .ForMember(y => y.StockActual, x => x.MapFrom(xx =>
-                xx.Ingredientes != null ?
+                xx.Ingredientes.Length > 0 ?
                 null : xx.StockActual.HasValue ? xx.StockActual : null)
             ).ForMember(y => y.StockAlerta, x => x.MapFrom(xx =>
-                xx.Ingredientes != null ?
+                xx.Ingredientes.Length > 0 ?
                 null : xx.StockAlerta.HasValue ? xx.StockAlerta : null)
             ).ForMember(y => y.PrecioCompra, x => x.MapFrom(xx => xx.PrecioDeCompra.HasValue ? xx.PrecioDeCompra : null)
             ).ForMember(y => y.PrecioVenta, x => x.MapFrom(xx => xx.PrecioDeVenta.HasValue ? xx.PrecioDeVenta : null)
@@ -46,10 +46,10 @@ namespace Restaurante.Models.Profiles
             ))
             .ForMember(y => y.Unidad, x => x.MapFrom(xx => !string.IsNullOrEmpty(xx.Unidad) ? xx.Unidad : null))
             .ForMember(y => y.StockActual, x => x.MapFrom(xx =>
-                xx.Ingredientes != null ?
+                xx.Ingredientes.Length > 0 ?
                 null : xx.StockActual.HasValue ? xx.StockActual : null)
             ).ForMember(y => y.StockAlerta, x => x.MapFrom(xx =>
-                xx.Ingredientes != null ?
+                xx.Ingredientes.Length > 0 ?
                 null : xx.StockAlerta.HasValue ? xx.StockAlerta : null)
             ).ForMember(y => y.PrecioCompra, x => x.MapFrom(xx => xx.PrecioDeCompra.HasValue ? xx.PrecioDeCompra : null)
             ).ForMember(y => y.PrecioVenta, x => x.MapFrom(xx => xx.PrecioDeVenta.HasValue ? xx.PrecioDeVenta : null)
@@ -59,7 +59,7 @@ namespace Restaurante.Models.Profiles
                 .ForMember(y => y.Ingredientes,
                     x => x.MapFrom(
                         (src, dest) =>
-                        src.Ingredientes != null ?
+                        src.Ingredientes.Count > 0 ?
                         src.Ingredientes.Select(zz =>
                         new ProductoIngrediente
                         {
@@ -72,10 +72,10 @@ namespace Restaurante.Models.Profiles
                     )
                 )
                 .ForMember(y => y.Unidad, x => x.MapFrom((src, dest) => !string.IsNullOrEmpty(src.Unidad) ? src.Unidad : dest.Unidad))
-                .ForMember(y => y.StockActual, x => x.MapFrom((src, dest) => src.Ingredientes == null ? src.StockActual.HasValue ? src.StockActual : dest.StockActual : null))
-                .ForMember(y => y.StockAlerta, x => x.MapFrom((src, dest) => src.Ingredientes == null ? src.StockAlerta.HasValue ? src.StockAlerta : dest.StockAlerta : null))
-                .ForMember(y => y.PrecioCompra, x => x.MapFrom((src, dest) => src.Ingredientes == null ? src.PrecioCompra.HasValue ? src.PrecioCompra : dest.PrecioCompra : null))
-                .ForMember(y => y.PrecioVenta, x => x.MapFrom((src, dest) => src.Ingredientes == null ? src.PrecioVenta.HasValue ? src.PrecioVenta : dest.PrecioVenta : null))
+                .ForMember(y => y.StockActual, x => x.MapFrom((src, dest) => src.Ingredientes.Count == 0 ? src.StockActual.HasValue ? src.StockActual : dest.StockActual : null))
+                .ForMember(y => y.StockAlerta, x => x.MapFrom((src, dest) => src.Ingredientes.Count == 0 ? src.StockAlerta.HasValue ? src.StockAlerta : dest.StockAlerta : null))
+                .ForMember(y => y.PrecioCompra, x => x.MapFrom((src, dest) => src.Ingredientes.Count == 0 ? src.PrecioCompra.HasValue ? src.PrecioCompra : dest.PrecioCompra : null))
+                .ForMember(y => y.PrecioVenta, x => x.MapFrom((src, dest) => src.Ingredientes.Count == 0 ? src.PrecioVenta.HasValue ? src.PrecioVenta : dest.PrecioVenta : null))
                 .ForMember(y => y.Descripcion, x => x.MapFrom((src, dest) => !string.IsNullOrEmpty(src.Descripcion) ? src.Descripcion : dest.Descripcion));
         }
     }

@@ -3,15 +3,20 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Net.Mime;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Restaurante.Infraestructure
 {
-    internal class CustomFormFile : IFormFile
+    public class CustomFormFile : IFormFile
     {
-        private readonly byte[] _fileBytes;
-        private readonly string _fileName;
-        private readonly string _mimeType;
+        public byte[] FileBytes { get; set; }
         private static string[] _replaces = new string[] { "restaurante.assets.imagenes", "restaurante.assets.sonidos" };
+
+        [JsonConstructor]
+        public CustomFormFile()
+        {
+        }
+
         public CustomFormFile(string filePath)
         {
             var toReplace = _replaces.FirstOrDefault(x => filePath.ToLower().StartsWith(x));
@@ -20,7 +25,7 @@ namespace Restaurante.Infraestructure
                 toReplace = filePath.Substring(0, toReplace.Length);
             }
             if(string.IsNullOrEmpty(toReplace))
-                _fileBytes = File.ReadAllBytes(filePath);
+                FileBytes = File.ReadAllBytes(filePath);
             else
             {
                 var cAssembly = Assembly.LoadWithPartialName("Restaurante.Assets");
@@ -28,27 +33,39 @@ namespace Restaurante.Infraestructure
                 using (var memoryStream = new MemoryStream())
                 {
                     stream.CopyTo(memoryStream);
-                    _fileBytes = memoryStream.ToArray();
+                    FileBytes = memoryStream.ToArray();
                 }
             }
-            _fileName = !string.IsNullOrEmpty(toReplace) ? filePath.Replace($"{toReplace}.",string.Empty) :  Path.GetFileName(filePath);
-            _mimeType = MimeTypesMap.GetMimeType(!string.IsNullOrEmpty(toReplace) ? filePath.Replace($"{toReplace}.", string.Empty) : filePath);
+            Length = FileBytes.LongLength;
+            FileName = !string.IsNullOrEmpty(toReplace) ? filePath.Replace($"{toReplace}.",string.Empty) :  Path.GetFileName(filePath);
+            Name = Path.GetFileName(FileName);
+            ContentType = MimeTypesMap.GetMimeType(!string.IsNullOrEmpty(toReplace) ? filePath.Replace($"{toReplace}.", string.Empty) : filePath);
+            ContentDisposition = $@"form-data; name=""{Name}""; filename=""{FileName}""; type=""{ContentType}""";
         }
-        public string ContentType => _mimeType;
+        public string ContentType { get; set; }
 
-        public string ContentDisposition => $@"form-data; name=""{Name}""; filename=""{FileName}""; type=""{_mimeType}""";
+        public string ContentDisposition { get; set; }
 
-        public IHeaderDictionary Headers => throw new NotImplementedException();
+        public IHeaderDictionary Headers
+        {
+            get
+            {
+                var headers = new HeaderDictionary();
+                headers.Add("Content-Type", ContentType);
+                headers.Add("Content-Disposition", ContentDisposition);
+                return headers;
+            }
+        }
 
-        public long Length => _fileBytes.LongLength;
+        public long Length { get; set; }
 
-        public string Name => Path.GetFileName(_fileName);
+        public string Name { get; set; }
 
-        public string FileName => _fileName;
+        public string FileName { get; set; }
 
         public void CopyTo(Stream target)
         {
-            using (var memoryStream = new MemoryStream(_fileBytes))
+            using (var memoryStream = new MemoryStream(FileBytes))
             {
                 memoryStream.CopyTo(target);
             }
@@ -56,13 +73,13 @@ namespace Restaurante.Infraestructure
 
         public Task CopyToAsync(Stream target, CancellationToken cancellationToken = default)
         {
-            using (var memoryStream = new MemoryStream(_fileBytes))
+            using (var memoryStream = new MemoryStream(FileBytes))
             {
                 return memoryStream.CopyToAsync(target, cancellationToken);
             }
         }
 
         public Stream OpenReadStream()
-        => new MemoryStream(_fileBytes);
+        => new MemoryStream(FileBytes);
     }
 }

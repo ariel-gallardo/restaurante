@@ -8,34 +8,142 @@ namespace Restaurante.API
     {
         public IEnumerable<SwaggerExample<CrearProductoDTO>> GetExamples()
         {
-            yield return SwaggerExample.Create("Pizza Muzarella", 
+            yield return SwaggerExample.Create("Pizza Muzarella - Chica", 
                 new CrearProductoDTO 
                 { 
                     Nombre = "Pizza Muzarella",
-                    Unidad = "Unidad",
+                    Unidad = "U",
                     Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaMuzarella)
                 }
             );
-            yield return SwaggerExample.Create("Pizza Especial", 
+            yield return SwaggerExample.Create("Pizza Especial - Chica", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "",
-                    Unidad = "Unidad",
-                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaEspecial)
+                    Nombre = "Pizza Especial",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaEspecial),
+                    Descripcion = "Pizza con jamon y queso."
                 }
             );
-            yield return SwaggerExample.Create("Pizza Napolitana", 
+            yield return SwaggerExample.Create("Pizza Napolitana - Chica", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "",
-                    Unidad = "Unidad",
-                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaNapolitana)
+                    Nombre = "Pizza Napolitana",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaNapolitana),
+                    Descripcion = "Pizza con tomate y albahaca."
                 }
             );
-            yield return SwaggerExample.Create("Pancho", new CrearProductoDTO { });
-            yield return SwaggerExample.Create("Hamburguesa", new CrearProductoDTO { });
-            yield return SwaggerExample.Create("Coca-Cola 2.25L", new CrearProductoDTO { });
-            yield return SwaggerExample.Create("Coca-Cola 500ML", new CrearProductoDTO { });
+            yield return SwaggerExample.Create("Pizza Muzarella - Grande", 
+                new CrearProductoDTO 
+                { 
+                    Nombre = "Pizza Muzarella",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaMuzarella)
+                }
+            );
+            yield return SwaggerExample.Create("Pizza Especial - Grande", 
+                new CrearProductoDTO 
+                { 
+                    Nombre = "Pizza Especial",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaEspecial),
+                    Descripcion = "Pizza con jamon y queso."
+                }
+            );
+            yield return SwaggerExample.Create("Pizza Napolitana - Grande", 
+                new CrearProductoDTO 
+                { 
+                    Nombre = "Pizza Napolitana",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaNapolitana),
+                    Descripcion = "Pizza con tomate y albahaca."
+                }
+            );
+            yield return SwaggerExample.Create("Pancho simple", 
+                new CrearProductoDTO 
+                {
+                    Nombre = "Pancho simple",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PanchoSimple),
+                    Descripcion = "Pancho con lluvia de papas."
+                }
+            );
+            yield return SwaggerExample.Create("Pancho con poncho", 
+                new CrearProductoDTO 
+                {
+                    Nombre = "Pancho con poncho",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PanchoConPoncho),
+                    Descripcion = "Pancho con queso, lluvia de papas y condimentos."
+                }
+            );
+            yield return SwaggerExample.Create("Hamburguesa Simple", 
+                new CrearProductoDTO 
+                { 
+                    Nombre = "Hamburguesa Simple",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.HamburguesaSimple),
+                    Descripcion = "Hamburguesa con tomate, lechuga y queso."
+                }
+            );
+            yield return SwaggerExample.Create("Hamburguesa Completa", 
+                new CrearProductoDTO 
+                {
+                    Nombre = "Hamburguesa Completa",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.HamburguesaCompleta),
+                    Descripcion = "Hamburguesa con tomate, lechuga, queso, huevo y jamon."
+                }
+            );
+            yield return SwaggerExample.Create("Coca-Cola 2.25L", 
+                new CrearProductoDTO 
+                { 
+                    Nombre = "Coca-Cola 2.25L",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.CocaColaGrande),
+                    PrecioDeCompra = 1500,
+                    PrecioDeVenta = 3000,
+                    StockActual = 30,
+                    StockAlerta = 10
+                }
+            );
+            yield return SwaggerExample.Create("Coca-Cola 500ML", 
+                new CrearProductoDTO 
+                {
+                    Nombre = "Coca-Cola 500ML",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.CocaColaChica),
+                    PrecioDeCompra = 500,
+                    PrecioDeVenta = 1000,
+                    StockActual = 50,
+                    StockAlerta = 20
+                }
+            );
+            yield return SwaggerExample.Create("Coca-Cola 2.25L", 
+                new CrearProductoDTO 
+                { 
+                    Nombre = "Sprite 2.25L",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.SpriteGrande),
+                    PrecioDeCompra = 1200,
+                    PrecioDeVenta = 2800,
+                    StockActual = 30,
+                    StockAlerta = 10
+                }
+            );
+            yield return SwaggerExample.Create("Coca-Cola 500ML", 
+                new CrearProductoDTO 
+                {
+                    Nombre = "Sprite 500ML",
+                    Unidad = "U",
+                    Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.SpriteChica),
+                    PrecioDeCompra = 400,
+                    PrecioDeVenta = 800,
+                    StockActual = 50,
+                    StockAlerta = 20
+                }
+            );
         }
     }
 }

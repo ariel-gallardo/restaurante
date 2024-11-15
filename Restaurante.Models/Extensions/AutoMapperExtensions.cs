@@ -9,6 +9,7 @@ namespace Restaurante.Models.Extensions
         => services.AddAutoMapper(c =>
         {
             c.AddProfile<UsuarioProfile>();
+            c.AddProfile<ProductoProfile>();
         });
     }
 }

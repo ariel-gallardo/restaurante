@@ -20,7 +20,11 @@ namespace Restaurante.DAO
 
         public void Delete(IEnumerable<T> entity)
         => _repository.Delete(entity);
-        
+
+        public bool ExistsActive(dynamic id)
+        => _repository.ExistsActive(id);
+        public bool ExistsSoftDeleted(dynamic id)
+        => _repository.ExistsSoftDeleted(id);
 
         public async Task Insert(T entity)
         => await _repository.Insert(entity);
@@ -48,5 +52,11 @@ namespace Restaurante.DAO
 
         public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
         => _repository.Where(whereExpression, orderByExpression, ascending, take);
+
+        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        => _repository.WhereActive(whereExpression, orderByExpression, ascending, take);
+
+        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        => _repository.WhereSoftDeleted(whereExpression, orderByExpression, ascending, take);   
     }
 }

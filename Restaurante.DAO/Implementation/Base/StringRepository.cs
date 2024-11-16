@@ -71,5 +71,46 @@ namespace Restaurante.DAO
         {
             _ctx.UpdateRange(entity);
         }
+
+        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        {
+            var activeExpression = Expression.Lambda<Func<T, bool>>(
+                Expression.Equal(
+                    Expression.Property(Expression.Parameter(typeof(T), "x"), "DeletedAt"),
+                    Expression.Constant(null, typeof(DateTime?))
+                ),
+                Expression.Parameter(typeof(T), "x")
+            );
+
+            var combinedLambdaExpression = Expression.Lambda<Func<T, bool>>(
+                Expression.AndAlso(whereExpression, activeExpression),
+                whereExpression.Parameters
+            );
+
+            return Where(combinedLambdaExpression, orderByExpression, ascending, take);
+        }
+
+        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        {
+            var activeExpression = Expression.Lambda<Func<T, bool>>(
+                Expression.NotEqual(
+                    Expression.Property(Expression.Parameter(typeof(T), "x"), "DeletedAt"),
+                    Expression.Constant(null, typeof(DateTime?))
+                ),
+                Expression.Parameter(typeof(T), "x")
+            );
+
+            var combinedLambdaExpression = Expression.Lambda<Func<T, bool>>(
+                Expression.AndAlso(whereExpression, activeExpression),
+                whereExpression.Parameters
+            );
+
+            return Where(combinedLambdaExpression, orderByExpression, ascending, take);
+        }
+
+        public bool ExistsActive(dynamic id)
+        => !string.IsNullOrEmpty(id) ? WhereActive(x => x.Id == id as string).Take(1).Count() == 1 : false;
+        public bool ExistsSoftDeleted(dynamic id)
+        => !string.IsNullOrEmpty(id) ? WhereSoftDeleted(x => x.Id == id as string).Take(1).Count() == 1 : false;
     }
 }

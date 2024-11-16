@@ -15,5 +15,11 @@ namespace Restaurante.Models
         public DateTime? DeletedAt { get; set; }
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
+
+        public override bool Equals(object obj)
+        => obj != null && GetHashCode() == obj.GetHashCode() && obj is BigIntEntity;
+
+        public override int GetHashCode()
+        => Id.GetHashCode() + GetType().GetHashCode();
     }
 }

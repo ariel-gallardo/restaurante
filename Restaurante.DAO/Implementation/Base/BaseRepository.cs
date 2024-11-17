@@ -6,6 +6,7 @@ namespace Restaurante.DAO
     public abstract class BaseRepository<T> : IRepository<T> where T : class
     {
         private readonly IRepository<T> _repository;
+        public IUnitOfWork UnitOfWork { get; set; }
         public BaseRepository(IRepository<T> repository)
         {
             _repository = repository;
@@ -50,13 +51,16 @@ namespace Restaurante.DAO
         => _repository.Update(entity);
         
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
         => _repository.Where(whereExpression, orderByExpression, ascending, take);
 
-        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
         => _repository.WhereActive(whereExpression, orderByExpression, ascending, take);
 
-        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
-        => _repository.WhereSoftDeleted(whereExpression, orderByExpression, ascending, take);   
+        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
+        => _repository.WhereSoftDeleted(whereExpression, orderByExpression, ascending, take);
+
+        public async Task<bool> Restore(dynamic id)
+        => await _repository.Restore(id);
     }
 }

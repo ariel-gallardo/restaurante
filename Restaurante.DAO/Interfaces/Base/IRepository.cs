@@ -13,10 +13,12 @@ namespace Restaurante.DAO
         void Delete(T entity);
         void Delete(IList<T> entity);
         void Delete(IEnumerable<T> entity);
-        IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0);
-        IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0);
-        IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0);
+        IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0);
+        IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0);
+        IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0);
         bool ExistsActive(dynamic id);
         bool ExistsSoftDeleted(dynamic id);
+        Task<bool> Restore(dynamic id);
+        IUnitOfWork UnitOfWork { get; set; }
     }
 }

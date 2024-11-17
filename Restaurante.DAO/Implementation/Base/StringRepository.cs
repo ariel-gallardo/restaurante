@@ -1,4 +1,5 @@
-﻿using Restaurante.Migrations;
+﻿using Microsoft.EntityFrameworkCore;
+using Restaurante.Migrations;
 using Restaurante.Models;
 using System.Linq.Expressions;
 
@@ -7,7 +8,7 @@ namespace Restaurante.DAO
     public class StringRepository<T> : IRepository<T> where T : StringEntity
     {
         private readonly RestauranteContext _ctx;
-
+        public IUnitOfWork UnitOfWork { get; set; }
         public StringRepository(RestauranteContext ctx)
         {
             _ctx = ctx;
@@ -30,7 +31,7 @@ namespace Restaurante.DAO
             _ctx.UpdateRange(entity.Select(x => { x.DeletedAt = deleteTime; return x; }));
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
         {
             var expression = _ctx.Set<T>().Where(whereExpression);
             if (take > 0)
@@ -72,7 +73,7 @@ namespace Restaurante.DAO
             _ctx.UpdateRange(entity);
         }
 
-        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
         {
             var activeExpression = Expression.Lambda<Func<T, bool>>(
                 Expression.Equal(
@@ -90,7 +91,7 @@ namespace Restaurante.DAO
             return Where(combinedLambdaExpression, orderByExpression, ascending, take);
         }
 
-        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, bool>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
         {
             var activeExpression = Expression.Lambda<Func<T, bool>>(
                 Expression.NotEqual(
@@ -112,5 +113,15 @@ namespace Restaurante.DAO
         => !string.IsNullOrEmpty(id) ? WhereActive(x => x.Id == id as string).Take(1).Count() == 1 : false;
         public bool ExistsSoftDeleted(dynamic id)
         => !string.IsNullOrEmpty(id) ? WhereSoftDeleted(x => x.Id == id as string).Take(1).Count() == 1 : false;
+        public async Task<bool> Restore(dynamic id)
+        {
+            string cId = string.Empty;
+            if (id != null) cId = id;
+            var entity = !string.IsNullOrEmpty(cId) ? await WhereSoftDeleted(x => x.Id == cId).FirstOrDefaultAsync() : null;
+            if (entity == null) return false;
+            entity.DeletedAt = null;
+            Update(entity);
+            return true;
+        }
     }
 }

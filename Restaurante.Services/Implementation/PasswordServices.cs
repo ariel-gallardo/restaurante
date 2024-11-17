@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Restaurante.Infraestructure;
 using Restaurante.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

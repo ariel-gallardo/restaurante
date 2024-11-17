@@ -1,5 +1,6 @@
 ﻿using Restaurante.Migrations;
 using Restaurante.Models;
+using System;
 
 namespace Restaurante.DAO
 {
@@ -51,6 +52,7 @@ namespace Restaurante.DAO
             _ingredienteRepository = ingredienteRepository;
             _productoIngredienteRepository = productoIngredienteRepository;
             _ctx = ctx;
+            AssignUnitOfWork();
         }
         #endregion
         public void Dispose()
@@ -67,6 +69,17 @@ namespace Restaurante.DAO
             {
                 throw ex;
             }
+        }
+        private void AssignUnitOfWork()
+        {
+            _domicilioRepository.UnitOfWork = this;
+            _personaRepository.UnitOfWork = this;
+            _rolRepository.UnitOfWork = this;
+            _telefonoRepository.UnitOfWork = this;
+            _usuarioRepository.UnitOfWork = this;
+            _productoRepository.UnitOfWork = this;
+            _ingredienteRepository.UnitOfWork = this;
+            _productoIngredienteRepository.UnitOfWork = this;
         }
     }
 }

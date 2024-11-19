@@ -51,16 +51,22 @@ namespace Restaurante.DAO
         => _repository.Update(entity);
         
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
-        => _repository.Where(whereExpression, orderByExpression, ascending, take);
+        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
+        => _repository.Where(whereExpression, orderByExpression, ascending);
 
-        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
-        => _repository.WhereActive(whereExpression, orderByExpression, ascending, take);
+        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
+        => _repository.WhereActive(whereExpression, orderByExpression, ascending);
 
-        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
-        => _repository.WhereSoftDeleted(whereExpression, orderByExpression, ascending, take);
+        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
+        => _repository.WhereSoftDeleted(whereExpression, orderByExpression, ascending);
 
         public async Task<bool> Restore(dynamic id)
         => await _repository.Restore(id);
+
+        public async Task<Paginacion<T>> WhereAsPaginateListAsync(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1)
+        => await _repository.WhereAsPaginateListAsync(whereExpression,ordenarPor, ascendente, page);
+
+        public (int,IQueryable<T>) WhereAsPaginateQuerie(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1)
+        => _repository.WhereAsPaginateQuerie(whereExpression, ordenarPor, ascendente, page);
     }
 }

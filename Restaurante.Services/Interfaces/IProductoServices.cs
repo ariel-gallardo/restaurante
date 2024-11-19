@@ -1,6 +1,4 @@
 ﻿using Restaurante.Models;
-using System.Linq.Expressions;
-
 namespace Restaurante.Services
 {
     public interface IProductoServices
@@ -9,6 +7,6 @@ namespace Restaurante.Services
         public Task<ResultResponse> Editar(EditarProductoDTO dTO);
         public Task<ResultResponse> Eliminar(string productId);
         public Task<ResultResponse> Restaurar(string productId);
-        public Task<ResultResponse> Listar(Expression<Func<Producto,bool>> whereExpression, int page);
+        public Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0);
     }
 }

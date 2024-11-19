@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Restaurante.DAO;
+using Restaurante.Infraestructure;
 using Restaurante.Models;
 using System.Linq.Expressions;
 
@@ -10,13 +11,11 @@ namespace Restaurante.Services
     {
         private readonly IMapper _mappper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPaginacionService _paginacion;
 
-        public ProductoServices(IMapper mapper, IUnitOfWork unitOfWork, IPaginacionService paginacion)
+        public ProductoServices(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mappper = mapper;
             _unitOfWork = unitOfWork;
-            _paginacion = paginacion;
         }
         public async Task<ResultResponse> Crear(CrearProductoDTO dTO)
         {
@@ -76,14 +75,15 @@ namespace Restaurante.Services
             return result;
         }
 
-        public async Task<ResultResponse> Listar(Expression<Func<Producto, bool>> whereExpression, int page)
+        public async Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0)
         {
             var result = new ResultResponse();
-            (var data, var count) = await _unitOfWork.Producto.ListarProductos(whereExpression, page);
-            if(count > 0)
-                result.Content = _paginacion.Ejecutar(data,count);
+
+            var resultData = await _unitOfWork.Producto.ListarProductos(paginaNum, ordenarPor, ascendente, nombreClave, precioMin, precioMax);
+            if(resultData.Total > 0)
+                result.Content = resultData;
             result.StatusCode = 200;
-            result.Message = count > 0 ? @"ENTITY_HAS_DATA ""PRODUCTS""" : $@"ENTITY_HAS_NOT_DATA ""PRODUCTS""";
+            result.Message = resultData.Total > 0 ? @"ENTITY_HAS_DATA ""PRODUCTS""" : $@"ENTITY_HAS_NOT_DATA ""PRODUCTS""";
             return result;
         }
 
@@ -92,6 +92,7 @@ namespace Restaurante.Services
             var result = new ResultResponse();
             if (await _unitOfWork.Producto.Restore(productId))
             {
+                await _unitOfWork.SaveChangesAsync();
                 result.Content = await _unitOfWork.Producto.WhereActive(x => x.Id == productId).FirstOrDefaultAsync();
                 result.Message = $@"ENTITY_RESTORED ""PRODUCTS,{productId}""";
                 result.StatusCode = 200;

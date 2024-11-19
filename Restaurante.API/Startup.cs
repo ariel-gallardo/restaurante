@@ -102,7 +102,6 @@ namespace Restaurante.API
             }
             app.CheckDatabase();
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseCors("AllowAllOrigins");
             app.UseAuthentication();

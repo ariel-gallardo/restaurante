@@ -1,4 +1,6 @@
-﻿namespace Restaurante.Models
+﻿using Restaurante.Infraestructure;
+
+namespace Restaurante.Models
 {
     public class Paginacion<T>
     {
@@ -8,6 +10,7 @@
         public int? PaginaSiguiente { get; set; }
         public int Total { get; set; }
         public int PaginasTotales { get; set; }
+        public dynamic Content { get; set; }
 
         public Paginacion(IEnumerable<T> data, int total, int pageSize)
         {
@@ -19,6 +22,7 @@
                 PaginasTotales = (int)Math.Ceiling((double)total / pageSize);
                 PaginaAnterior = PaginaActual > 1 ? PaginaActual - 1 : null;
                 PaginaSiguiente = PaginaActual < PaginasTotales ? PaginaActual + 1 : null;
+                Content = data;
             }
         }
 
@@ -32,7 +36,14 @@
                 PaginasTotales = (int)Math.Ceiling((double)total / pageSize);
                 PaginaAnterior = PaginaActual > 1 ? PaginaActual - 1 : null;
                 PaginaSiguiente = PaginaActual < PaginasTotales ? PaginaActual + 1 : null;
+                Content = data;
             }
         }
+
+        public static Paginacion<T> Crear<T>(IEnumerable<T> data, int total)
+        => new Paginacion<T>(data, total, AppSettings.Take);
+
+        public static Paginacion<T> Crear<T>(IList<T> data, int total)
+        => new Paginacion<T>(data, total, AppSettings.Take);
     }
 }

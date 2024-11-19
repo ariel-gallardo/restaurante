@@ -5,6 +5,7 @@ namespace Restaurante.DAO
     public interface IUnitOfWork : IDisposable
     {
         Task SaveChangesAsync();
+        void SaveChanges();
         IRepository<Domicilio> Domicilio { get; }
         IRepository<Persona> Persona { get; }
         IRepository<Rol> Rol { get; }

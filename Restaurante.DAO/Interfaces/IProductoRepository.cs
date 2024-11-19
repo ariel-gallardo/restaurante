@@ -8,6 +8,6 @@ namespace Restaurante.DAO
         Task<bool> ExistsProducto(string nombreProducto);
         Task<Producto> CrearProducto(Producto entity);
         Task<bool> EditarProducto(Producto entity, Producto newProperties);
-        Task<(IList<Producto>, int)> ListarProductos(Expression<Func<Producto, bool>> whereExpression, int page);
+        Task<Paginacion<Producto>> ListarProductos(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0);
     }
 }

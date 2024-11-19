@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Restaurante.Infraestructure;
 using Restaurante.Migrations;
 using Restaurante.Models;
 using System.Linq.Expressions;
@@ -17,27 +18,24 @@ namespace Restaurante.DAO
         }
         public void Delete(T entity)
         {
-            entity.DeletedAt = DateTime.UtcNow;
-            _ctx.Update(entity);
+            _ctx.Remove(entity);
         }
 
         public void Delete(IList<T> entity)
         {
-            var deleteTime = DateTime.UtcNow;
-            _ctx.UpdateRange(entity.Select(x => { x.DeletedAt = deleteTime; return x; }));
+            _ctx.RemoveRange(entity);
         }
 
         public void Delete(IEnumerable<T> entity)
         {
-            var deleteTime = DateTime.UtcNow;
-            _ctx.UpdateRange(entity.Select(x => { x.DeletedAt = deleteTime; return x; }));
+            _ctx.RemoveRange(entity);
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
         {
             var expression = _ctx.Set<T>().Where(whereExpression);
-            if(take > 0)
-                expression = expression.Take(take);
+            if(AppSettings.Take > 0)
+                expression = expression.Take(AppSettings.Take);
 
             if(orderByExpression != null)
             expression = ascending ? expression.OrderBy(orderByExpression) : expression.OrderByDescending(orderByExpression);
@@ -75,40 +73,49 @@ namespace Restaurante.DAO
             _ctx.UpdateRange(entity);
         }
 
-        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
         {
+            T nullEntity;
             var activeExpression = Expression.Lambda<Func<T, bool>>(
                 Expression.Equal(
-                    Expression.Property(Expression.Parameter(typeof(T), "x"), "DeletedAt"),
+                    Expression.Property(whereExpression.Parameters[0], nameof(nullEntity.DeletedAt)),
                     Expression.Constant(null, typeof(DateTime?))
                 ),
-                Expression.Parameter(typeof(T), "x")
-            );
-
-            var combinedLambdaExpression = Expression.Lambda<Func<T, bool>>(
-                Expression.AndAlso(whereExpression, activeExpression),
                 whereExpression.Parameters
             );
 
-            return Where(combinedLambdaExpression, orderByExpression, ascending, take);
+            var whereBody = whereExpression.Body;
+            var activeBody = activeExpression.Body;
+
+            var combinedBody = Expression.Lambda<Func<T, bool>>(
+                Expression.AndAlso(whereBody, activeBody),
+                whereExpression.Parameters
+            );
+
+            return Where(combinedBody, orderByExpression, ascending);
         }
 
-        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0)
+        public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
         {
-            var activeExpression = Expression.Lambda<Func<T, bool>>(
+            T nullEntity;
+
+            var nonActiveExpression = Expression.Lambda<Func<T, bool>>(
                 Expression.NotEqual(
-                    Expression.Property(Expression.Parameter(typeof(T), "x"), "DeletedAt"),
+                    Expression.Property(whereExpression.Parameters[0], nameof(nullEntity.DeletedAt)),
                     Expression.Constant(null, typeof(DateTime?))
                 ),
-                Expression.Parameter(typeof(T), "x")
-            );
-
-            var combinedLambdaExpression = Expression.Lambda<Func<T, bool>>(
-                Expression.AndAlso(whereExpression, activeExpression),
                 whereExpression.Parameters
             );
 
-            return Where(combinedLambdaExpression, orderByExpression, ascending, take);
+            var whereBody = whereExpression.Body;
+            var activeBody = nonActiveExpression.Body;
+
+            var combinedBody = Expression.Lambda<Func<T, bool>>(
+                Expression.AndAlso(whereBody, activeBody),
+                whereExpression.Parameters
+            );
+
+            return Where(combinedBody, orderByExpression, ascending);
         }
         public bool ExistsActive(dynamic id)
         {
@@ -133,5 +140,34 @@ namespace Restaurante.DAO
             Update(entity);
             return true;
         }
+
+        public (int,IQueryable<T>) WhereAsPaginateQuerie(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1)
+        {
+            var resultList = new List<T>();
+            var querie = WhereActive(whereExpression, ordenarPor, ascendente);
+            var count = querie.Count();
+
+            if (page > 1)
+            {
+                querie = querie.Skip(page * AppSettings.Take).Take(AppSettings.Take);
+            }
+            else
+                querie = querie.Take(AppSettings.Take);
+            return (count,querie);
+        }
+
+        public async Task<Paginacion<T>> WhereAsPaginateListAsync(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1)
+        {
+            var resultList = new List<T>();
+            var querie = WhereActive(whereExpression, ordenarPor, ascendente);
+            var count = await querie.CountAsync();
+            if (page > 1)
+                resultList.AddRange(await querie.Skip(page * AppSettings.Take).Take(AppSettings.Take).ToListAsync());
+            else
+                resultList.AddRange(await querie.Take(AppSettings.Take).ToListAsync());
+            return Paginacion<T>.Crear(resultList, count);
+        }
+
+
     }
 }

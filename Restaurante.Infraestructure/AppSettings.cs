@@ -21,5 +21,6 @@
         public static int JWTHourExpirationTime { get; set; }
         public static string MSSQLConnectionString { get; set; }
         public static int Take { get; set; }
+        public static double PorcentajeGanancia { get; set; }
     }
 }

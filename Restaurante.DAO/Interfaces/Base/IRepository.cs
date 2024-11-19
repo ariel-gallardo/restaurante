@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Restaurante.Models;
+using System.Linq.Expressions;
 
 namespace Restaurante.DAO
 {
@@ -13,12 +14,14 @@ namespace Restaurante.DAO
         void Delete(T entity);
         void Delete(IList<T> entity);
         void Delete(IEnumerable<T> entity);
-        IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0);
-        IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0);
-        IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false, int take = 0);
+        IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false);
+        IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false);
+        IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false);
         bool ExistsActive(dynamic id);
         bool ExistsSoftDeleted(dynamic id);
         Task<bool> Restore(dynamic id);
+        (int,IQueryable<T>) WhereAsPaginateQuerie(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1);
+        Task<Paginacion<T>> WhereAsPaginateListAsync(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1);
         IUnitOfWork UnitOfWork { get; set; }
     }
 }

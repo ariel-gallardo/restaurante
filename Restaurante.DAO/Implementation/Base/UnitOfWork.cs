@@ -67,6 +67,20 @@ namespace Restaurante.DAO
             }
             catch (Exception ex) 
             {
+                _ctx.ChangeTracker.Clear();
+                throw ex;
+            }
+        }
+
+        public void SaveChanges()
+        {
+            try
+            {
+                 _ctx.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _ctx.ChangeTracker.Clear();
                 throw ex;
             }
         }

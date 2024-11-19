@@ -54,15 +54,42 @@ namespace Restaurante.Migrations
         public override int SaveChanges()
         {
 
-            foreach (var entity in ChangeTracker.Entries().Where(e => e.State == EntityState.Modified))
+            foreach (var entity in ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
                 if (entity.Entity is BigIntEntity || entity.Entity is StringEntity)
+                    entity.Property("CreatedAt").CurrentValue = DateTime.UtcNow;
+
+            foreach (var entity in ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && e.Property("DeletedAt").CurrentValue == e.Property("DeletedAt").OriginalValue))
+                if ((entity.Entity is BigIntEntity || entity.Entity is StringEntity))
                     entity.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
 
             foreach (var entity in ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted))
                 if (entity.Entity is BigIntEntity || entity.Entity is StringEntity)
+                {
                     entity.Property("DeletedAt").CurrentValue = DateTime.UtcNow;
+                    entity.State = EntityState.Modified;
+                }
 
             return base.SaveChanges();
+        }
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+
+            foreach (var entity in ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
+                if (entity.Entity is BigIntEntity || entity.Entity is StringEntity)
+                    entity.Property("CreatedAt").CurrentValue = DateTime.UtcNow;
+
+            foreach (var entity in ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && e.Property("DeletedAt").CurrentValue == e.Property("DeletedAt").OriginalValue))
+                if ((entity.Entity is BigIntEntity || entity.Entity is StringEntity))
+                    entity.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
+
+            foreach (var entity in ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted))
+                if (entity.Entity is BigIntEntity || entity.Entity is StringEntity)
+                {
+                    entity.Property("DeletedAt").CurrentValue = DateTime.UtcNow;
+                    entity.State = EntityState.Modified;
+                }
+
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

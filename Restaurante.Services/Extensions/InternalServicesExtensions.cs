@@ -1,6 +1,6 @@
-﻿using Restaurante.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Restaurante.API
+namespace Restaurante.Services
 {
     public static class InternalServicesExtensions
     {
@@ -9,6 +9,7 @@ namespace Restaurante.API
             services.AddTransient<IPasswordServices, PasswordServices>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<IProductoServices, ProductoServices>();
+            services.AddTransient<IIngredienteServices, IngredienteServices>();
         }
     }
 }

@@ -4,6 +4,7 @@ using Restaurante.API.Filters;
 using Restaurante.API.Middlewares;
 using Restaurante.DAO.Extensions;
 using Restaurante.Models.Extensions;
+using Restaurante.Services;
 using Restaurante.Services.Extensions;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;

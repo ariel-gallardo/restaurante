@@ -65,5 +65,23 @@ namespace Restaurante.Services
 
             return resultResponse;
         }
+
+        public async Task<ResultResponse> Restaurar(string productoIngredienteId)
+        {
+            var result = new ResultResponse();
+            if (await _unitOfWork.ProductoIngrediente.Restore(productoIngredienteId))
+            {
+                await _unitOfWork.SaveChangesAsync();
+                result.Content = await _unitOfWork.ProductoIngrediente.WhereActive(x => x.Id == productoIngredienteId).FirstOrDefaultAsync();
+                result.Message = $@"ENTITY_RESTORED ""PRODUCT_INGREDIENT,{productoIngredienteId}""";
+                result.StatusCode = 200;
+            }
+            else
+            {
+                result.Message = $@"ENTITY_CANNOT_BE_RESTORED ""PRODUCT_INGREDIENT,{productoIngredienteId}""";
+                result.StatusCode = 404;
+            }
+            return result;
+        }
     }
 }

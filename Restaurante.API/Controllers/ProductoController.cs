@@ -73,10 +73,20 @@ namespace Restaurante.API.Controllers
         }
 
         [HttpPut("asociar-ingrediente")]
+        [SwaggerOperation(Summary = "Asociar Producto-Ingrediente", Description = "Asociar(Crear/Editar/Eliminar) lista asociada de ingredientes al producto.")]
         [CustomAuthorize($"{Roles.Cocinero},{Roles.Administrador}")]
         public async Task<IActionResult> AsociarIngrediente([FromBody] ProductoIngredienteDTO dto)
         {
             var operation = await _prodIngServices.Asociar(dto);
+            return StatusCode(operation.StatusCode, operation);
+        }
+
+        [HttpPatch("producto-ingrediente")]
+        [SwaggerOperation(Summary = "Restaurar Producto-Ingrediente", Description = "Restaurar asociacion.")]
+        [CustomAuthorize($"{Roles.Administrador}")]
+        public async Task<IActionResult> RestaurarProductoIngrediente([FromQuery] string id)
+        {
+            var operation = await _prodIngServices.Restaurar(id);
             return StatusCode(operation.StatusCode, operation);
         }
     }

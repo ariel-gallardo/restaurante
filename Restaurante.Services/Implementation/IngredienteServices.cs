@@ -75,11 +75,23 @@ namespace Restaurante.Services
             return result;
         }
 
-        public async Task<ResultResponse> Listar(int? paginaNum = 1, string? productoId = "", string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0, double? precioMax = 0)
+        public async Task<ResultResponse> Listar(int? paginaNum = 1, string? productoId = "", string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0, double? precioMax = 0, bool? porPrecioVenta = true)
         {
             var result = new ResultResponse();
 
-            var resultData = await _unitOfWork.Ingrediente.ListarIngredientes(paginaNum, productoId, ordenarPor, ascendente, nombreClave, precioMin, precioMax);
+            dynamic resultData = null;
+            
+            if(string.IsNullOrEmpty(productoId))
+                resultData = await _unitOfWork.Ingrediente.ListarIngredientes(paginaNum, ordenarPor, ascendente, nombreClave, precioMin, precioMax, porPrecioVenta);
+            else
+            {
+                var res = await _unitOfWork.ProductoIngrediente.ListarProductoIngrediente(paginaNum, productoId, ordenarPor, ascendente, nombreClave, precioMin, precioMax, porPrecioVenta);
+                IList<ProductoIngrediente> resContent = res.Content;
+                resultData = res;
+                if (resContent.Count > 0)
+                    resultData.Content = resContent.Select(x => x.Ingrediente).ToList();
+            }
+
             if (resultData.Total > 0)
                 result.Content = resultData;
             result.StatusCode = 200;

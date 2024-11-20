@@ -76,7 +76,10 @@ namespace Restaurante.Models.Profiles
                 .ForMember(y => y.StockAlerta, x => x.MapFrom((src, dest) => src.Ingredientes.Count == 0 ? src.StockAlerta.HasValue ? src.StockAlerta : dest.StockAlerta : null))
                 .ForMember(y => y.PrecioCompra, x => x.MapFrom((src, dest) => src.Ingredientes.Count == 0 ? src.PrecioCompra.HasValue ? src.PrecioCompra : dest.PrecioCompra : null))
                 .ForMember(y => y.PrecioVenta, x => x.MapFrom((src, dest) => src.Ingredientes.Count == 0 ? src.PrecioVenta.HasValue ? src.PrecioVenta : dest.PrecioVenta : null))
-                .ForMember(y => y.Descripcion, x => x.MapFrom((src, dest) => !string.IsNullOrEmpty(src.Descripcion) ? src.Descripcion : dest.Descripcion));
+                .ForMember(y => y.Descripcion, x => x.MapFrom((src, dest) => !string.IsNullOrEmpty(src.Descripcion) ? src.Descripcion : dest.Descripcion))
+                .ForMember(x => x.CreatedAt, x => x.MapFrom((src, dest) => dest.CreatedAt))
+                .ForMember(x => x.UpdatedAt, x => x.MapFrom((src, dest) => dest.UpdatedAt))
+                .ForMember(x => x.DeletedAt, x => x.MapFrom((src, dest) => dest.DeletedAt));
         }
     }
 }

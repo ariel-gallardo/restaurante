@@ -10,6 +10,7 @@ namespace Restaurante.Services
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<IProductoServices, ProductoServices>();
             services.AddTransient<IIngredienteServices, IngredienteServices>();
+            services.AddTransient<IProductoIngredienteServices, ProductoIngredienteServices>();
         }
     }
 }

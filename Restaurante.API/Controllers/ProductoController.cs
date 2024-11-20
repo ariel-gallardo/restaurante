@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurante.Const;
 using Restaurante.Models;
@@ -14,10 +15,12 @@ namespace Restaurante.API.Controllers
     public class ProductoController : ControllerBase
     {
         private readonly IProductoServices _services;
+        private readonly IProductoIngredienteServices _prodIngServices;
 
-        public ProductoController(IProductoServices services)
+        public ProductoController(IProductoServices services, IProductoIngredienteServices prodIngServices)
         {
             _services = services;
+            _prodIngServices = prodIngServices;
         }
 
         [HttpPost]
@@ -67,6 +70,14 @@ namespace Restaurante.API.Controllers
         {
             var operation = await _services.Listar(paginaNum,ordenarPor,ascendente,nombreClave,precioMin,precioMax);
             return StatusCode(operation.StatusCode,operation);
+        }
+
+        [HttpPut("asociar-ingrediente")]
+        [CustomAuthorize($"{Roles.Cocinero},{Roles.Administrador}")]
+        public async Task<IActionResult> AsociarIngrediente([FromBody] ProductoIngredienteDTO dto)
+        {
+            var operation = await _prodIngServices.Asociar(dto);
+            return StatusCode(operation.StatusCode, operation);
         }
     }
 }

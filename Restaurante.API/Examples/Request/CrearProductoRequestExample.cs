@@ -11,7 +11,7 @@ namespace Restaurante.API
             yield return SwaggerExample.Create("Pizza Muzarella - Chica", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "Pizza Muzarella",
+                    Nombre = "Pizza Muzarella - Chica",
                     Unidad = "U",
                     Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaMuzarella)
                 }
@@ -19,7 +19,7 @@ namespace Restaurante.API
             yield return SwaggerExample.Create("Pizza Especial - Chica", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "Pizza Especial",
+                    Nombre = "Pizza Especial - Chica",
                     Unidad = "U",
                     Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaEspecial),
                     Descripcion = "Pizza con jamon y queso."
@@ -28,7 +28,7 @@ namespace Restaurante.API
             yield return SwaggerExample.Create("Pizza Napolitana - Chica", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "Pizza Napolitana",
+                    Nombre = "Pizza Napolitana - Chica",
                     Unidad = "U",
                     Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaNapolitana),
                     Descripcion = "Pizza con tomate y albahaca."
@@ -37,7 +37,7 @@ namespace Restaurante.API
             yield return SwaggerExample.Create("Pizza Muzarella - Grande", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "Pizza Muzarella",
+                    Nombre = "Pizza Muzarella - Chica",
                     Unidad = "U",
                     Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaMuzarella)
                 }
@@ -45,7 +45,7 @@ namespace Restaurante.API
             yield return SwaggerExample.Create("Pizza Especial - Grande", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "Pizza Especial",
+                    Nombre = "Pizza Especial - Grande",
                     Unidad = "U",
                     Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaEspecial),
                     Descripcion = "Pizza con jamon y queso."
@@ -54,7 +54,7 @@ namespace Restaurante.API
             yield return SwaggerExample.Create("Pizza Napolitana - Grande", 
                 new CrearProductoDTO 
                 { 
-                    Nombre = "Pizza Napolitana",
+                    Nombre = "Pizza Napolitana - Grande",
                     Unidad = "U",
                     Imagen = FileStorageService.CreateFormFileFromFile(Restaurante.Assets.Content.Imagenes.PizzaNapolitana),
                     Descripcion = "Pizza con tomate y albahaca."
@@ -120,7 +120,7 @@ namespace Restaurante.API
                     StockAlerta = 20
                 }
             );
-            yield return SwaggerExample.Create("Coca-Cola 2.25L", 
+            yield return SwaggerExample.Create("Sprite 2.25L", 
                 new CrearProductoDTO 
                 { 
                     Nombre = "Sprite 2.25L",
@@ -132,7 +132,7 @@ namespace Restaurante.API
                     StockAlerta = 10
                 }
             );
-            yield return SwaggerExample.Create("Coca-Cola 500ML", 
+            yield return SwaggerExample.Create("Sprite 500ML", 
                 new CrearProductoDTO 
                 {
                     Nombre = "Sprite 500ML",

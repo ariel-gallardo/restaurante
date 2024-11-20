@@ -13,11 +13,11 @@ namespace Restaurante.DAO
         }
 
         public async Task<bool> ExistsProducto(string nombreProducto)
-        => await Where(x => EF.Functions.Like(x.Nombre, nombreProducto) && x.DeletedAt == null).CountAsync() < 1;
+        => await WhereActive(x => EF.Functions.Like(x.Nombre, nombreProducto)).CountAsync() > 0;
 
         public async Task<Producto> CrearProducto(Producto entity)
         {
-            if (await ExistsProducto(entity.Nombre))
+            if (!await ExistsProducto(entity.Nombre))
             {
                 await Insert(entity);
                 await UnitOfWork.ProductoIngrediente.Insert(entity.Ingredientes);

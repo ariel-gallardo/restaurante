@@ -20,9 +20,10 @@ namespace Restaurante.Services
             var result = new ResultResponse();
             var newIngredient = _mappper.Map<CrearIngredienteDTO, Ingrediente>(dTO);
             
-            if (!(await _unitOfWork.Ingrediente.WhereActive(x => EF.Functions.Like(x.Nombre,$"{newIngredient.Nombre}")).CountAsync() > 0))
+            if (!(await _unitOfWork.Ingrediente.WhereActive(x => x.Nombre == newIngredient.Nombre).CountAsync() > 0))
             {
                 await _unitOfWork.Ingrediente.Insert(newIngredient);
+                await _unitOfWork.SaveChangesAsync();
                 result.Message = $@"ENTITY_CREATED ""INGREDIENT,{newIngredient.Nombre}""";
                 result.StatusCode = 200;
             }

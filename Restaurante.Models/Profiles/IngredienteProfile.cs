@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Restaurante.Models
+namespace Restaurante.Models.Profiles
 {
     public class IngredienteProfile : Profile
     {

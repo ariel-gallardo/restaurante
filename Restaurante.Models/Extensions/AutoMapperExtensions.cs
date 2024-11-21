@@ -10,6 +10,7 @@ namespace Restaurante.Models.Extensions
         {
             c.AddProfile<UsuarioProfile>();
             c.AddProfile<ProductoProfile>();
+            c.AddProfile<IngredienteProfile>();
         });
     }
 }

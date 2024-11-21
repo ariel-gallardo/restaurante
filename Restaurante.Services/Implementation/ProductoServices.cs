@@ -17,6 +17,12 @@ namespace Restaurante.Services
             _mappper = mapper;
             _unitOfWork = unitOfWork;
         }
+
+        public Task<ResultResponse> Consumir(IList<ConsumirProductoDTO> dto)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ResultResponse> Crear(CrearProductoDTO dTO)
         {
             var result = new ResultResponse();

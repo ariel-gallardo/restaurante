@@ -8,7 +8,7 @@ namespace Restaurante.Migrations.Extensions
         public static ModelBuilder MapBaseString<T>(this ModelBuilder modelBuilder) where T : StringEntity 
         {
             modelBuilder.Entity<T>().HasKey(x => x.Id);
-            modelBuilder.Entity<T>().Property(x => x.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<T>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<T>().Property(x => x.CreatedAt).HasColumnName("created_at").HasDefaultValue(DateTime.UtcNow);
             modelBuilder.Entity<T>().Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired(false);
             modelBuilder.Entity<T>().Property(x => x.DeletedAt).HasColumnName("deleted_at").IsRequired(false);

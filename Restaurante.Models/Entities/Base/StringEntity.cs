@@ -5,9 +5,19 @@ namespace Restaurante.Models
 {
     public class StringEntity
     {
+        private string _id;
+
         [Column("id")]
         [Key]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get => _id; 
+            set {
+                Guid temp;
+                if (Guid.TryParse(value, out temp))
+                    _id = value;
+                else
+                    _id = string.Empty;
+            } 
+        }
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
         [Column("deleted_at")]

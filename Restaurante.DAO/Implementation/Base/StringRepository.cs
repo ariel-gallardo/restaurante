@@ -22,12 +22,14 @@ namespace Restaurante.DAO
 
         public void Delete(IList<T> entity)
         {
-            _ctx.RemoveRange(entity);
+            if (entity.Count > 0)
+                _ctx.RemoveRange(entity);
         }
 
         public void Delete(IEnumerable<T> entity)
         {
-            _ctx.RemoveRange(entity);
+            if (entity.Count() > 0)
+                _ctx.RemoveRange(entity);
         }
 
         public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
@@ -49,12 +51,14 @@ namespace Restaurante.DAO
 
         public async Task Insert(IList<T> entity)
         {
-            await _ctx.AddRangeAsync(entity);
+            if (entity.Count > 0)
+                await _ctx.AddRangeAsync(entity);
         }
 
         public async Task Insert(IEnumerable<T> entity)
         {
-            await _ctx.AddRangeAsync(entity);
+            if (entity.Count() > 0)
+                await _ctx.AddRangeAsync(entity);
         }
 
         public void Update(T entity)
@@ -64,12 +68,14 @@ namespace Restaurante.DAO
 
         public void Update(IList<T> entity)
         {
+            if(entity.Count > 0)
             _ctx.UpdateRange(entity);
         }
 
         public void Update(IEnumerable<T> entity)
         {
-            _ctx.UpdateRange(entity);
+            if (entity.Count() > 0)
+                _ctx.UpdateRange(entity);
         }
 
         public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)

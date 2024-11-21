@@ -14,3 +14,10 @@
 - Hacer una interfaz grafica con React
 - Hacer una interfaz grafica con Angular
 - Hacer una interfaz grafica con AngularJS
+
+# Accounts
+* cliente@restaurante.com:123456aA$
+* delivery@restaurante.com:123456aA$
+* recepcionista@restaurante.com:123456aA$
+* cocinero@restaurante.com:123456aA$
+* administrador@restaurante.com:123456aA$

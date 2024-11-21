@@ -2,9 +2,8 @@
 
 namespace Restaurante.DAO
 {
-    public interface IUsuarioRepository
+    public interface IUsuarioRepository : IRepository<Usuario>
     {
         Usuario SearchUserActiveByEmail(string email);
-        IRepository<Usuario> Repository { get; }
     }
 }

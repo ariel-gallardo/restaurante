@@ -4,6 +4,7 @@ using Restaurante.API.Filters;
 using Restaurante.API.Middlewares;
 using Restaurante.DAO.Extensions;
 using Restaurante.Models.Extensions;
+using Restaurante.Services;
 using Restaurante.Services.Extensions;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
@@ -85,6 +86,7 @@ namespace Restaurante.API
             services.AddInternalServices();
             services
                 .AddSqliteCFG(_cfg)
+                .AddSqlServerCFG(_cfg)
                 .AddUnitOfWork()
                 .AddCustomJWT();
             services.AddSwaggerExamplesFromAssemblyOf<Startup>();
@@ -101,7 +103,6 @@ namespace Restaurante.API
             }
             app.CheckDatabase();
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseCors("AllowAllOrigins");
             app.UseAuthentication();

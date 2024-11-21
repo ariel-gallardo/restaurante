@@ -70,7 +70,7 @@ namespace Restaurante.Services
             var userCreated = _unitOfWork.Usuario.SearchUserActiveByEmail(dto.Correo);
             if(userCreated == null)
             {
-                await _unitOfWork.Usuario.Repository.Insert(user);
+                await _unitOfWork.Usuario.Insert(user);
                 await _unitOfWork.SaveChangesAsync();
                 userCreated = _unitOfWork.Usuario.SearchUserActiveByEmail(dto.Correo);
                 var userInfoDTO = _mapper.Map<Usuario, UserInfoDTO>(userCreated);

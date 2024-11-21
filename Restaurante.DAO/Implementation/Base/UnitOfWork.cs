@@ -1,7 +1,6 @@
-﻿
-
-using Restaurante.Migrations;
+﻿using Restaurante.Migrations;
 using Restaurante.Models;
+using System;
 
 namespace Restaurante.DAO
 {
@@ -14,6 +13,9 @@ namespace Restaurante.DAO
         private readonly IRepository<Rol> _rolRepository;
         private readonly IRepository<Telefono> _telefonoRepository;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IProductoRepository _productoRepository;
+        private readonly IIngredienteRepository _ingredienteRepository;
+        private readonly IProductoIngredienteRepository _productoIngredienteRepository;
         #endregion
 
         #region Public
@@ -22,6 +24,10 @@ namespace Restaurante.DAO
         public IRepository<Rol> Rol { get => _rolRepository; }
         public IRepository<Telefono> Telefono { get => _telefonoRepository; }
         public IUsuarioRepository Usuario { get => _usuarioRepository; }
+
+        public IProductoRepository Producto { get => _productoRepository; }
+        public IIngredienteRepository Ingrediente { get => _ingredienteRepository; }
+        public IProductoIngredienteRepository ProductoIngrediente { get => _productoIngredienteRepository; }
         #endregion
 
         #region Constructor
@@ -31,7 +37,10 @@ namespace Restaurante.DAO
             IRepository<Persona> personaRepository,
             IRepository<Rol> rolRepository,
             IRepository<Telefono> telefonoRepository,
-            IUsuarioRepository usuarioRepository
+            IUsuarioRepository usuarioRepository,
+            IProductoRepository productoRepository,
+            IIngredienteRepository ingredienteRepository,
+            IProductoIngredienteRepository productoIngredienteRepository
             )
         {
             _domicilioRepository = domicilioRepository;
@@ -39,7 +48,11 @@ namespace Restaurante.DAO
             _rolRepository = rolRepository;
             _telefonoRepository = telefonoRepository;
             _usuarioRepository = usuarioRepository;
+            _productoRepository = productoRepository;
+            _ingredienteRepository = ingredienteRepository;
+            _productoIngredienteRepository = productoIngredienteRepository;
             _ctx = ctx;
+            AssignUnitOfWork();
         }
         #endregion
         public void Dispose()
@@ -54,8 +67,33 @@ namespace Restaurante.DAO
             }
             catch (Exception ex) 
             {
-                
+                _ctx.ChangeTracker.Clear();
+                throw ex;
             }
+        }
+
+        public void SaveChanges()
+        {
+            try
+            {
+                 _ctx.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _ctx.ChangeTracker.Clear();
+                throw ex;
+            }
+        }
+        private void AssignUnitOfWork()
+        {
+            _domicilioRepository.UnitOfWork = this;
+            _personaRepository.UnitOfWork = this;
+            _rolRepository.UnitOfWork = this;
+            _telefonoRepository.UnitOfWork = this;
+            _usuarioRepository.UnitOfWork = this;
+            _productoRepository.UnitOfWork = this;
+            _ingredienteRepository.UnitOfWork = this;
+            _productoIngredienteRepository.UnitOfWork = this;
         }
     }
 }

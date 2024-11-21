@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Restaurante.Models;
 using Restaurante.Services;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Restaurante.API.Controllers
@@ -20,6 +21,7 @@ namespace Restaurante.API.Controllers
 
         [HttpPost("register")]
         [SwaggerRequestExample(typeof(RegisterDTO), typeof(RegisterRequestExample))]
+        [SwaggerOperation(Summary = "Registrarse como cliente", Description = "Registrarse como cliente | Todos.")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDTO dto)
         {
             var operation = await _services.Register(dto);
@@ -30,6 +32,7 @@ namespace Restaurante.API.Controllers
 
         [HttpPost("login")]
         [SwaggerRequestExample(typeof(LoginDTO),typeof(LoginRequestExample))]
+        [SwaggerOperation(Summary = "Iniciar Sesion", Description = "Iniciar Sesion | Usuarios no autenticados.")]
         public async Task<IActionResult> LoginUser([FromBody] LoginDTO dto)
         {
             var operation = await _services.Login(dto);
@@ -46,7 +49,8 @@ namespace Restaurante.API.Controllers
         }
 
         [HttpGet("info")]
-        [Authorize]
+        [CustomAuthorize]
+        [SwaggerOperation(Summary = "Informacion de Usuario", Description = "Visualizar informacion del usuario | Usuarios autenticados.")]
         public async Task<IActionResult> InfoUser()
         {
             var authorization = Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "authorization").Value;

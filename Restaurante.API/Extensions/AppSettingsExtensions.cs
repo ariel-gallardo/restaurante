@@ -1,4 +1,5 @@
-﻿using Restaurante.Services;
+﻿using Restaurante.Infraestructure;
+using Restaurante.Services;
 
 namespace Restaurante.API
 {
@@ -8,6 +9,7 @@ namespace Restaurante.API
         {
             AppSettings.JWTSecretKey = cfg.GetValue<string>("JWT:SecretKey");
             AppSettings.JWTHourExpirationTime = cfg.GetValue<int>("JWT:HourExpirationTime");
+            AppSettings.Take = cfg.GetValue<int>("Take");
         }
     }
 }

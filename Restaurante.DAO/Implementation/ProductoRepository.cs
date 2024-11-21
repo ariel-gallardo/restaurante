@@ -51,6 +51,7 @@ namespace Restaurante.DAO
 
             (var total, var querie) = WhereAsPaginateQuerie(
                 x =>
+                    precioMin == 0.0 && precioMax == 0.0 ? true :
                     (x.Ingredientes.Count() > 0 && (
                         (precioMin > 0.0 && x.Ingredientes.Sum(y => y.Ingrediente.PrecioVenta ?? 0) * (1 + AppSettings.PorcentajeGanancia / 100) >= precioMin) &&
                         (precioMax > 0.0 && x.Ingredientes.Sum(y => y.Ingrediente.PrecioVenta ?? 0) * (1 + AppSettings.PorcentajeGanancia / 100) <= precioMax)

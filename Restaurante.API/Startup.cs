@@ -97,9 +97,9 @@ namespace Restaurante.API
             // Configura el pipeline de solicitudes HTTP
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                app.UseDeveloperExceptionPage();
             }
             app.CheckDatabase();
             app.UseHttpsRedirection();

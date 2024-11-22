@@ -9,35 +9,35 @@ namespace Restaurante.Services
         public static (string,double?) VerConsumoIndividualDeIngrediente(this ProductoIngrediente pI)
         {
             var iBase = pI.Ingrediente;
-            double? cValue = 0.0;
+            double? cValue = iBase.StockActual ?? 0.0;
             switch (pI.Unidad)
             {
                 case "G":
                     if (iBase.Unidad == "G")
-                        cValue = iBase.StockActual ?? 0.0 - pI.Cantidad;
+                        cValue = cValue.Value - pI.Cantidad;
                     else if (iBase.Unidad == "KG")
-                        cValue = iBase.StockActual ?? 0.0 - Mass.FromGrams(pI.Cantidad).ToUnit(MassUnit.Kilogram).Value;
+                        cValue = cValue.Value - UnitConverter.Convert(pI.Cantidad, MassUnit.Gram, MassUnit.Kilogram);                
                     break;
                 case "ML":
                     if (iBase.Unidad == "ML")
-                        cValue = iBase.StockActual ?? 0.0 - pI.Cantidad;
+                        cValue = cValue.Value - pI.Cantidad;
                     else if (iBase.Unidad == "L")
-                        cValue = iBase.StockActual ?? 0.0 - Volume.FromMilliliters(pI.Cantidad).ToUnit(VolumeUnit.Liter).Value;
+                        cValue = cValue.Value - UnitConverter.Convert(pI.Cantidad, VolumeUnit.Milliliter, VolumeUnit.Liter);
                     break;
                 case "KG":
                     if (iBase.Unidad == "KG")
-                        cValue = iBase.StockActual ?? 0.0 - pI.Cantidad;
+                        cValue = cValue.Value - pI.Cantidad;
                     else if (iBase.Unidad == "G")
-                        cValue = iBase.StockActual ?? 0.0 - Mass.FromKilograms(pI.Cantidad).ToUnit(MassUnit.Gram).Value;
+                        cValue = cValue.Value - UnitConverter.Convert(pI.Cantidad, MassUnit.Kilogram, MassUnit.Gram);
                     break;
                 case "L":
                     if (iBase.Unidad == "L")
-                        cValue = iBase.StockActual ?? 0.0 - pI.Cantidad;
+                        cValue = cValue.Value - pI.Cantidad;
                     else if (iBase.Unidad == "ML")
-                        cValue = iBase.StockActual ?? 0.0 - Volume.FromLiters(pI.Cantidad).ToUnit(VolumeUnit.Milliliter).Value;
+                        cValue = cValue.Value - UnitConverter.Convert(pI.Cantidad, VolumeUnit.Liter, VolumeUnit.Milliliter);
                     break;
                 case "U":
-                    cValue = iBase.StockActual ?? 0.0 - pI.Cantidad;
+                    cValue = cValue.Value - pI.Cantidad;
                     break;
                 default:
                     cValue = null;

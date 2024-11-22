@@ -59,6 +59,11 @@ namespace Restaurante.DAO
         {
             _ctx.Dispose();
         }
+
+        public void ClearChanges()
+        {
+            _ctx.ChangeTracker.Clear();
+        }
         public async Task SaveChangesAsync()
         {
             try

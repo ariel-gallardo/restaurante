@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Restaurante.DAO;
-using Restaurante.Infraestructure;
 using Restaurante.Models;
-using System.Linq.Expressions;
+using UnitsNet;
+using UnitsNet.Units;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Restaurante.Services
 {
@@ -18,9 +19,81 @@ namespace Restaurante.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<ResultResponse> Consumir(IList<ConsumirProductoDTO> dto)
+        public async Task<ResultResponse> Consumir(ConsumirProductoDTO dto)
         {
-            throw new NotImplementedException();
+            var resultResponse = new ResultResponse();
+
+            var ids = dto.Data.Select(x => x.Id);
+            if(ids.Count() > 0)
+            {
+                var products = new List<Producto>();
+                var ingredients = new List<Ingrediente>();
+                
+                products.AddRange(await _unitOfWork.Producto.WhereActive(x => ids.Contains(x.Id))
+                                .Include(x => x.Ingredientes)
+                                .ThenInclude(x => x.Ingrediente)
+                                .ToArrayAsync());
+                if(products.Count > 0)
+                {
+                    var consumo = products.VerConsumoDeProductos(dto);
+                    var ingredientes = products.SelectMany(x => x.Ingredientes.Select(y => y.Ingrediente)).Distinct().ToList();
+                    var calculoTotalConsumo = new Dictionary<string, (double, bool)>();
+                    var prodIdCannotConsume = new List<string>();
+
+                    foreach (var cK in consumo.Keys)
+                    {
+                        if(consumo.TryGetValue(cK,out (double,bool) output))
+                        {
+                            (var cantidad, var esIngrediente) = output;
+                            if (esIngrediente)
+                            {
+                                var iBase = ingredientes.FirstOrDefault(x => x.Id == cK);
+                                var calculo = (iBase.StockActual ?? 0.0 - cantidad);
+                                calculoTotalConsumo.Add(cK, (calculo, esIngrediente));
+                                if (calculo < 0.0)
+                                    prodIdCannotConsume.AddRange(products.Where(x => x.Ingredientes.Any(y => y.IngredienteId == cK)).Select(x => x.Id));
+                                else
+                                    iBase.StockActual = calculo;
+                            }
+                            else
+                            {
+                                var cProduct = products.FirstOrDefault(x => x.Id == cK);
+                                var calculo = (cProduct.StockActual ?? 0.0 - cantidad);
+                                calculoTotalConsumo.Add(cK, (calculo, esIngrediente));
+                                if(calculo < 0.0)
+                                    prodIdCannotConsume.Add(cK);
+                                else
+                                    cProduct.StockActual = calculo;
+                            }
+                        }
+                    }
+
+                    if(prodIdCannotConsume.Count > 0)
+                    {
+                        prodIdCannotConsume = prodIdCannotConsume.Distinct().ToList();
+                        _unitOfWork.ClearChanges();
+                    }
+                    else
+                    {
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+
+                    resultResponse.Content = prodIdCannotConsume.Count > 0 ? prodIdCannotConsume : null;
+                    resultResponse.StatusCode = prodIdCannotConsume.Count > 0 ? 400 : 200;
+                    resultResponse.Message = prodIdCannotConsume.Count > 0 ? $"STOCK_ERROR_PRODUCTS" : "CONSUME_PRODUCTS";
+                }
+                else
+                {
+                    resultResponse.StatusCode = 404;
+                    resultResponse.Message = $@"EMPTY_DATA ""PRODUCTS""";
+                }
+            }
+            else
+            {
+                resultResponse.StatusCode = 404;
+                resultResponse.Message = $@"EMPTY_DATA ""PRODUCTS""";
+            }
+            return resultResponse;
         }
 
         public async Task<ResultResponse> Crear(CrearProductoDTO dTO)

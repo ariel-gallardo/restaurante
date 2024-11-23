@@ -4,7 +4,7 @@ namespace Restaurante.Models
 {
     public class ProductoIngredienteDTO
     {
-        public class DataDTO
+        public class ProductoIngredienteDataDTO
         {
             public string Id { get; set; }
             [Required(ErrorMessage = "ID_INGREDIENT_REQUIRED")]
@@ -18,7 +18,7 @@ namespace Restaurante.Models
 
         [Required(ErrorMessage = "ID_PRODUCT_REQUIRED")]
         public string ProductoId { get; set; }
-        public IList<DataDTO> Data { get; set; }
+        public IList<ProductoIngredienteDataDTO> Data { get; set; }
     }
 
 }

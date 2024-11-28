@@ -17,7 +17,8 @@ namespace Restaurante.API.Controllers
             _pedidoServices = pedidoServices;
         }
 
-        
+
+        [DeactivateMethod]
         [HttpPost("consumir-producto")]
         [CustomAuthorize]
         public async Task<IActionResult> ConsumirProducto([FromBody] ConsumirProductoDTO dto)

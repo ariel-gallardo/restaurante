@@ -34,6 +34,7 @@ namespace Restaurante.API
             // Agrega los controladores
             services.AddControllers(o =>
             {
+                o.Filters.Add<DeactivateMethodFilter>();
                 o.Filters.Add<Status500Filter>();
             });
             services.AddCustomAutoMapper();

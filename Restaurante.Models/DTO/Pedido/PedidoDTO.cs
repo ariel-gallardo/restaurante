@@ -7,7 +7,7 @@
             public string ProductoId { get; set; }
             public double Cantidad { get; set; }
         }
-        public bool Confirmar { get; set; }
+        public string Estado { get; set; }
         public IList<PedidoDTOData> Data { get; set; }
     }
 }

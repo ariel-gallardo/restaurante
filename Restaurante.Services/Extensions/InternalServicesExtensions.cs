@@ -11,6 +11,7 @@ namespace Restaurante.Services
             services.AddTransient<IProductoServices, ProductoServices>();
             services.AddTransient<IIngredienteServices, IngredienteServices>();
             services.AddTransient<IProductoIngredienteServices, ProductoIngredienteServices>();
+            services.AddTransient<IPedidoServices, PedidoServices>();
         }
     }
 }

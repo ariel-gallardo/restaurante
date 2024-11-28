@@ -13,5 +13,7 @@ namespace Restaurante.Models
         public double SubTotal { get; set; }
         [Column("producto_id")]
         public string ProductoId { get; set; }
+        [Column("pedido_id")]
+        public string PedidoId { get; set; }
     }
 }

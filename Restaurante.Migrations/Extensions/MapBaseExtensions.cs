@@ -15,6 +15,7 @@ namespace Restaurante.Migrations.Extensions
             modelBuilder.Entity<T>().HasIndex(x => x.CreatedAt);
             modelBuilder.Entity<T>().HasIndex(x => x.UpdatedAt);
             modelBuilder.Entity<T>().HasIndex(x => x.DeletedAt);
+            modelBuilder.Entity<T>().HasQueryFilter(x => x.DeletedAt == null);
             return modelBuilder;
         }
 
@@ -28,6 +29,7 @@ namespace Restaurante.Migrations.Extensions
             modelBuilder.Entity<T>().HasIndex(x => x.CreatedAt);
             modelBuilder.Entity<T>().HasIndex(x => x.UpdatedAt);
             modelBuilder.Entity<T>().HasIndex(x => x.DeletedAt);
+            modelBuilder.Entity<T>().HasQueryFilter(x => x.DeletedAt == null);
             return modelBuilder;
         }
     }

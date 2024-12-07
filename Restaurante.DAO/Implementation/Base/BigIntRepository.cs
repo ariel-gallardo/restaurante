@@ -16,21 +16,30 @@ namespace Restaurante.DAO
         {
             _ctx = ctx;
         }
-        public void Delete(T entity)
+        public async Task<int> Delete(T entity)
         {
             _ctx.Remove(entity);
+            return await _ctx.SaveChangesAsync();
         }
 
-        public void Delete(IList<T> entity)
+        public async Task<int> Delete(IList<T> entity)
         {
-            if (entity.Count > 0)
+            if (entity?.Count > 0)
+            {
                 _ctx.RemoveRange(entity);
+                return await _ctx.SaveChangesAsync();
+            }
+            return 0;
         }
 
-        public void Delete(IEnumerable<T> entity)
+        public async Task<int> Delete(IEnumerable<T> entity)
         {
-            if (entity.Count() > 0)
+            if (entity?.Count() > 0)
+            {
                 _ctx.RemoveRange(entity);
+                return await _ctx.SaveChangesAsync();
+            }
+            return 0;
         }
 
         public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
@@ -45,38 +54,56 @@ namespace Restaurante.DAO
             return expression;
         }
 
-        public async Task Insert(T entity)
+        public async Task<int> Insert(T entity)
         {
             await _ctx.AddAsync(entity);
+            return await _ctx.SaveChangesAsync();
         }
 
-        public async Task Insert(IList<T> entity)
+        public async Task<int> Insert(IList<T> entity)
         {
-            if (entity.Count > 0)
+            if (entity?.Count > 0)
+            {
                 await _ctx.AddRangeAsync(entity);
+                return await _ctx.SaveChangesAsync();
+            }
+            return 0;
         }
 
-        public async Task Insert(IEnumerable<T> entity)
+        public async Task<int> Insert(IEnumerable<T> entity)
         {
-            if (entity.Count() > 0)
+            if (entity?.Count() > 0)
+            {
                 await _ctx.AddRangeAsync(entity);
+
+            }
+            return 0;
         }
 
-        public void Update(T entity)
+        public async Task<int> Update(T entity)
         {
             _ctx.Update(entity);
+            return await _ctx.SaveChangesAsync();
         }
 
-        public void Update(IList<T> entity)
+        public async Task<int> Update(IList<T> entity)
         {
-            if (entity.Count > 0)
+            if (entity?.Count > 0)
+            {
                 _ctx.UpdateRange(entity);
+                return await _ctx.SaveChangesAsync();
+            }
+            return 0;
         }
 
-        public void Update(IEnumerable<T> entity)
+        public async Task<int> Update(IEnumerable<T> entity)
         {
-            if (entity.Count() > 0)
+            if (entity?.Count() > 0)
+            {
                 _ctx.UpdateRange(entity);
+                return await _ctx.SaveChangesAsync();
+            }
+            return 0;
         }
 
         public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
@@ -121,7 +148,7 @@ namespace Restaurante.DAO
                 whereExpression.Parameters
             );
 
-            return Where(combinedBody, orderByExpression, ascending);
+            return Where(combinedBody, orderByExpression, ascending).IgnoreQueryFilters();
         }
         public bool ExistsActive(dynamic id)
         {

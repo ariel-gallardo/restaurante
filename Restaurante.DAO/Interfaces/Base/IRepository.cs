@@ -5,15 +5,15 @@ namespace Restaurante.DAO
 {
     public interface IRepository<T> where T : class
     {
-        Task Insert(T entity);
-        Task Insert(IList<T> entity);
-        Task Insert(IEnumerable<T> entity);
-        void Update(T entity);
-        void Update(IList<T> entity);
-        void Update(IEnumerable<T> entity);
-        void Delete(T entity);
-        void Delete(IList<T> entity);
-        void Delete(IEnumerable<T> entity);
+        Task<int> Insert(T entity);
+        Task<int> Insert(IList<T> entity);
+        Task<int> Insert(IEnumerable<T> entity);
+        Task<int> Update(T entity);
+        Task<int> Update(IList<T> entity);
+        Task<int> Update(IEnumerable<T> entity);
+        Task<int> Delete(T entity);
+        Task<int> Delete(IList<T> entity);
+        Task<int> Delete(IEnumerable<T> entity);
         IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false);
         IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false);
         IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false);

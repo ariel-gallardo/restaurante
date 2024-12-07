@@ -22,8 +22,10 @@ namespace Restaurante.Services
             
             if (!(await _unitOfWork.Ingrediente.WhereActive(x => x.Nombre == newIngredient.Nombre).CountAsync() > 0))
             {
+                await _unitOfWork.BeginTransactionAsync();
                 await _unitOfWork.Ingrediente.Insert(newIngredient);
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
                 result.Message = $@"ENTITY_CREATED ""INGREDIENT,{newIngredient.Nombre}""";
                 result.StatusCode = 200;
             }
@@ -62,8 +64,10 @@ namespace Restaurante.Services
             if (_unitOfWork.Ingrediente.ExistsActive(ingredienteId))
             {
                 var crrIngrediente = _unitOfWork.Ingrediente.WhereActive(x => x.Id == ingredienteId).FirstOrDefault();
+                await _unitOfWork.BeginTransactionAsync();
                 _unitOfWork.Ingrediente.Delete(crrIngrediente);
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
                 result.Message = $@"ENTITY_DELETED ""INGREDIENT,{crrIngrediente.Nombre}""";
                 result.StatusCode = 400;
             }
@@ -103,9 +107,11 @@ namespace Restaurante.Services
         public async Task<ResultResponse> Restaurar(string ingredienteId)
         {
             var result = new ResultResponse();
+            await _unitOfWork.BeginTransactionAsync();
             if (await _unitOfWork.Ingrediente.Restore(ingredienteId))
             {
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
                 result.Content = await _unitOfWork.Ingrediente.WhereActive(x => x.Id == ingredienteId).FirstOrDefaultAsync();
                 result.Message = $@"ENTITY_RESTORED ""INGREDIENT,{ingredienteId}""";
                 result.StatusCode = 200;

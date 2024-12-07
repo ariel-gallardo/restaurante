@@ -8,6 +8,7 @@
             public double Cantidad { get; set; }
         }
         public string Estado { get; set; }
+        public string Pedido { get; set; }
         public IList<PedidoDTOData>? Data { get; set; }
     }
 }

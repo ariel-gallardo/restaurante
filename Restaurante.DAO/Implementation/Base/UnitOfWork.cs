@@ -1,4 +1,6 @@
-﻿using Restaurante.Migrations;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Restaurante.Migrations;
 using Restaurante.Models;
 using System;
 
@@ -16,6 +18,8 @@ namespace Restaurante.DAO
         private readonly IProductoRepository _productoRepository;
         private readonly IIngredienteRepository _ingredienteRepository;
         private readonly IProductoIngredienteRepository _productoIngredienteRepository;
+        private readonly IPedidoRepository _pedidoRepository;
+        private readonly IRepository<DetallePedido> _detallePedidoRepository;
         #endregion
 
         #region Public
@@ -28,6 +32,10 @@ namespace Restaurante.DAO
         public IProductoRepository Producto { get => _productoRepository; }
         public IIngredienteRepository Ingrediente { get => _ingredienteRepository; }
         public IProductoIngredienteRepository ProductoIngrediente { get => _productoIngredienteRepository; }
+
+        public IPedidoRepository Pedido { get => _pedidoRepository; }
+        public IRepository<DetallePedido> DetallePedido => _detallePedidoRepository;
+
         #endregion
 
         #region Constructor
@@ -40,7 +48,9 @@ namespace Restaurante.DAO
             IUsuarioRepository usuarioRepository,
             IProductoRepository productoRepository,
             IIngredienteRepository ingredienteRepository,
-            IProductoIngredienteRepository productoIngredienteRepository
+            IProductoIngredienteRepository productoIngredienteRepository,
+            IPedidoRepository pedidoRepository,
+            IRepository<DetallePedido> detallePedidoRepository
             )
         {
             _domicilioRepository = domicilioRepository;
@@ -51,44 +61,18 @@ namespace Restaurante.DAO
             _productoRepository = productoRepository;
             _ingredienteRepository = ingredienteRepository;
             _productoIngredienteRepository = productoIngredienteRepository;
+            _pedidoRepository = pedidoRepository;
+            _detallePedidoRepository = detallePedidoRepository;
             _ctx = ctx;
             AssignUnitOfWork();
         }
         #endregion
         public void Dispose()
         {
+            _transaction?.Dispose();
             _ctx.Dispose();
         }
 
-        public void ClearChanges()
-        {
-            _ctx.ChangeTracker.Clear();
-        }
-        public async Task SaveChangesAsync()
-        {
-            try
-            {
-                await _ctx.SaveChangesAsync();
-            }
-            catch (Exception ex) 
-            {
-                _ctx.ChangeTracker.Clear();
-                throw ex;
-            }
-        }
-
-        public void SaveChanges()
-        {
-            try
-            {
-                 _ctx.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                _ctx.ChangeTracker.Clear();
-                throw ex;
-            }
-        }
         private void AssignUnitOfWork()
         {
             _domicilioRepository.UnitOfWork = this;
@@ -99,6 +83,90 @@ namespace Restaurante.DAO
             _productoRepository.UnitOfWork = this;
             _ingredienteRepository.UnitOfWork = this;
             _productoIngredienteRepository.UnitOfWork = this;
+            _pedidoRepository.UnitOfWork = this;
         }
+
+        private IDbContextTransaction _transaction;
+
+        public IDbContextTransaction Transaction { get => _transaction; }
+
+
+        public void BeginTransaction()
+        {
+            if (_transaction == null)
+            {
+                _transaction = _ctx.Database.BeginTransaction();
+            }
+        }
+        public async Task BeginTransactionAsync()
+        {
+            if (_transaction == null)
+            {
+                _transaction = await _ctx.Database.BeginTransactionAsync();
+            }
+        }
+        public void CommitTransaction()
+        {
+            if (_transaction != null)
+            {
+                try
+                {
+                    _transaction.Commit();
+                }
+                catch (Exception ex) 
+                {
+                    RollbackTransaction();
+                    throw ex;
+                }
+                finally
+                {
+                    
+                }
+            }
+        }
+        public async Task CommitTransactionAsync()
+        {
+            if (_transaction != null)
+            {
+                try
+                {
+                    await _transaction.CommitAsync();
+                }
+                catch(Exception ex)
+                {
+                    await RollbackTransactionAsync();
+                    throw ex;
+                }
+                finally
+                {
+                    
+                }
+            }
+        }
+
+        public void RollbackTransaction()
+        {
+            if (_transaction != null)
+            {
+                _transaction.Rollback();
+                _transaction.Dispose();
+                _transaction = null;
+            }
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            if (_transaction != null)
+            {
+                await _transaction.RollbackAsync();
+                await _transaction.DisposeAsync();
+                _transaction = null;
+            }
+        }
+
+        public void SaveChanges() => _ctx.SaveChanges();
+
+        public async Task SaveChangesAsync() => await _ctx.SaveChangesAsync();
+        
     }
 }

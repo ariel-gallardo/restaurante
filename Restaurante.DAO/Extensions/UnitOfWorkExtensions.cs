@@ -16,14 +16,17 @@ namespace Restaurante.DAO.Extensions
              .AddScoped<IRepository<Usuario>, BigIntRepository<Usuario>>()
              .AddScoped<IRepository<Ingrediente>, StringRepository<Ingrediente>>()
              .AddScoped<IRepository<Producto>, StringRepository<Producto>>()
-             .AddScoped<IRepository<ProductoIngrediente>, StringRepository<ProductoIngrediente>>();
+             .AddScoped<IRepository<ProductoIngrediente>, StringRepository<ProductoIngrediente>>()
+             .AddScoped<IRepository<Pedido>, StringRepository<Pedido>>()
+             .AddScoped<IRepository<DetallePedido>, StringRepository<DetallePedido>>();
 
             services =
                 services
                 .AddScoped<IUsuarioRepository, UsuarioRepository>()
                 .AddScoped<IProductoRepository, ProductoRepository>()
                 .AddScoped<IIngredienteRepository, IngredienteRepository>()
-                .AddScoped<IProductoIngredienteRepository, ProductoIngredienteRepository>();
+                .AddScoped<IProductoIngredienteRepository, ProductoIngredienteRepository>()
+                .AddScoped<IPedidoRepository, PedidoRepository>();
 
 
 

@@ -14,6 +14,7 @@ namespace Restaurante.Migrations
         public static void MapRelationShips<T>(this ModelBuilder modelBuilder) where T : Pedido
         {
             modelBuilder.Entity<T>().HasMany(x => x.Detalles).WithOne().HasForeignKey(x => x.PedidoId);
+            modelBuilder.Entity<T>().HasOne(x => x.Usuario);
         }
     }
 }

@@ -37,8 +37,9 @@ namespace Restaurante.API
                 o.Filters.Add<DeactivateMethodFilter>();
                 o.Filters.Add<Status500Filter>();
             });
+            services.AddHttpContextAccessor();
             services.AddCustomAutoMapper();
-
+            
             // Configura Swagger/OpenAPI
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(o =>

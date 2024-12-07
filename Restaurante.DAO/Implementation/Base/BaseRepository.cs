@@ -11,44 +11,44 @@ namespace Restaurante.DAO
         {
             _repository = repository;
         }
-        public void Delete(T entity)
-        => _repository.Delete(entity);
+        public async Task<int> Delete(T entity)
+        => await _repository.Delete(entity);
         
 
-        public void Delete(IList<T> entity)
-        => _repository.Delete(entity);
+        public async Task<int> Delete(IList<T> entity)
+        => await _repository.Delete(entity);
         
 
-        public void Delete(IEnumerable<T> entity)
-        => _repository.Delete(entity);
+        public async Task<int> Delete(IEnumerable<T> entity)
+        => await _repository.Delete(entity);
 
         public bool ExistsActive(dynamic id)
         => _repository.ExistsActive(id);
         public bool ExistsSoftDeleted(dynamic id)
         => _repository.ExistsSoftDeleted(id);
 
-        public async Task Insert(T entity)
+        public async Task<int> Insert(T entity)
         => await _repository.Insert(entity);
         
 
-        public async Task Insert(IList<T> entity)
+        public async Task<int> Insert(IList<T> entity)
         => await _repository.Insert(entity);
         
 
-        public async Task Insert(IEnumerable<T> entity)
+        public async Task<int> Insert(IEnumerable<T> entity)
         => await _repository.Insert(entity);
         
 
-        public void Update(T entity)
-        => _repository.Update(entity);
+        public async Task<int> Update(T entity)
+        => await _repository.Update(entity);
         
 
-        public void Update(IList<T> entity)
-        => _repository.Update(entity);
+        public async Task<int> Update(IList<T> entity)
+        => await _repository.Update(entity);
         
 
-        public void Update(IEnumerable<T> entity)
-        => _repository.Update(entity);
+        public async Task<int> Update(IEnumerable<T> entity)
+        => await _repository.Update(entity);
         
 
         public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)

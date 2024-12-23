@@ -10,6 +10,8 @@ export default RestauranteModule.config(($routeProvider, $locationProvider) => {
         templateUrl: '/views/HomeView.html5'
         //template: HomeView
     })
+    .when('/cart', {templateUrl: '/views/NotFound.html5'})
+    .when('/profile', {templateUrl: '/views/NotFound.html5'})
     .otherwise({ redirectTo: '/home' });
 });
 

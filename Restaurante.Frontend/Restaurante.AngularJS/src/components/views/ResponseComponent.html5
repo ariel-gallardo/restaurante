@@ -1,6 +1,10 @@
-<div id="status-{{ctrl.ResponseServices.statusCode}}" ng-if="ctrl.ResponseServices.show">
-    <h3>{{ctrl.ResponseServices.message}}</h3>
-    <ul ng-if="ctrl.ResponseServices.messages.length > 0">
-        <li ng-repeat="sms in ctrl.ResponseServices.messages track by $index">{{sms}}</li>
-    </ul>
+<div id="responseToast" class="toast position-fixed custom-toast  status-{{ctrl.statusCode}}">
+    <div class="toast-header">
+        <p><b>{{ctrl.message}}</b></p>
+    </div>
+    <div class="toast-body">
+        <ul ng-if="ctrl.messages.length > 0" class="custom-list">
+            <li class="text-left" ng-repeat="sms in ctrl.messages track by $index">{{sms}}</li>
+        </ul>
+    </div>
 </div>

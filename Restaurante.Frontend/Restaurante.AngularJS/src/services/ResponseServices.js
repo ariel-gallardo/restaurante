@@ -5,7 +5,7 @@ export default class ResponseServices{
         this.messages = [];
         this.data = {};
         this.show = false;
-        this.timeoutTime = 3000;
+        this.timeoutTime = process.env.RESPONSE_TIMEOUT;
         this.newData = this.newData.bind(this);
     }
 

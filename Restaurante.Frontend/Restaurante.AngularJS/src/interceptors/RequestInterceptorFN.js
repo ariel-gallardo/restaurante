@@ -6,7 +6,7 @@
  * @param {angular.$location} $location - El servicio `$location` para acceder a las rutas.
  * @returns {Object} - El interceptor con métodos para `request`, `response` y `responseError`.
  */
-const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices) => {
+const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootScope) => {
     return {
         /**
          * Método que agrega el token de autenticación a las cabeceras de la solicitud.
@@ -39,7 +39,6 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices) => {
         response: (response) => {
             let API_ADDRESS = process.env.API_ADDRESS;
             if(response.config.url.includes(API_ADDRESS)){
-          
                 let headers = response.headers();
                 if(headers){
                     let auth = headers?.Authorization;
@@ -61,6 +60,7 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices) => {
             if(rejection.data){
                 ResponseServices.newData(rejection.data);
                 if(rejection.status >= 400) rejection.data = null;
+                $rootScope.$emit('showResponseToast');
             } 
             return $q.reject(rejection);
         }

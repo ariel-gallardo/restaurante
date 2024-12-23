@@ -1,4 +1,2 @@
-import NavBarComponent from '@components/NavBarComponent';
-
-import RestauranteModule from "@routes";
+import RestauranteModule from '@modules/RestauranteModule';
 export default RestauranteModule;

@@ -1,4 +1,4 @@
-export class RestauranteService {
+export class RestauranteServices {
     
     constructor() {
   

@@ -1,13 +1,24 @@
 import angular from "angular";
 import ngRoute from "angular-route";
+import Routes from "@routes";
+import Components from "@components";
+import Controllers from "@controllers";
+import Services from "@services";
 
-import { RestauranteController } from "../controllers/RestauranteController";
-import { RestauranteService } from "../services/RestauranteService";
+const RestauranteModule = angular.module("RestauranteModule", [ngRoute]);
 
+Services.forEach(([name,service]) => {
+    RestauranteModule.service(name,service);
+});
 
-const restauranteModule = angular.module("RestauranteModule", [ngRoute])
-.controller("RestauranteCtrl",RestauranteController)
-.service("RestauranteService",RestauranteService);
+Controllers.forEach(([name,controller]) => {
+    RestauranteModule.controller(name,controller);
+});
 
+Components.forEach(([name,component]) => {
+    RestauranteModule.component(name,component);
+});
 
-export default restauranteModule;
+RestauranteModule.config(Routes);
+
+export default RestauranteModule;

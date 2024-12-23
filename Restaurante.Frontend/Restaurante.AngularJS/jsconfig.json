@@ -5,6 +5,9 @@
         "@components/*": [
           "components/*"
         ],
+        "@componentsView/*": [
+          "components/views/*"
+        ],
         "@controllers/*": [
           "controllers/*"
         ],

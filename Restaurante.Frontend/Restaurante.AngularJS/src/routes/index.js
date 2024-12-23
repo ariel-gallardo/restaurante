@@ -1,6 +1,6 @@
 import BaseRoutes from "./BaseRoutes";
 import CartRoutes from "./CartRoutes";
-import UserRoutes from "./userRoutes";
+import UserRoutes from "./UserRoutes";
 
 export default ($routeProvider, $locationProvider) => {
     $locationProvider.html5Mode(true);

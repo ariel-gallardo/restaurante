@@ -1,0 +1,6 @@
+<div id="status-{{ctrl.ResponseServices.statusCode}}" ng-if="ctrl.ResponseServices.show">
+    <h3>{{ctrl.ResponseServices.message}}</h3>
+    <ul ng-if="ctrl.ResponseServices.messages.length > 0">
+        <li ng-repeat="sms in ctrl.ResponseServices.messages track by $index">{{sms}}</li>
+    </ul>
+</div>

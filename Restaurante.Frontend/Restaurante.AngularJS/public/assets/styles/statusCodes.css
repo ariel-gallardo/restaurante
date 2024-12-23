@@ -1,0 +1,29 @@
+#status-200 {
+    background-color: var(--bs-success); 
+    color: white; 
+}
+
+#status-400 {
+    background-color: var(--bs-warning); 
+    color: black; 
+}
+
+#status-401 {
+    background-color: var(--bs-danger); 
+    color: white; 
+}
+
+#status-403 {
+    background-color: var(--bs-danger); 
+    color: white; 
+}
+
+#status-404 {
+    background-color: var(--bs-secondary); 
+    color: black; 
+}
+
+#status-500 {
+    background-color: var(--bs-muted); 
+    color: black; 
+}

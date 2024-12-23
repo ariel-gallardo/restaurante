@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const {DefinePlugin} = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -48,6 +50,7 @@ module.exports = {
     hot: true
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
@@ -91,7 +94,8 @@ module.exports = {
       '@modules': path.resolve(__dirname, 'src/modules/'),
       '@services': path.resolve(__dirname, 'src/services/'),
       '@views': path.resolve(__dirname, 'src/views/'),
-      '@routes': path.resolve(__dirname, 'src/routes/')
+      '@routes': path.resolve(__dirname, 'src/routes/'),
+      '@interceptors': path.resolve(__dirname, 'src/interceptors/'),
     }
   }
 };

@@ -1,0 +1,12 @@
+<div class="d-xs-block d-md-flex">
+    <div class="container">
+        <img src="assets/images/logo.svg" alt="Logo" class="logo">
+    </div>
+    <div class="container">
+        <form name="loginForm">
+            <input name="email" ng-model="email" type="email">
+            <input name="password" ng-model="password" type="password">
+            <button type="button" ng-click="ctrl.login()">Login</button>
+        </form>
+    </div>
+</div>

@@ -18,5 +18,9 @@ export default ($route) => {
             controller: 'RegisterCtrl',
             controllerAs: 'ctrl'
         }
-    )
+    ).when('/forbidden',{
+        templateUrl: '/views/ForbiddenView.html5',
+        controller: 'ForbiddenCtrl',
+        controllerAs: 'ctrl'
+    })
 }

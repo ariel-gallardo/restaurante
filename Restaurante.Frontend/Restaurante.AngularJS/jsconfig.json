@@ -15,17 +15,20 @@
           "models/*"
         ],        
         "@modules/*": [
-            "modules/*"
+          "modules/*"
         ],
         "@services/*": [
-            "services/*"
+          "services/*"
         ],
         "@views/*": [
-            "views/*"
+          "views/*"
         ],
         "@routes/*": [
           "routes/*"
-      ],
+        ],
+        "@interceptors/*": [
+          "interceptors/*"
+        ],
       }
     }
   }

@@ -6,6 +6,6 @@ export default class UserServices {
     }
 
     async login(email, password){
-        return await this.ApiServices.post('/api/user/login', {email, password});
+        return await this.ApiServices.post('/api/user/login', {correo: email, password});
     }
 }

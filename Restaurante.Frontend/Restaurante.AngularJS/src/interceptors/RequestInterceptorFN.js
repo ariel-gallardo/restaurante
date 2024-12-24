@@ -39,13 +39,11 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
         response: (response) => {
             let API_ADDRESS = process.env.API_ADDRESS;
             if(response.config.url.includes(API_ADDRESS)){
-                let headers = response.headers();
-                if(headers){
-                    let auth = headers?.Authorization;
-                    if(auth){
-                        $cookies.put('auth_token', token);
-                        $location.path('/home');
-                    }
+                if(response.data && response.data.content){
+                    ResponseServices.newData(response.data);
+                    $rootScope.$emit('showResponseToast');
+                    $cookies.put('auth_token', `Bearer ${response.data.content.token}`);
+                    $location.path('/home');   
                 }
             }
             return response;
@@ -59,7 +57,14 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
         responseError: (rejection) => {
             if(rejection.data){
                 ResponseServices.newData(rejection.data);
-                if(rejection.status >= 400) rejection.data = null;
+                if(rejection.status >= 400){
+                    rejection.data = null;
+                    if(rejection.status == 401)
+                    {
+                        $cookies.remove('auth_token');
+                        $location.path('/login')
+                    }
+                }
                 $rootScope.$emit('showResponseToast');
             } 
             return $q.reject(rejection);

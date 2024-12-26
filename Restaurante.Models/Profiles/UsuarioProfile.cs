@@ -41,6 +41,7 @@ namespace Restaurante.Models.Profiles
             #region Info User
             CreateMap<Usuario, UserInfoDTO>()
                 .ForMember(y => y.Correo, x => x.MapFrom(xx => xx.Email))
+                .ForMember(y => y.ImagenUrl, x => x.MapFrom(xx => xx.ImagenUrl))
                 .ForMember(y => y.TipoDeUsuario, x => x.MapFrom(xx => xx.Rol != null ? xx.Rol.Descripcion : "-"))
                 .ForMember(y => y.NombreCompleto, x => x.MapFrom(xx => $"{xx.Persona.Nombre} {xx.Persona.Apellido}"))
                 .ForMember(y => y.Domicilio, x => x.MapFrom(xx => xx.Persona != null && xx.Persona.Domicilio != null ? ($"{xx.Persona.Domicilio.Calle} {xx.Persona.Domicilio.Numero}") : string.Empty))

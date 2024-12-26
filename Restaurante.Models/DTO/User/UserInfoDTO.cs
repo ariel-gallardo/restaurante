@@ -12,5 +12,7 @@ namespace Restaurante.Models
         public string Domicilio { get; set; }
         public string Telefono { get; set; }
         public string CaducaEn { get; set; }
+        public string ImagenUrl { get; set; }
+        public string Token { get; set; }
     }
 }

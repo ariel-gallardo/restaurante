@@ -96,6 +96,7 @@ module.exports = {
       '@views': path.resolve(__dirname, 'src/views/'),
       '@routes': path.resolve(__dirname, 'src/routes/'),
       '@interceptors': path.resolve(__dirname, 'src/interceptors/'),
+      '@filters': path.resolve(__dirname, 'src/filters/'),
     }
   }
 };

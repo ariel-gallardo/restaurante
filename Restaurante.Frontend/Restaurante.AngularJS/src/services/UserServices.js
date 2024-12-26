@@ -1,18 +1,36 @@
 export default class UserServices {
 
-    constructor(ApiServices, $window, $cookies, $location, $interval, $filter) {
+    constructor(ApiServices, $window, $cookies, $location, $interval, $filter, $timeout) {
         this.ApiServices = ApiServices;
         this.localStorage = $window.localStorage;
         this.cookies = $cookies;
         this.location = $location;
-        this.ExpirationTimeFilter = $filter('ExpirationTime');
+        this.interval = $interval;
+        this.filter = $filter;
+        this.timeout = $timeout;
+        this.ExpirationTimeFilter = this.filter('ExpirationTime');
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+        this.InitUserServices = this.InitUserServices.bind(this);
+        this.DestroyUserServices = this.DestroyUserServices.bind(this);
+    }
+
+    InitUserServices(){
         this.userInfo = this.localStorage.userInfo ? JSON.parse(this.localStorage.userInfo) : {};
         this.TimeExpirationTokenDate = this.userInfo?.caducaEn ?? '-';
         this.TimeExpirationTokenTime = '-';
         this.TimeExpirationFirst = true;
-        this.TimeoutTokenTime = $interval(() => this.UpdateExpirationTime(),1000);
-        this.login = this.login.bind(this);
-        this.logout = this.logout.bind(this);
+        this.TimeoutTokenTime = this.interval(() => this.UpdateExpirationTime(),1000);
+    }
+
+    DestroyUserServices(){
+        try{
+            this.interval.cancel(this.TimeoutTokenTime); 
+        }catch(e){
+
+        }finally{
+
+        }
     }
 
     UpdateExpirationTime(){
@@ -24,11 +42,11 @@ export default class UserServices {
             try{
                 this.cookies.remove('auth_token');
                 this.localStorage.userInfo = null;
-                this.location.path('/login');
+                this.interval.cancel(this.TimeoutTokenTime);     
             }catch(e){
-
+            }finally{
+                this.location.path('/login');
             }
-             
         }
   }
 
@@ -36,9 +54,10 @@ export default class UserServices {
         try{
             this.cookies.remove('auth_token');
             this.localStorage.userInfo = null;
-            this.location.path('/login');
+            this.interval.cancel(this.TimeoutTokenTime);    
         }catch(e){
-
+        }finally{
+            this.location.path('/login');
         }
     }
 

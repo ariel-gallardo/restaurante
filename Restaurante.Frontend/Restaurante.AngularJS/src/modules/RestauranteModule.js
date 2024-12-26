@@ -6,6 +6,7 @@ import Components from "@components";
 import Controllers from "@controllers";
 import Services from "@services";
 import Interceptors from "@interceptors";
+import Filters from "@filters";
 
 const RestauranteModule = angular.module("RestauranteModule", [ngRoute, ngCookies]);
 
@@ -19,6 +20,10 @@ Controllers.forEach(([name,controller]) => {
 
 Components.forEach(([name,component]) => {
     RestauranteModule.component(name,component);
+});
+
+Filters.forEach(([name,filter]) => {
+    RestauranteModule.filter(name,filter);
 });
 
 RestauranteModule.config(Routes);

@@ -42,7 +42,11 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
                 if(response.data && response.data.content){
                     ResponseServices.newData(response.data);
                     $rootScope.$emit('showResponseToast');
-                    $cookies.put('auth_token', `Bearer ${response.data.content.token}`);
+                    if(response.data.content.token){
+                        $cookies.put('auth_token', response.data.content.token);
+                        response.data.content = {...response.data.content,token:null}
+                        localStorage.setItem('userInfo', JSON.stringify(response.data.content));
+                    }
                     $location.path('/home');   
                 }
             }
@@ -61,7 +65,7 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
                     rejection.data = null;
                     if(rejection.status == 401)
                     {
-                        $cookies.remove('auth_token');
+                        try{$cookies.remove('auth_token');}catch(e){}
                         $location.path('/login')
                     }
                 }

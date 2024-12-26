@@ -29,6 +29,9 @@
         "@interceptors/*": [
           "interceptors/*"
         ],
+        "@filters/*": [
+          "filters/*"
+        ],
       }
     }
   }

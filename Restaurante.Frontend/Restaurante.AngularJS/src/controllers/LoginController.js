@@ -14,9 +14,6 @@ export default class LoginController {
     }
 
     login(){
-        this.UserServices.login(this.email, this.password)
-        .then((response) => {
-            console.log(response);
-        })
+        this.UserServices.login(this.email, this.password);
     }
 }

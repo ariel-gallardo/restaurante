@@ -6,11 +6,11 @@
         <form name="loginForm" ng-submit="ctrl.login()">
             <div class="mb-3">
                 <label for="email" class="form-label fw-bold">EMAIL</label>
-                <input class="form-control" name="email" ng-model="ctrl.email" type="email">
+                <input id="email" class="form-control" name="email" ng-model="ctrl.email" type="email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label fw-bold">PASSWORD</label>
-                <input class="form-control" name="password" ng-model="ctrl.password" type="password">
+                <input id="password" class="form-control" name="password" ng-model="ctrl.password" type="password">
             </div>
             <div class="mb-3">
                 <a class="link-underline-info" href="/register">CREATE_ACCOUNT</a>

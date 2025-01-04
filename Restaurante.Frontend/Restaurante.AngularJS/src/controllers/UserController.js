@@ -1,12 +1,18 @@
-export default class UserController{
+import UserServices from "@services/UserServices";
 
+export default class UserController{
+/**
+ * @param {angular.ILocationService} $location
+ * @param {angular.cookies.ICookiesService} $cookies
+ * @param {UserServices} UserServices
+ * @param {angular.IRootScopeService} $scope 
+ */
     constructor($location, $cookies, UserServices, $scope){
           this.UserServices = UserServices;
           this.cookies = $cookies;
           this.location = $location;
           this.element = angular.element;
           this.ShowView = false;
-
           $scope.$on('$viewContentLoaded',() => {
                this.UserServices.InitUserServices(this);
           });
@@ -146,5 +152,9 @@ export default class UserController{
                ...this.editar,
                telefono: false,
           }
+     }
+
+     get SaveChanges(){
+          
      }
 }

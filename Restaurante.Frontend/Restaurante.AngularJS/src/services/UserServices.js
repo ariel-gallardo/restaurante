@@ -1,5 +1,17 @@
+import ApiServices from "@services/ApiServices";
+import angular from "angular";
+
 export default class UserServices {
 
+/**
+ * @param {ApiServices} ApiServices,
+ * @param {Window} $window,
+ * @param {angular.cookies.ICookiesService} $cookies,
+ * @param {angular.ILocationService} $location,
+ * @param {angular.IIntervalService} $interval,
+ * @param {angular.IFilterService} $filter,
+ * @param {angular.ITimeoutService} $timeout,
+*/
     constructor(ApiServices, $window, $cookies, $location, $interval, $filter, $timeout) {
         this.ApiServices = ApiServices;
         this.localStorage = $window.localStorage;

@@ -3,7 +3,8 @@ import UserServices from "@services/UserServices";
 export default class LoginController {
     
     /**
-     * @param {UserServices} UserServices
+     * @param {UserServices} UserServices,
+     * @param {angular.ILocationService} $location,
     */
     constructor(UserServices, $location){
         this.location = $location;

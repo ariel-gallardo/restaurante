@@ -1,12 +1,19 @@
+import ResponseServices from "@services/ResponseServices";
+
 export default class ResponseController{
 
+/**
+ * @param {ResponseServices} ResponseServices
+ * @param {angular.IRootScopeService} $rootScope 
+ * @param {angular.ITimeoutService} $timeout 
+ */
     constructor(ResponseServices, $rootScope, $timeout) {
         this.ResponseServices = ResponseServices;
         this.Toast = angular.element(document.querySelector('#responseToast'))[0];
         this.BootstrapToast = bootstrap.Toast.getOrCreateInstance(this.Toast);
         this.RootScope = $rootScope;
         this.timeout = $timeout;
-
+        
         this.RootScope.$on('showResponseToast',() => {
             this.BootstrapToast.show();
             this.timeout(() => {

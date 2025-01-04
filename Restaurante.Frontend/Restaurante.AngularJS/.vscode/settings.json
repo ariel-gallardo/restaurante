@@ -1,4 +1,13 @@
 {
+    "files.exclude": {
+      ".vscode": true,
+      "dist": true,
+      "node_modules": true,
+      ".babelrc": true,
+      "jsconfig.json": true,
+      "package-lock.json": true,
+      "webpack.config.cjs": true
+    },
     "files.associations": {
         "*.html5": "html"
     },
@@ -6,15 +15,16 @@
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "typescript.tsdk": "node_modules/typescript/lib",
     "path-intellisense.mappings": {
-      "@components": "${workspaceFolder}/src/components",
-      "@componentsView": "${workspaceFolder}/src/components/views",
-      "@controllers": "${workspaceFolder}/src/controllers",
-      "@models": "${workspaceFolder}/src/models",
-      "@modules": "${workspaceFolder}/src/modules",
-      "@services": "${workspaceFolder}/src/services",
-      "@views": "${workspaceFolder}/src/views",
-      "@routes": "${workspaceFolder}/src/routes",
-      "@interceptors": "${workspaceFolder}/src/interceptors",
-      "@filters": "${workspaceFolder}/src/filters"
+      "@components": "../src/components",
+      "@componentsView": "../src/components/views",
+      "@controllers": "../src/controllers",
+      "@models": "../src/models",
+      "@modules": "../src/modules",
+      "@services": "../src/services",
+      "@views": "../src/views",
+      "@routes": "../src/routes",
+      "@interceptors": "../src/interceptors",
+      "@filters": "../src/filters",
+      "@styles": "../src/styles"
     }
 }

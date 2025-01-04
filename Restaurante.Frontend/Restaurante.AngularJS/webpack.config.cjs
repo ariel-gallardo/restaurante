@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const {DefinePlugin} = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -28,11 +29,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.html5$/,
@@ -50,6 +47,9 @@ module.exports = {
     hot: true
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'assets/styles/bundle.css',
+    }),
     new Dotenv(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -60,7 +60,7 @@ module.exports = {
           from: path.resolve(__dirname, 'public'),
           to: path.resolve(__dirname, 'dist'),
           globOptions: {
-            glob: '**/*.{css,jpg,jpeg,png,svg,gif,mp3,wav,ogg}'
+            glob: '**/*.{css,jpg,jpeg,png,svg,gif,mp3,wav,ogg}',
           }
         },
         {
@@ -85,7 +85,7 @@ module.exports = {
     })
   ],
   resolve:{
-    extensions: ['.js'],
+    extensions: ['.js', '.css'],
     alias:{
       '@components': path.resolve(__dirname, 'src/components/'),
       '@componentsView': path.resolve(__dirname, 'src/components/views'),

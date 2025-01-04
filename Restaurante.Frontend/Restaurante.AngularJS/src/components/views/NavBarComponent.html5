@@ -9,11 +9,11 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item d-flex ms-auto flex-row-reverse flex-lg-column align-items-center me-ms-0 me-md-2" ng-click="ctrl.verCarrito()">
-                  <img src="/assets/images/carrito.svg" width="35" class="mb-0 mb-md-2 mb-lg-0">
+                  <img src="/assets/images/carrito.svg" width="35" class="mb-0 ms-1 ms-md-0 mb-md-2 mb-lg-0">
                   <p class="fw-bold text-center mb-0 me-sm-2 me-md-0">Carrito</p>
               </li>
-              <li class="nav-item d-flex ms-auto flex-row-reverse flex-lg-column align-items-center" ng-click="ctrl.perfilUsuario()">
-                  <img src="/assets/images/commonUser.svg" width="35" class="mb-0 mb-md-2 mb-lg-0">
+              <li class="nav-item d-flex ms-auto flex-row-reverse flex-lg-column align-items-center me-ms-0 me-md-2" ng-click="ctrl.perfilUsuario()">
+                  <img src="/assets/images/commonUser.svg" width="35" class="mb-0 ms-1 ms-md-0 mb-md-2 mb-lg-0">
                   <p class="fw-bold text-center mb-0 me-sm-2 me-md-0">Perfil</p>
               </li>
           </ul>

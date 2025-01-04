@@ -1,4 +1,4 @@
-<div id="responseToast" class="toast position-fixed custom-toast  status-{{ctrl.statusCode}}">
+<div id="responseToast" class="toast position-fixed border rounded custom-toast status-{{ctrl.statusCode}}">
     <div class="toast-header">
         <p><b>{{ctrl.message}}</b></p>
     </div>

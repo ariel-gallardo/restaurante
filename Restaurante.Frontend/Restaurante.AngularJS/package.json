@@ -11,10 +11,13 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "@types/angular": "^1.8.9",
+    "@types/jquery": "^3.5.32",
     "angular": "^1.8.3",
     "angular-cookies": "^1.8.3",
     "angular-route": "^1.8.3",
     "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
@@ -26,6 +29,7 @@
     "dotenv-webpack": "^8.1.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
     "sass": "^1.83.0",
     "sass-loader": "^16.0.4",
     "style-loader": "^4.0.0",

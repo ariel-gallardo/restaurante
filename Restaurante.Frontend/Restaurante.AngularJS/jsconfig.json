@@ -1,6 +1,10 @@
 {
     "compilerOptions": {
       "baseUrl": "src",
+      "noEmit": true,
+      "moduleResolution": "node",
+      "types": ["jquery", "angular"],
+      "target": "ESNext",
       "paths": {
         "@components/*": [
           "components/*"
@@ -32,6 +36,11 @@
         "@filters/*": [
           "filters/*"
         ],
+        "@styles/*": [
+          "global-styles/*"
+        ],
       }
-    }
+    },"include": [
+      "src/**/*"  
+    ]
   }

@@ -1,9 +1,11 @@
 /**
  * Interceptor para agregar el token de autenticación desde las cookies y manejar errores de respuesta.
  * 
- * @param {angular.$q} $q - El servicio `$q` para manejar promesas en AngularJS.
- * @param {angular.$cookies} $cookies - El servicio `$cookies` para acceder a las cookies.
- * @param {angular.$location} $location - El servicio `$location` para acceder a las rutas.
+ * @param {angular.IQService} $q - El servicio `$q` para manejar promesas en AngularJS.
+ * @param {angular.cookies.ICookiesService} $cookies - El servicio `$cookies` para acceder a las cookies.
+ * @param {angular.ILocationService} $location - El servicio `$location` para acceder a las rutas.
+ * @param {ResponseServices} ResponseServices - El servicio `$location` para acceder a las rutas.
+ * @param {angular.IRootScopeService} ResponseServices - El servicio `$location` para acceder a las rutas.
  * @returns {Object} - El interceptor con métodos para `request`, `response` y `responseError`.
  */
 const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootScope) => {
@@ -25,6 +27,26 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
                 let token = $cookies.get('auth_token');
                 if (token) {
                     config.headers['Authorization'] = token;
+                }
+            }else if(config.url.includes('/components/views/')){
+                let cssFileName = config.url.substring(config.url.lastIndexOf('/')+1).replace('.html5','.css');
+                let head = document.getElementsByTagName('head')[0];
+                if(!document.getElementById(cssFileName)){
+                    let link = document.createElement('link');
+                    link.id = cssFileName;
+                    link.rel = 'stylesheet';
+                    link.href = `/assets/styles/components/${cssFileName}`;
+                    head.appendChild(link);
+                }
+            }else if(config.url.includes('/views/')){
+                let cssFileName = config.url.substring(config.url.lastIndexOf('/')+1).replace('.html5','.css');
+                let head = document.getElementsByTagName('head')[0];
+                if(!document.getElementById(cssFileName)){
+                    let link = document.createElement('link');
+                    link.id = cssFileName;
+                    link.rel = 'stylesheet';
+                    link.href = `/assets/styles/views/${cssFileName}`;
+                    head.appendChild(link);
                 }
             }
             return config;

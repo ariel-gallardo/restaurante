@@ -5,9 +5,10 @@ export default class UserController{
           this.cookies = $cookies;
           this.location = $location;
           this.element = angular.element;
+          this.ShowView = false;
 
           $scope.$on('$viewContentLoaded',() => {
-               this.UserServices.InitUserServices();
+               this.UserServices.InitUserServices(this);
           });
           $scope.$on('$destroy',() => {
                this.UserServices.DestroyUserServices();
@@ -23,6 +24,11 @@ export default class UserController{
           this.calle = '';
           this.numero = '';
           this.correo = '';
+          this.imagenUrl = '';
+    }
+
+    get ImagenUrl(){
+          return this.imagenUrl == '' ? this.UserServices.ImagenUrl : this.imagenUrl;
     }
 
     get Nombre(){

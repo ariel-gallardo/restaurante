@@ -13,9 +13,11 @@ export default class UserServices {
         this.logout = this.logout.bind(this);
         this.InitUserServices = this.InitUserServices.bind(this);
         this.DestroyUserServices = this.DestroyUserServices.bind(this);
+        this.CurrentCtrl = null;
     }
 
-    InitUserServices(){
+    InitUserServices(ctrl){
+        this.CurrentCtrl = ctrl;
         this.userInfo = this.localStorage.userInfo ? JSON.parse(this.localStorage.userInfo) : {};
         this.TimeExpirationTokenDate = this.userInfo?.caducaEn ?? '-';
         this.TimeExpirationTokenTime = '-';
@@ -29,7 +31,7 @@ export default class UserServices {
         }catch(e){
 
         }finally{
-
+            this.CurrentCtrl.ShowView = false;
         }
     }
 
@@ -37,7 +39,11 @@ export default class UserServices {
         this.TimeExpirationTokenTime = this.ExpirationTimeFilter(this.TimeExpirationTokenDate);
         if(this.TimeExpirationFirst){
             this.TimeExpirationFirst = false;
-             if(!this.cookies.get('auth_token') || this.TimeExpirationTokenTime == '-') this.location.path('/login');
+             if(!this.cookies.get('auth_token') || this.TimeExpirationTokenTime == '-')
+                this.location.path('/login');
+            else{
+                this.CurrentCtrl.ShowView = true;
+            }
         }else if (this.TimeExpirationTokenTime == '-'){
             try{
                 this.cookies.remove('auth_token');
@@ -83,6 +89,10 @@ export default class UserServices {
 
     get Telefono(){
         return this.userInfo?.telefono ?? '-';
+    }
+
+    get ImagenUrl(){
+        return this.userInfo?.imagenUrl ?? '/assets/images/commonUser.svg';
     }
 
     get TiempoExpiracionToken(){

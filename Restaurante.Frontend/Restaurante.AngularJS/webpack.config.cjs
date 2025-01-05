@@ -43,7 +43,11 @@ module.exports = {
     },
     port: 8080,
     open: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      rewrites: [
+        { from: /\/assets\/.*\.(css)/, to: '/assets/styles/empty.css' }
+      ]
+    },
     hot: true
   },
   plugins: [

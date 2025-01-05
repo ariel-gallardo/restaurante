@@ -31,6 +31,7 @@ export default class UserController{
           this.numero = '';
           this.correo = '';
           this.imagenUrl = '';
+          this.telefono = '';
     }
 
     get ImagenUrl(){
@@ -130,7 +131,6 @@ export default class UserController{
      }
 
      get EditarCorreo(){
-          console.log();
           this.editar = {...this.editar, correo: true};
      }
 
@@ -155,6 +155,27 @@ export default class UserController{
      }
 
      get SaveChanges(){
-          
+          let empty = true;
+          let toSend = {};
+
+          if(this.nombre != '' && this.apellido != '' 
+               && `${this.Nombre} ${this.Apellido}` != this.UserServices.NombreCompleto){
+               toSend = {...toSend,nombre: this.Nombre, apellido: this.Apellido};
+               empty = false;
+          }
+
+          if(this.Calle != '' && this.Numero != '' 
+               && `${this.Calle} ${this.Numero}` != this.UserServices.Domicilio){
+               toSend = {...toSend,calle: this.Calle, numero: this.Numero};
+               empty = false;
+          }
+
+          if(this.Correo != '' && this.Correo != this.UserServices.Correo) 
+          {
+               toSend = {...toSend,correo: this.Correo};
+               empty = false;
+          }               
+
+          console.log(toSend);
      }
 }

@@ -1,4 +1,4 @@
-<div class="d-md-flex">
+<div class="d-md-flex" ng-if="ctrl.ShowView">
     <div class="container m-2 text-center text-md-end">
         <img class="border p-2 rounded" src="assets/images/logo.svg" alt="Logo" class="logo">
     </div>

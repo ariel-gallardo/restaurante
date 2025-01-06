@@ -5,13 +5,19 @@ export default class LoginController {
     /**
      * @param {UserServices} UserServices,
      * @param {angular.ILocationService} $location,
+     * @param {angular.IRootScopeService} $scope,
     */
-    constructor(UserServices, $location){
+    constructor(UserServices, $location, $scope){
         this.location = $location;
         this.login = this.login.bind(this);
         this.email = '';
         this.password = '';
         this.UserServices = UserServices;
+        this.UserServices.ConfigureUserServices($scope);
+    }
+
+    get ShowView(){
+        return !this.UserServices.IsLogged;
     }
 
     login(){

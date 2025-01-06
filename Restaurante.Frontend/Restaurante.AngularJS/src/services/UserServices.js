@@ -25,11 +25,26 @@ export default class UserServices {
         this.logout = this.logout.bind(this);
         this.InitUserServices = this.InitUserServices.bind(this);
         this.DestroyUserServices = this.DestroyUserServices.bind(this);
-        this.CurrentCtrl = null;
+        this.ShowView = false;
     }
 
-    InitUserServices(ctrl){
-        this.CurrentCtrl = ctrl;
+    get IsLogged(){
+        return this.ShowView;
+    }
+
+    /**
+     * @param {angular.IRootScopeService} $scope 
+     */
+    ConfigureUserServices($scope){
+        $scope.$on('$viewContentLoaded',() => {
+            this.InitUserServices();
+        });
+        $scope.$on('$destroy',() => {
+            this.DestroyUserServices();
+        });
+    }
+
+    InitUserServices(){
         this.userInfo = this.localStorage.userInfo ? JSON.parse(this.localStorage.userInfo) : {};
         this.TimeExpirationTokenDate = this.userInfo?.caducaEn ?? '-';
         this.TimeExpirationTokenTime = '-';
@@ -42,8 +57,6 @@ export default class UserServices {
             this.interval.cancel(this.TimeoutTokenTime); 
         }catch(e){
 
-        }finally{
-            this.CurrentCtrl.ShowView = false;
         }
     }
 
@@ -51,22 +64,57 @@ export default class UserServices {
         this.TimeExpirationTokenTime = this.ExpirationTimeFilter(this.TimeExpirationTokenDate);
         if(this.TimeExpirationFirst){
             this.TimeExpirationFirst = false;
-             if(!this.cookies.get('auth_token') || this.TimeExpirationTokenTime == '-')
-                this.location.path('/login');
+             if(!this.cookies.get('auth_token') || this.TimeExpirationTokenTime == '-'){
+                if(!this.IsLoginPage) this.RedirectToLogin;
+             }
             else{
-                this.CurrentCtrl.ShowView = true;
+                this.ShowView = true;
             }
-        }else if (this.TimeExpirationTokenTime == '-'){
+        }
+         if (this.TimeExpirationTokenTime == '-'){
             try{
                 this.cookies.remove('auth_token');
                 this.localStorage.userInfo = null;
                 this.interval.cancel(this.TimeoutTokenTime);     
             }catch(e){
             }finally{
-                this.location.path('/login');
+                this.ShowView = false;
+                if(!this.IsLoginPage) this.RedirectToLogin;
             }
         }
+        if((this.IsLoginPage || this.IsRegisterPage) && this.TimeExpirationTokenTime != '-'){
+            this.ShowView = true;
+            this.RedirectToProfile;
+        }
   }
+
+
+
+    get RedirectToLogin(){
+        this.location.path('/login');
+        return true;
+    }
+
+    get RedirectToProfile(){
+        this.location.path('/profile');
+        return true;
+    }
+
+    get IsRegisterPage(){
+        return this.CurrentUrl == '/register';
+    }
+
+    get IsLoginPage(){
+        return this.CurrentUrl == '/login';
+    }
+
+    get IsProfilePage(){
+        return this.CurrentUrl == '/profile';
+    }
+
+    get CurrentUrl(){
+        return this.location.url();
+    }
 
     logout(){
         try{
@@ -75,7 +123,8 @@ export default class UserServices {
             this.interval.cancel(this.TimeoutTokenTime);    
         }catch(e){
         }finally{
-            this.location.path('/login');
+            if(!this.location.url().includes('/login'))
+                this.location.path('/login');
         }
     }
 

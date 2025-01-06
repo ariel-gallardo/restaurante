@@ -12,19 +12,16 @@ export default class UserController{
           this.cookies = $cookies;
           this.location = $location;
           this.element = angular.element;
-          this.ShowView = false;
-          $scope.$on('$viewContentLoaded',() => {
-               this.UserServices.InitUserServices(this);
-          });
-          $scope.$on('$destroy',() => {
-               this.UserServices.DestroyUserServices();
-          });
+
+          this.UserServices.ConfigureUserServices($scope);
+
           this.editar = {
                nombre: false,
                correo: false,
                domicilio: false,
                telefono: false
           }
+          
           this.nombre = '';
           this.apellido = '';
           this.calle = '';
@@ -33,6 +30,10 @@ export default class UserController{
           this.imagenUrl = '';
           this.telefono = '';
     }
+
+     get ShowView(){
+          return this.UserServices.IsLogged;
+     }
 
     get ImagenUrl(){
           return this.imagenUrl == '' ? this.UserServices.ImagenUrl : this.imagenUrl;

@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "allowJs": true,
+    "noEmit": false,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "types": ["jquery", "angular", "typescript", "angular-cookies"],
+    "target": "ESNext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@components/*": [
+        "components/*"
+      ],
+      "@componentsView/*": [
+        "components/views/*"
+      ],
+      "@controllers/*": [
+        "controllers/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],        
+      "@modules/*": [
+        "modules/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
+      "@views/*": [
+        "views/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ],
+      "@interceptors/*": [
+        "interceptors/*"
+      ],
+      "@filters/*": [
+        "filters/*"
+      ],
+      "@styles/*": [
+        "global-styles/*"
+      ],
+    }
+  },"include": [
+    "src/**/*.js",  
+    "src/**/*.ts"  
+  ]
+}

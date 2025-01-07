@@ -35,6 +35,11 @@ module.exports = {
         test: /\.html5$/,
         use: ['html-loader']
       },
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   devServer: {
@@ -89,7 +94,7 @@ module.exports = {
     })
   ],
   resolve:{
-    extensions: ['.js', '.css'],
+    extensions: ['.js', '.ts', '.css'],
     alias:{
       '@components': path.resolve(__dirname, 'src/components/'),
       '@componentsView': path.resolve(__dirname, 'src/components/views'),
@@ -102,5 +107,6 @@ module.exports = {
       '@interceptors': path.resolve(__dirname, 'src/interceptors/'),
       '@filters': path.resolve(__dirname, 'src/filters/'),
     }
-  }
+  },
+  devtool: 'source-map'
 };

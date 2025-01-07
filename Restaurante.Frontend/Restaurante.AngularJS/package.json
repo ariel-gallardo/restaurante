@@ -11,18 +11,20 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
-    "@types/angular": "^1.8.9",
+    "@types/angular": "^1.8.3",
     "@types/jquery": "^3.5.32",
     "angular": "^1.8.3",
     "angular-cookies": "^1.8.3",
     "angular-route": "^1.8.3",
     "bootstrap": "^5.3.3",
-    "jquery": "^3.7.1",
-    "typescript": "^5.7.2"
+    "jquery": "^3.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/angular-cookies": "^1.8.4",
+    "@types/typescript": "^0.4.29",
     "babel-loader": "^8.4.1",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
@@ -33,6 +35,8 @@
     "sass": "^1.83.0",
     "sass-loader": "^16.0.4",
     "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.2.0"

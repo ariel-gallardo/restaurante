@@ -1,18 +1,25 @@
 import ApiServices from "@services/ApiServices";
-import angular from "angular";
+import { IFilterService, IIntervalService, ILocationService, IPromise, ITimeoutService } from "angular";
 
 export default class UserServices {
 
-/**
- * @param {ApiServices} ApiServices,
- * @param {Window} $window,
- * @param {angular.cookies.ICookiesService} $cookies,
- * @param {angular.ILocationService} $location,
- * @param {angular.IIntervalService} $interval,
- * @param {angular.IFilterService} $filter,
- * @param {angular.ITimeoutService} $timeout,
-*/
-    constructor(ApiServices, $window, $cookies, $location, $interval, $filter, $timeout) {
+    ApiServices : ApiServices;
+    localStorage : Storage;
+    cookies : angular.cookies.ICookiesService;
+    location : ILocationService;
+    interval : IIntervalService;
+    filter : IFilterService;
+    timeout : ITimeoutService;
+    FirstInstance : boolean;
+    ExpirationTimeFilter : any;
+    ShowView: boolean;
+    userInfo: any;
+    TimeExpirationTokenDate: string;
+    TimeExpirationTokenTime: string;
+    TimeExpirationFirst: boolean;
+    TimeoutTokenTime: IPromise<any>;
+
+    constructor(ApiServices : ApiServices, $window : Window, $cookies : angular.cookies.ICookiesService, $location: ILocationService, $interval: IIntervalService, $filter: IFilterService, $timeout: ITimeoutService) {
         this.ApiServices = ApiServices;
         this.localStorage = $window.localStorage;
         this.cookies = $cookies;
@@ -20,6 +27,7 @@ export default class UserServices {
         this.interval = $interval;
         this.filter = $filter;
         this.timeout = $timeout;
+        this.FirstInstance = true;
         this.ExpirationTimeFilter = this.filter('ExpirationTime');
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
@@ -48,7 +56,10 @@ export default class UserServices {
         this.userInfo = this.localStorage.userInfo ? JSON.parse(this.localStorage.userInfo) : {};
         this.TimeExpirationTokenDate = this.userInfo?.caducaEn ?? '-';
         this.TimeExpirationTokenTime = '-';
-        this.TimeExpirationFirst = true;
+        if(this.FirstInstance){
+            this.FirstInstance = false;
+            this.TimeExpirationFirst = true;
+        }
         this.TimeoutTokenTime = this.interval(() => this.UpdateExpirationTime(),1000);
     }
 
@@ -62,27 +73,28 @@ export default class UserServices {
 
     UpdateExpirationTime(){
         this.TimeExpirationTokenTime = this.ExpirationTimeFilter(this.TimeExpirationTokenDate);
+        
         if(this.TimeExpirationFirst){
             this.TimeExpirationFirst = false;
              if(!this.cookies.get('auth_token') || this.TimeExpirationTokenTime == '-'){
-                if(!this.IsLoginPage) this.RedirectToLogin;
+                if(!this.IsRegisterPage || !this.IsLoginPage) this.RedirectToLogin;
              }
             else{
                 this.ShowView = true;
             }
         }
-         if (this.TimeExpirationTokenTime == '-'){
-            try{
-                this.cookies.remove('auth_token');
-                this.localStorage.userInfo = null;
+        else if (this.TimeExpirationTokenTime == '-'){
                 this.interval.cancel(this.TimeoutTokenTime);     
-            }catch(e){
-            }finally{
                 this.ShowView = false;
-                if(!this.IsLoginPage) this.RedirectToLogin;
-            }
+                this.cookies.remove('auth_token');
+                this.localStorage.userInfo = null; 
+                let noRedirectSites = [
+                    !this.IsLoginPage,
+                    !this.IsRegisterPage
+                ];
+                if(noRedirectSites.every(x => x)) this.RedirectToLogin;
         }
-        if((this.IsLoginPage || this.IsRegisterPage) && this.TimeExpirationTokenTime != '-'){
+        else if((this.IsLoginPage || this.IsRegisterPage) && this.TimeExpirationTokenTime != '-'){
             this.ShowView = true;
             this.RedirectToProfile;
         }
@@ -130,6 +142,10 @@ export default class UserServices {
 
     async login(email, password){
         return await this.ApiServices.post('/api/user/login', {correo: email, password});
+    }
+
+    async register(data){
+        await this.ApiServices.post('/api/user/register',data);
     }
 
     get NombreCompleto(){

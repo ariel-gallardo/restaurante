@@ -1,3 +1,5 @@
+import ResponseServices from "@services/ResponseServices";
+import EnvironmentServices from "@services/EnvironmentServices";
 /**
  * Interceptor para agregar el token de autenticación desde las cookies y manejar errores de respuesta.
  * 
@@ -5,10 +7,11 @@
  * @param {angular.cookies.ICookiesService} $cookies - El servicio `$cookies` para acceder a las cookies.
  * @param {angular.ILocationService} $location - El servicio `$location` para acceder a las rutas.
  * @param {ResponseServices} ResponseServices - El servicio `$location` para acceder a las rutas.
- * @param {angular.IRootScopeService} ResponseServices - El servicio `$location` para acceder a las rutas.
+ * @param {angular.IRootScopeService} ResponseServices - El servicio ResponseServices.
+ * @param {EnvironmentServices} EnvironmentServices - El servicio EnvironmentServices.
  * @returns {Object} - El interceptor con métodos para `request`, `response` y `responseError`.
  */
-const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootScope) => {
+const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootScope, EnvironmentServices) => {
     return {
         /**
          * Método que agrega el token de autenticación a las cabeceras de la solicitud.
@@ -17,7 +20,7 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
          * @returns {Object} - La configuración de la solicitud modificada con el token de autenticación si está presente.
          */
         request: (config) => {
-            let API_ADDRESS = process.env.API_ADDRESS;
+            let API_ADDRESS = EnvironmentServices.ApiAdress;
             if(config.url.startsWith('/api')){
                 config.headers.Accept = '*/*';
                 config.headers['Content-Type'] = 'application/json';
@@ -59,11 +62,11 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
          * @returns {Object} - La respuesta tal como fue recibida.
          */
         response: (response) => {
-            let API_ADDRESS = process.env.API_ADDRESS;
+            let API_ADDRESS = EnvironmentServices.ApiAdress;
             if(response.config.url.includes(API_ADDRESS)){
                 if(response.data && response.data.content){
                     ResponseServices.newData(response.data);
-                    $rootScope.$emit('showResponseToast');
+                    $rootScope.$emit('showResponseToast'); 
                     if(response.data.content.token){
                         $cookies.put('auth_token', response.data.content.token);
                         response.data.content = {...response.data.content,token:null}
@@ -81,7 +84,9 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
          * @returns {Promise} - Retorna la promesa rechazada con el error.
          */
         responseError: (rejection) => {
+            
             if(rejection.data){
+                console.log(rejection.data)
                 ResponseServices.newData(rejection.data);
                 if(rejection.status >= 400){
                     rejection.data = null;

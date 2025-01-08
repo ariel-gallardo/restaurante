@@ -13,13 +13,23 @@ export default class ResponseController{
         this.BootstrapToast = bootstrap.Toast.getOrCreateInstance(this.Toast);
         this.RootScope = $rootScope;
         this.timeout = $timeout;
+        this.currentTimeout = null;
         
         this.RootScope.$on('showResponseToast',() => {
             this.BootstrapToast.show();
-            this.timeout(() => {
+            this.currentTimeout = this.timeout(() => {
                 this.BootstrapToast.hide();
             },this.timeoutTime);
         });
+    }
+
+    get HiddeToast(){
+        if(this.currentTimeout != null)
+        {
+            this.timeout.cancel(this.currentTimeout);
+            this.currentTimeout = null;
+            this.BootstrapToast.hide();
+        }
     }
 
     get statusCode(){

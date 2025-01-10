@@ -1,18 +1,19 @@
 import GeoRefServices from "@services/GeoRefServices";
+import RouteServices from "@services/RouteServices";
 import angular from "angular";
 
 export default class RegisterController{
 
     /**
      * @param {UserServices} UserServices,
-     * @param {angular.ILocationService} $location,
+     * @param {RouteServices} RouteServices,
      * @param {angular.IRootScopeService} $scope,
      * @param {GeoRefServices} GeoRefServices,
     */
-    constructor(UserServices, $location, $scope, GeoRefServices){
+    constructor(UserServices, RouteServices, $scope, GeoRefServices){
         this.GeoRefServices = GeoRefServices;
         this.FirstTimeLoad = true;
-        this.location = $location;
+        this.RouteServices = RouteServices;
         this.UserServices = UserServices;
         this.scope = $scope;
         this.departamentos = [];
@@ -62,6 +63,8 @@ export default class RegisterController{
     get RegisterUser(){
         let empty = true;
         let toSend = {};
+        this.RouteServices.NextUrl = '/login';
+        
         if(this.name != ''){
             toSend = {...toSend, Nombre: this.name};
             empty = false;

@@ -1,6 +1,5 @@
 import ResponseServices from "@services/ResponseServices";
 import EnvironmentServices from "@services/EnvironmentServices";
-import { RestauranteServices } from "@services/RestauranteServices";
 /**
  * Interceptor para agregar el token de autenticación desde las cookies y manejar errores de respuesta.
  * 
@@ -67,12 +66,13 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
             if(response.config.url.includes(API_ADDRESS)){
                 if(response.data && response.data.content){
                     ResponseServices.newData(response.data);
-                    $rootScope.$emit('showResponseToast'); 
+                    $rootScope.$emit('showResponseToast');
                     if(response.data.content.token){
                         $cookies.put('auth_token', response.data.content.token);
                         response.data.content = {...response.data.content,token:null}
                         localStorage.setItem('userInfo', JSON.stringify(response.data.content));
                     }  
+                    $rootScope.$emit('CheckNextUrl');
                 }
             }
             return response;
@@ -84,8 +84,8 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
          * @returns {Promise} - Retorna la promesa rechazada con el error.
          */
         responseError: (rejection) => {
+            $rootScope.$emit('RemoveNextUrl');
             if(rejection.data){
-                console.log(rejection.data)
                 ResponseServices.newData(rejection.data);
                 if(rejection.status >= 400){
                     rejection.data = null;

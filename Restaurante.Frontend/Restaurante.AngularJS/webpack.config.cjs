@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
-const {DefinePlugin} = require('webpack');
+const {DefinePlugin, ProvidePlugin} = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -56,6 +56,13 @@ module.exports = {
     hot: true
   },
   plugins: [
+    new ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    }),
+    new DefinePlugin({
+      'window': 'window'
+    }),
     new MiniCssExtractPlugin({
       filename: 'assets/styles/bundle.css',
     }),

@@ -1,4 +1,4 @@
-<form class="container my-2" ng-if="ctrl.ShowView">
+<form class="container my-2" Auth>
     <div class="text-center my-2">
         <img class="img-thumbnail center-image" id="img-profile" ng-src="{{ctrl.ImagenUrl}}" />
     </div>

@@ -13,7 +13,6 @@ export default class LoginController {
         this.email = '';
         this.password = '';
         this.UserServices = UserServices;
-        this.UserServices.ConfigureUserServices($scope);
     }
 
     get ShowView(){

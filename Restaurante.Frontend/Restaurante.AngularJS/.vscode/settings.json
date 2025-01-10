@@ -5,6 +5,7 @@
       "node_modules": true,
       ".babelrc": true,
       "jsconfig.json": true,
+      "jsconfig.tson": true,
       "package-lock.json": true,
       "webpack.config.cjs": true
     },

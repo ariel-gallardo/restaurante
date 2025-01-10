@@ -13,8 +13,6 @@ export default class UserController{
           this.location = $location;
           this.element = angular.element;
 
-          this.UserServices.ConfigureUserServices($scope);
-
           this.editar = {
                nombre: false,
                correo: false,
@@ -175,8 +173,8 @@ export default class UserController{
           {
                toSend = {...toSend,correo: this.Correo};
                empty = false;
-          }               
-
-          console.log(toSend);
+          }
+          
+          
      }
 }

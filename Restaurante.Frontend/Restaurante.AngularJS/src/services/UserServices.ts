@@ -1,4 +1,7 @@
+import RegisterDTO from "@models/RegisterDTO";
 import ApiServices from "@services/ApiServices";
+import { RestauranteServices } from "@services/RestauranteServices";
+import angular, { IRootScopeService } from "angular";
 import { IFilterService, IIntervalService, ILocationService, IPromise, ITimeoutService } from "angular";
 
 export default class UserServices {
@@ -11,6 +14,7 @@ export default class UserServices {
     filter : IFilterService;
     timeout : ITimeoutService;
     FirstInstance : boolean;
+    RServices: RestauranteServices;
     ExpirationTimeFilter : any;
     ShowView: boolean;
     userInfo: any;
@@ -38,18 +42,6 @@ export default class UserServices {
 
     get IsLogged(){
         return this.ShowView;
-    }
-
-    /**
-     * @param {angular.IRootScopeService} $scope 
-     */
-    ConfigureUserServices($scope){
-        $scope.$on('$viewContentLoaded',() => {
-            this.InitUserServices();
-        });
-        $scope.$on('$destroy',() => {
-            this.DestroyUserServices();
-        });
     }
 
     InitUserServices(){
@@ -139,13 +131,13 @@ export default class UserServices {
                 this.location.path('/login');
         }
     }
-
-    async login(email, password){
-        return await this.ApiServices.post('/api/user/login', {correo: email, password});
+ 
+    login(email, password){
+        this.ApiServices.post('/api/user/login', {correo: email, password});
     }
 
-    async register(data){
-        await this.ApiServices.post('/api/user/register',data);
+    register(data : RegisterDTO){
+        this.ApiServices.post('/api/user/register',data);
     }
 
     get NombreCompleto(){

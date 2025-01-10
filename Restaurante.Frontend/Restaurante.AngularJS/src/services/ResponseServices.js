@@ -11,25 +11,11 @@ export default class ResponseServices{
 
     newData(newData){
         this.data = newData.content;
-        if(newData.message.includes(`"`)){
-            let temp = newData.message.split(' ');
-            this.message = temp[0];
-            this.messages = temp[1].split('|').map(x => x.replace(`"`,''));
-        }
-        else
-        {
-            if(newData.message.includes('|'))
-            {
-                this.messages = this.messages.split('|');
-                this.message = '';
-            }
-            else
-            {
-                this.message = newData.message;
-                this.messages = [];
-            }
-        }
-
+        let sI = newData.message.indexOf(`"`);
+        this.message = newData.message.substring(0,sI);
+        this.messages = newData.message.replace(`"`,'').split('|');
+        if(this.messages)
+            this.messages[0] = this.messages[0].replace(this.message,'');
         this.statusCode = newData.statusCode;
         this.show = true;
     }

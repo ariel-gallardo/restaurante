@@ -1,9 +1,9 @@
-<div class="d-md-flex" ng-if="ctrl.ShowView">
+<div class="d-md-flex">
     <div class="container m-2 text-center text-md-end">
         <img class="border p-2 rounded" src="assets/images/logo.svg" alt="Logo" class="logo">
     </div>
     <div class="container m-2 d-sm-block d-md-flex align-items-center">
-        <form name="loginForm" ng-submit="ctrl.register()">
+        <form name="loginForm" ng-submit="ctrl.RegisterUser">
             <div class="mb-3">
                 <label for="email" class="form-label fw-bold">EMAIL</label>
                 <input id="email" class="form-control" name="email" ng-model="ctrl.email" type="email">
@@ -19,12 +19,36 @@
             <div class="mb-3 d-flex">
                 <div class="me-1">
                     <label for="codearea" class="form-label fw-bold">CODEAREA</label>
-                    <input id="codearea" class="form-control" name="codearea" ng-model="ctrl.codearea">
+                    <input ng-change="ctrl.vRange.CodeArea()" id="codearea" class="form-control" name="codearea" ng-model="ctrl.codearea">
                 </div>
                 <div>
                     <label for="phone" class="form-label fw-bold">PHONE</label>
-                    <input id="phone" class="form-control" name="phone" ng-model="ctrl.phone">
+                    <input ng-change="ctrl.vRange.Phone()" id="phone" class="form-control" name="phone" ng-model="ctrl.phone">
                 </div>
+            </div>
+            <div class="mb-3 d-flex">
+                <div class="me-1">
+                    <label for="street" class="form-label fw-bold">STREET</label>
+                    <input id="street" class="form-control" name="street" ng-model="ctrl.street">
+                </div>
+                <div>
+                    <label for="numstreet" class="form-label fw-bold">NUMBER</label>
+                    <input ng-change="ctrl.vRange.StreetNum()" id="numstreet" class="form-control" name="numstreet" ng-model="ctrl.numstreet">
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <select ng-model="ctrl.DepartamentoActual" id="floatingSelect" class="form-select">
+                    <option value="" selected disabled>SELECT</option>
+                    <option ng-repeat="d in ctrl.departamentos" value="{{d.nombre}}">{{d.nombre}}</option>
+                </select>
+                <label for="floatingSelect"><b>DEPARTAMENT</b></label>
+            </div>
+            <div class="form-floating mb-3">
+                <select ng-model="ctrl.LocalidadActual" id="floatingSelect2" class="form-select">
+                    <option value="" selected disabled>SELECT</option>
+                    <option ng-repeat="d in ctrl.localidades" value="{{d.nombre}}">{{d.nombre}}</option>
+                </select>
+                <label for="floatingSelect2"><b>LOCALITY</b></label>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label fw-bold">PASSWORD</label>
@@ -38,7 +62,7 @@
                 <a class="link-underline-info" href="/login">LOGIN</a>
             </div>
             <div class="text-center">
-                <button class="btn btn-outline-primary fw-bold w-100">REGISTER</button>
+                <button type="submit" class="btn btn-outline-primary fw-bold w-100">REGISTER</button>
             </div>
         </form>
     </div>

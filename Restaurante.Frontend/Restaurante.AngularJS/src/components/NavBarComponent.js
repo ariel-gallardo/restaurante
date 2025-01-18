@@ -1,8 +1,8 @@
-import RestauranteModule from "@modules/RestauranteModule";
-import NavBarController from "@controllers/NavBarController";
-
-export default RestauranteModule
-.component("navBar", {
+/**
+ * @type {angular.IComponentOptions}
+ */
+export default {
     templateUrl: '/components/views/NavBarComponent.html5',
-    controller: NavBarController
-});
+    controller: "NavBarCtrl",
+    controllerAs: "ctrl",
+};

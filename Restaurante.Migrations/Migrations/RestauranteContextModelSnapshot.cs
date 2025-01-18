@@ -37,7 +37,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 32, DateTimeKind.Utc).AddTicks(7792))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 487, DateTimeKind.Utc).AddTicks(8441))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -90,7 +90,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 31, DateTimeKind.Utc).AddTicks(363))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(937))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -174,7 +174,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 31, DateTimeKind.Utc).AddTicks(9039))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(9513))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -250,7 +250,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 32, DateTimeKind.Utc).AddTicks(9591))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 488, DateTimeKind.Utc).AddTicks(307))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -294,7 +294,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 31, DateTimeKind.Utc).AddTicks(4126))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(4496))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -391,7 +391,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 32, DateTimeKind.Utc).AddTicks(4557))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 487, DateTimeKind.Utc).AddTicks(5163))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -471,7 +471,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 32, DateTimeKind.Utc).AddTicks(2245))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 487, DateTimeKind.Utc).AddTicks(2846))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -526,7 +526,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 30, DateTimeKind.Utc).AddTicks(7792))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 485, DateTimeKind.Utc).AddTicks(8626))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -604,7 +604,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 31, DateTimeKind.Utc).AddTicks(2288))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(2778))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -679,7 +679,7 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 11, 21, 19, 0, 22, 31, DateTimeKind.Utc).AddTicks(5951))
+                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(6377))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -690,6 +690,10 @@ namespace Restaurante.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("email");
+
+                    b.Property<string>("ImagenUrl")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("imagen_url");
 
                     b.Property<string>("Password")
                         .IsRequired()

@@ -1,0 +1,16 @@
+<div id="responseToast" class="toast position-fixed border rounded custom-toast status-{{ctrl.statusCode}}">
+    <div class="toast-header d-flex justify-space-between">
+        <div>
+            <i class="rounded mr-2 p-1"></i>
+            <strong>{{ctrl.message}}</strong>
+        </div>
+        <button type="button" class="btn ml-2 mb-1 close" ng-click="ctrl.HiddeToast">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        <ul ng-if="ctrl.messages.length > 0" class="custom-list">
+            <li class="text-left" ng-repeat="sms in ctrl.messages track by $index">{{sms}}</li>
+        </ul>
+    </div>
+</div>

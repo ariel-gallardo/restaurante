@@ -1,5 +1,9 @@
 export default class NavBarController {
 
+/**
+ * @param {angular.IRootScopeService} $scope 
+ * @param {angular.ILocationService} $location 
+ */
     constructor($scope, $location) {
         this.$scope = $scope;
         this.$location = $location;

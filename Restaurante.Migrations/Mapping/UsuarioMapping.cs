@@ -13,6 +13,7 @@ namespace Restaurante.Migrations
             modelBuilder.Entity<T>().Property(x => x.Password).IsRequired().ValueGeneratedNever();
             modelBuilder.Entity<T>().HasIndex(x => x.Email).IsUnique(true);
             modelBuilder.Entity<T>().Property(x => x.RolId).HasDefaultValue(1L);
+            modelBuilder.Entity<T>().Property(x => x.ImagenUrl).IsRequired(false);
         }
 
         public static void MapRelationShips<T>(this ModelBuilder modelBuilder) where T : Usuario

@@ -1,0 +1,52 @@
+<form class="container my-2" Auth>
+    <div class="text-center my-2">
+        <img class="img-thumbnail center-image" id="img-profile" ng-src="{{ctrl.ImagenUrl}}" />
+    </div>
+    <div class="row">
+        <div ng-if="!ctrl.editar.nombre" class="col-ms-12 col-md-5" ng-click="ctrl.EditarNombre">
+            <label for="full_name" class="form-label"><b>FULL_NAME</b></label>
+            <input id="full_name" name="full_name" class="form-control" value="{{ctrl.NombreCompleto}}" disabled>
+        </div>
+        <div ng-if="ctrl.editar.nombre" class="col-ms-12 col-md-5 mt-2">
+            <label for="name" class="form-label"><b>NAME</b></label>
+            <input id="name" class="form-control" ng-model="ctrl.Nombre" name="name" ng-blur="ctrl.BlurNombre">
+        </div>
+        <div ng-if="ctrl.editar.nombre" class="col-ms-12 col-md-5 mt-2">
+            <label for="surname" class="form-label"><b>SURNAME</b></label>
+            <input id="surname" class="form-control" ng-model="ctrl.Apellido" name="surname" ng-blur="ctrl.BlurNombre">
+        </div>
+        <div class="col-ms-12 col-md-5 mt-2">
+            <label for="role" class="form-label"><b>ROLE</b></label>
+            <input id="role" class="form-control" name="role" value="{{ctrl.Rol}}" disabled>
+        </div>
+        
+        <div class="col-ms-12 col-md-5 mt-2" ng-click="ctrl.EditarCorreo">
+            <label for="correo" class="form-label"><b>MAIL</b></label>
+            <input id="correo" class="form-control" ng-model="ctrl.Correo" ng-disabled="!ctrl.editar.correo" ng-blur="ctrl.BlurCorreo">
+        </div>
+
+        <div ng-if="!ctrl.editar.domicilio" class="col-ms-12 col-md-5 mt-2" ng-click="ctrl.EditarDomicilio">
+            <label for="full_address" class="form-label"><b>FULL_ADDRESS</b></label>
+            <input id="full_address" class="form-control" name="full_address" value="{{ctrl.Domicilio}}" disabled>
+        </div>
+        <div ng-if="ctrl.editar.domicilio" class="col-ms-12 col-md-5 mt-2">
+            <label for="street" class="form-label"><b>STREET</b></label>
+            <input id="street" class="form-control" name="street" ng-model="ctrl.Calle" ng-blur="ctrl.BlurDomicilio">
+        </div>
+        <div ng-if="ctrl.editar.domicilio" class="col-ms-12 col-md-5 mt-2">
+            <label for="numero" class="form-label"><b>NUMBER</b></label>
+            <input id="numero" class="form-control" name="numero" ng-model="ctrl.Numero" ng-blur="ctrl.BlurDomicilio">
+        </div>
+        <div class="col-ms-12 col-md-5 mt-2" ng-click="ctrl.EditarTelefono">
+            <label for="telefono" class="form-label"><b>PHONE</b></label>
+            <input id="telefono" class="form-control" name="telefono" ng-model="ctrl.Telefono" ng-disabled="!ctrl.editar.telefono" ng-blur="ctrl.BlurTelefono">
+        </div>
+        <div class="col-ms-12 col-md-5 mt-2">
+            <p><b>SESSION_END</b> {{ctrl.TiempoExpiracionToken}}</p>
+        </div>
+        <div class="text-center">
+            <button type="button" ng-click="ctrl.SaveChanges" class="btn btn-outline-info col-sm-12 mb-2 col-md-3 mb-md-0 me-md-2 mt-2">SAVE</button>
+            <button type="button" ng-click="ctrl.Logout" class="btn btn-outline-danger col-sm-12 col-md-3 mt-2">LOGOUT</button>
+        </div>
+    </div>
+</form>

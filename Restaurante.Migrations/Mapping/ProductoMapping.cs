@@ -16,6 +16,7 @@ namespace Restaurante.Migrations
             modelBuilder.Entity<T>().Property(x => x.PrecioVenta).IsRequired(false);
             modelBuilder.Entity<T>().Property(x => x.Unidad);
             modelBuilder.Entity<T>().Property(x => x.Nombre);
+            modelBuilder.Entity<T>().Property(x => x.CategoriaId).IsRequired(false);
             modelBuilder.Entity<T>().Property(x => x.Descripcion).IsRequired(false);
             modelBuilder.Entity<T>().HasIndex(x => x.Unidad);
             modelBuilder.Entity<T>().HasIndex(x => x.Nombre);
@@ -24,7 +25,9 @@ namespace Restaurante.Migrations
 
         public static void MapRelationShips<T>(this ModelBuilder modelBuilder) where T : Producto
         {
-
+            modelBuilder.Entity<T>().HasOne(x => x.Categoria)
+                .WithMany()
+                .HasForeignKey(x => x.CategoriaId);
         }
     }
 }

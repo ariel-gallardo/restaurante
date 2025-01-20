@@ -22,6 +22,7 @@ namespace Restaurante.Migrations
 
         private void MapEntities(ref ModelBuilder mB)
         {
+            mB.Map<Categoria>();
             mB.Map<Rol>();
             mB.Map<Domicilio>();
             mB.Map<Telefono>();
@@ -38,6 +39,7 @@ namespace Restaurante.Migrations
         {
             mB.MapRelationShips<Persona>();
             mB.MapRelationShips<Usuario>();
+            mB.MapRelationShips<Categoria>();
             mB.MapRelationShips<Producto>();
             mB.MapRelationShips<ProductoIngrediente>();
         }

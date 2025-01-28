@@ -7,7 +7,7 @@ namespace Restaurante.Services
         public Task<ResultResponse> Editar(EditarProductoDTO dTO);
         public Task<ResultResponse> Eliminar(string productId);
         public Task<ResultResponse> Restaurar(string productId);
-        public Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0);
+        public Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, string? categoria = "");
         public Task<ResultResponse> Consumir(ConsumirProductoDTO dto);
     }
 }

@@ -28,7 +28,8 @@ namespace Restaurante.Models.Profiles
                 null : xx.StockAlerta.HasValue ? xx.StockAlerta : null)
             ).ForMember(y => y.PrecioCompra, x => x.MapFrom(xx => xx.PrecioDeCompra.HasValue ? xx.PrecioDeCompra : null)
             ).ForMember(y => y.PrecioVenta, x => x.MapFrom(xx => xx.PrecioDeVenta.HasValue ? xx.PrecioDeVenta : null)
-            ).ForMember(y => y.Descripcion, x => x.MapFrom(xx => xx.Descripcion));
+            ).ForMember(y => y.Descripcion, x => x.MapFrom(xx => xx.Descripcion)
+            ).ForMember(y => y.CategoriaId, x => x.MapFrom(xx => xx.CategoriaId.HasValue ? xx.CategoriaId : null));
 
             CreateMap<EditarProductoDTO, Producto>()
             .ForMember(y => y.Ingredientes, x => x.MapFrom(xx =>
@@ -53,7 +54,8 @@ namespace Restaurante.Models.Profiles
                 null : xx.StockAlerta.HasValue ? xx.StockAlerta : null)
             ).ForMember(y => y.PrecioCompra, x => x.MapFrom(xx => xx.PrecioDeCompra.HasValue ? xx.PrecioDeCompra : null)
             ).ForMember(y => y.PrecioVenta, x => x.MapFrom(xx => xx.PrecioDeVenta.HasValue ? xx.PrecioDeVenta : null)
-            ).ForMember(y => y.Descripcion, x => x.MapFrom(xx => xx.Descripcion));
+            ).ForMember(y => y.Descripcion, x => x.MapFrom(xx => xx.Descripcion))
+            .ForMember(y => y.CategoriaId, x => x.MapFrom(xx => xx.CategoriaId.HasValue ? xx.CategoriaId : null));
 
             CreateMap<Producto, Producto>()
                 .ForMember(y => y.Ingredientes,
@@ -79,7 +81,8 @@ namespace Restaurante.Models.Profiles
                 .ForMember(y => y.Descripcion, x => x.MapFrom((src, dest) => !string.IsNullOrEmpty(src.Descripcion) ? src.Descripcion : dest.Descripcion))
                 .ForMember(x => x.CreatedAt, x => x.MapFrom((src, dest) => dest.CreatedAt))
                 .ForMember(x => x.UpdatedAt, x => x.MapFrom((src, dest) => dest.UpdatedAt))
-                .ForMember(x => x.DeletedAt, x => x.MapFrom((src, dest) => dest.DeletedAt));
+                .ForMember(x => x.DeletedAt, x => x.MapFrom((src, dest) => dest.DeletedAt))
+                .ForMember(x => x.CategoriaId, x => x.MapFrom((src, dest) => src.CategoriaId.HasValue ? src.CategoriaId : dest.CategoriaId));
         }
     }
 }

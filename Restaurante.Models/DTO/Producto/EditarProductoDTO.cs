@@ -26,5 +26,6 @@ namespace Restaurante.Models
         public string? Unidad { get; set; }
         [Required(ErrorMessage = "ID_PRODUCT_REQUIRED")]
         public string ProductoId { get; set; }
+        public long? CategoriaId { get; set; }
     }
 }

@@ -6,7 +6,6 @@ using Restaurante.Models;
 using Restaurante.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using System.ComponentModel.DataAnnotations;
 
 namespace Restaurante.API.Controllers
 {
@@ -66,7 +65,7 @@ namespace Restaurante.API.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "Listar productos", Description = "Listar productos - Todos.")]
-        public async Task<IActionResult> ListarProductos([FromQuery] int? paginaNum = 1, [FromQuery] string? ordenarPor = "", [FromQuery] bool? ascendente = true, [FromQuery] string? nombreClave = "", [FromQuery] double? precioMin = 0.0, [FromQuery] double? precioMax = 0.0)
+        public async Task<IActionResult> ListarProductos([FromQuery] int? paginaNum = 1, [FromQuery] string? ordenarPor = "", [FromQuery] bool? ascendente = true, [FromQuery] string? nombreClave = "", [FromQuery] double? precioMin = 0.0, [FromQuery] double? precioMax = 0.0, [FromQuery] string? categoria = "")
         {
             var operation = await _services.Listar(paginaNum,ordenarPor,ascendente,nombreClave,precioMin,precioMax);
             return StatusCode(operation.StatusCode,operation);

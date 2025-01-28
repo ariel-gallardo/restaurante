@@ -143,7 +143,7 @@ namespace Restaurante.Services
                 _unitOfWork.Producto.Delete(currentProduct);
                 await _unitOfWork.SaveChangesAsync();
                 result.Message = $@"ENTITY_DELETED ""PRODUCT,{currentProduct.Nombre}""";
-                result.StatusCode = 400;
+                result.StatusCode = 200;
             }
             else
             {
@@ -154,11 +154,11 @@ namespace Restaurante.Services
             return result;
         }
 
-        public async Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0)
+        public async Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, string? categoria = "")
         {
             var result = new ResultResponse();
 
-            var resultData = await _unitOfWork.Producto.ListarProductos(paginaNum, ordenarPor, ascendente, nombreClave, precioMin, precioMax);
+            var resultData = await _unitOfWork.Producto.ListarProductos(paginaNum, ordenarPor, ascendente, nombreClave, precioMin, precioMax, categoria);
             if(resultData.Total > 0)
                 result.Content = resultData;
             result.StatusCode = 200;

@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Testing API Selenium",
+    "Projects": [
+      {
+        "Path": "Restaurante.API\\Restaurante.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Restaurante.Test.API\\Restaurante.Test.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

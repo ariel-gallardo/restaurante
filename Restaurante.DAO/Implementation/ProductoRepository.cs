@@ -44,7 +44,7 @@ namespace Restaurante.DAO
         public async Task<Producto> ProductoWithIngrediente(string id)
         => await WhereActive(x => x.Id == id).Include(x => x.Ingredientes).Include(x => x.Categoria).FirstOrDefaultAsync();
 
-        public async Task<Paginacion<Producto>> ListarProductos(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, string? categoria = "")
+        public async Task<Paginacion<Producto>> ListarProductos(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, long? categoria = 0)
         {
             var resultList = new List<Producto>();
             Expression<Func<Producto, bool>> baseQuerie = x => true;
@@ -52,7 +52,7 @@ namespace Restaurante.DAO
 
             (var total, var querie) = WhereAsPaginateQuerie(
                 x =>
-                    !string.IsNullOrWhiteSpace(categoria) ? EF.Functions.Like(x.Categoria.Nombre, $"%{categoria}%") : true
+                    categoria != 0 ? x.Categoria.Id == categoria : true
                     && precioMin == 0.0 && precioMax == 0.0 ? true :
                     (x.Ingredientes.Count() > 0 && (
                         (precioMin > 0.0 && x.Ingredientes.Sum(y => y.Ingrediente.PrecioVenta ?? 0) * (1 + AppSettings.PorcentajeGanancia / 100) >= precioMin) &&

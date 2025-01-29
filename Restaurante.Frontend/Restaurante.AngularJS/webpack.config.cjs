@@ -19,6 +19,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
+            plugins: ['lodash'],
             presets: ['@babel/preset-env'],
             sourceType: 'module',
           },
@@ -113,6 +114,7 @@ module.exports = {
       '@routes': path.resolve(__dirname, 'src/routes/'),
       '@interceptors': path.resolve(__dirname, 'src/interceptors/'),
       '@filters': path.resolve(__dirname, 'src/filters/'),
+      '@queries': path.resolve(__dirname, 'src/queries/'),
     }
   },
   devtool: 'source-map'

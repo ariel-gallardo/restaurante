@@ -154,7 +154,7 @@ namespace Restaurante.Services
             return result;
         }
 
-        public async Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, string? categoria = "")
+        public async Task<ResultResponse> Listar(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, long? categoria = 0)
         {
             var result = new ResultResponse();
 

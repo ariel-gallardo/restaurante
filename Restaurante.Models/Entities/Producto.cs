@@ -29,5 +29,8 @@ namespace Restaurante.Models
         [MaxLength(200)]
         [Column("descripcion")]
         public string Descripcion { get; set; }
+        [Column("categoria_id")]
+        public long? CategoriaId { get; set; }
+        public virtual Categoria Categoria {get;set;}
     }
 }

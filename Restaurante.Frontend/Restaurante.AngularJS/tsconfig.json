@@ -3,6 +3,8 @@
     "baseUrl": "src",
     "allowJs": true,
     "noEmit": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "strict": false,
@@ -56,9 +58,13 @@
       "@styles/*": [
         "global-styles/*"
       ],
+      "@queries/*": [
+        "queries/*"
+      ],
     }
   },"include": [
     "src/**/*.js",  
-    "src/**/*.ts"  
+    "src/**/*.ts",
+    "src/global.d.ts"  
   ]
 }

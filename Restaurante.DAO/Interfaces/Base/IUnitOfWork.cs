@@ -1,9 +1,11 @@
-﻿using Restaurante.Models;
+﻿using Restaurante.Migrations;
+using Restaurante.Models;
 
 namespace Restaurante.DAO
 {
     public interface IUnitOfWork : IDisposable
     {
+        public RestauranteContext Context { get; }
         void ClearChanges();
         Task SaveChangesAsync();
         void SaveChanges();
@@ -15,5 +17,6 @@ namespace Restaurante.DAO
         IProductoRepository Producto { get; }
         IIngredienteRepository Ingrediente { get; }
         IProductoIngredienteRepository ProductoIngrediente { get; }
+        ICategoriaRepository Categoria { get; }
     }
 }

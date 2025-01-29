@@ -16,6 +16,7 @@ namespace Restaurante.DAO
         private readonly IProductoRepository _productoRepository;
         private readonly IIngredienteRepository _ingredienteRepository;
         private readonly IProductoIngredienteRepository _productoIngredienteRepository;
+        private readonly ICategoriaRepository _categoriaRepository;
         #endregion
 
         #region Public
@@ -28,6 +29,8 @@ namespace Restaurante.DAO
         public IProductoRepository Producto { get => _productoRepository; }
         public IIngredienteRepository Ingrediente { get => _ingredienteRepository; }
         public IProductoIngredienteRepository ProductoIngrediente { get => _productoIngredienteRepository; }
+        public ICategoriaRepository Categoria { get => _categoriaRepository; }
+        public RestauranteContext Context { get => _ctx; }
         #endregion
 
         #region Constructor
@@ -40,7 +43,8 @@ namespace Restaurante.DAO
             IUsuarioRepository usuarioRepository,
             IProductoRepository productoRepository,
             IIngredienteRepository ingredienteRepository,
-            IProductoIngredienteRepository productoIngredienteRepository
+            IProductoIngredienteRepository productoIngredienteRepository,
+            ICategoriaRepository categoriaRepository
             )
         {
             _domicilioRepository = domicilioRepository;
@@ -51,6 +55,7 @@ namespace Restaurante.DAO
             _productoRepository = productoRepository;
             _ingredienteRepository = ingredienteRepository;
             _productoIngredienteRepository = productoIngredienteRepository;
+            _categoriaRepository = categoriaRepository;
             _ctx = ctx;
             AssignUnitOfWork();
         }
@@ -99,6 +104,7 @@ namespace Restaurante.DAO
             _productoRepository.UnitOfWork = this;
             _ingredienteRepository.UnitOfWork = this;
             _productoIngredienteRepository.UnitOfWork = this;
+            _categoriaRepository.UnitOfWork = this;
         }
     }
 }

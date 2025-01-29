@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Restaurante.Models;
 
 namespace Restaurante.DAO
@@ -25,7 +26,7 @@ namespace Restaurante.DAO
             );
 
             var results = await querie.Include(x => x.Ingrediente).ToListAsync();
-            return Paginacion<ProductoIngrediente>.Crear(results, count);
+            return Paginacion<ProductoIngrediente>.Crear(results, count, paginaNum.HasValue ? paginaNum.Value : 1);
         }
     }
 }

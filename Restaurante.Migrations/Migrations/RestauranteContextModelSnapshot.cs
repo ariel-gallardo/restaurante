@@ -22,6 +22,57 @@ namespace Restaurante.Migrations.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Restaurante.Models.Categoria", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long?>("CategoriaPadreId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("categoria_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("descripcion");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("nombre");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaPadreId");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("DeletedAt");
+
+                    b.HasIndex("Nombre");
+
+                    b.HasIndex("UpdatedAt");
+
+                    b.ToTable("categorias");
+                });
+
             modelBuilder.Entity("Restaurante.Models.DetallePedido", b =>
                 {
                     b.Property<string>("Id")
@@ -37,8 +88,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 487, DateTimeKind.Utc).AddTicks(8441))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -90,8 +141,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(937))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -174,8 +225,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(9513))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -250,8 +301,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 488, DateTimeKind.Utc).AddTicks(307))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -294,8 +345,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(4496))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -388,11 +439,15 @@ namespace Restaurante.Migrations.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<long?>("CategoriaId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("categoria_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 487, DateTimeKind.Utc).AddTicks(5163))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -441,6 +496,8 @@ namespace Restaurante.Migrations.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoriaId");
+
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("DeletedAt");
@@ -471,8 +528,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 487, DateTimeKind.Utc).AddTicks(2846))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -526,8 +583,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 485, DateTimeKind.Utc).AddTicks(8626))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -604,8 +661,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(2778))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -679,8 +736,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 12, 26, 2, 7, 36, 486, DateTimeKind.Utc).AddTicks(6377))
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -780,6 +837,17 @@ namespace Restaurante.Migrations.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Restaurante.Models.Categoria", b =>
+                {
+                    b.HasOne("Restaurante.Models.Categoria", "CategoriaPadre")
+                        .WithMany()
+                        .HasForeignKey("CategoriaPadreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CategoriaPadre");
+                });
+
             modelBuilder.Entity("Restaurante.Models.DetallePedido", b =>
                 {
                     b.HasOne("Restaurante.Models.Pedido", null)
@@ -806,6 +874,17 @@ namespace Restaurante.Migrations.Migrations
                     b.Navigation("Domicilio");
 
                     b.Navigation("Telefono");
+                });
+
+            modelBuilder.Entity("Restaurante.Models.Producto", b =>
+                {
+                    b.HasOne("Restaurante.Models.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("Restaurante.Models.ProductoIngrediente", b =>

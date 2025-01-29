@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Restaurante.Infraestructure;
 using Restaurante.Models;
 using System.Linq.Expressions;
@@ -41,9 +42,9 @@ namespace Restaurante.DAO
         }
 
         public async Task<Producto> ProductoWithIngrediente(string id)
-        => await WhereActive(x => x.Id == id).Include(x => x.Ingredientes).FirstOrDefaultAsync();
+        => await WhereActive(x => x.Id == id).Include(x => x.Ingredientes).Include(x => x.Categoria).FirstOrDefaultAsync();
 
-        public async Task<Paginacion<Producto>> ListarProductos(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0)
+        public async Task<Paginacion<Producto>> ListarProductos(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, long? categoria = 0)
         {
             var resultList = new List<Producto>();
             Expression<Func<Producto, bool>> baseQuerie = x => true;
@@ -51,7 +52,8 @@ namespace Restaurante.DAO
 
             (var total, var querie) = WhereAsPaginateQuerie(
                 x =>
-                    precioMin == 0.0 && precioMax == 0.0 ? true :
+                    categoria != 0 ? x.Categoria.Id == categoria : true
+                    && precioMin == 0.0 && precioMax == 0.0 ? true :
                     (x.Ingredientes.Count() > 0 && (
                         (precioMin > 0.0 && x.Ingredientes.Sum(y => y.Ingrediente.PrecioVenta ?? 0) * (1 + AppSettings.PorcentajeGanancia / 100) >= precioMin) &&
                         (precioMax > 0.0 && x.Ingredientes.Sum(y => y.Ingrediente.PrecioVenta ?? 0) * (1 + AppSettings.PorcentajeGanancia / 100) <= precioMax)
@@ -94,8 +96,8 @@ namespace Restaurante.DAO
                     resultList.AddRange(await querie.OrderByDescending(exOrderByPrecio).ToListAsync());
             }
             else
-                resultList.AddRange(await querie.ToListAsync());
-            return Paginacion<Producto>.Crear(resultList, total);
+                resultList.AddRange(await querie.Include(x => x.Categoria).ToListAsync());
+            return Paginacion<Producto>.Crear(resultList, total, paginaNum.HasValue ? paginaNum.Value : 1);
         }
     }
 }

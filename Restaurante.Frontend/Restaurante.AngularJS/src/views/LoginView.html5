@@ -1,0 +1,23 @@
+<div class="d-md-flex" ng-if="ctrl.ShowView">
+    <div class="container m-2 text-center text-md-end">
+        <img class="border p-2 rounded" src="assets/images/logo.svg" alt="Logo" class="logo">
+    </div>
+    <div class="container m-2 d-sm-block d-md-flex align-items-center">
+        <form name="loginForm" ng-submit="ctrl.login()">
+            <div class="mb-3">
+                <label for="email" class="form-label fw-bold">EMAIL</label>
+                <input id="email" class="form-control" name="email" ng-model="ctrl.email" type="email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label fw-bold">PASSWORD</label>
+                <input id="password" class="form-control" name="password" ng-model="ctrl.password" type="password">
+            </div>
+            <div class="mb-3">
+                <a class="link-underline-info" href="/register">CREATE_ACCOUNT</a>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-outline-primary fw-bold w-100">LOGIN</button>
+            </div>
+        </form>
+    </div>
+</div>

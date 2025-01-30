@@ -31,18 +31,19 @@ namespace Restaurante.Models
         [ComparePassword("Password", ErrorMessage = "PASSWORD_NOT_EQ")]
         public string RePassword { get; set; }
 
-        [Range(typeof(UInt16), "1", "999")]
+        [CustomRangeNumber(IsNullable = true, MinValue = 1, MaxValue = 999)]
         public UInt16? CodigoArea { get; set; }
-        [Range(typeof(ulong),"1000000", "9999999")]
 
+        [CustomRangeNumber(IsNullable = true, MinValue = 1000000, MaxValue = 9999999)]
         public ulong? NumeroTelefono { get; set; }
 
-        [StringLength(50,ErrorMessage = "MAX_50_CHARS")]
+        [Required(ErrorMessage = "STREET_REQUIRED")]
+        [StringLength(50, ErrorMessage = "MAX_50_CHARS", MinimumLength = 0)]
         [Trim]
-        public string Calle { get; set; }
-        [Range(1,10000)]
-        public UInt16? Numero { get; set; }
-        [Required]
+        public string Calle { get; set; } = string.Empty;
+        [CustomRangeNumber(IsNullable = true, MinValue = 1, MaxValue = 10000)]
+        public UInt16? Numero { get; set; } = null;
+        [Required(ErrorMessage = "LOCALITY_REQUIRED")]
         public string Localidad { get; set; }
     }
 }

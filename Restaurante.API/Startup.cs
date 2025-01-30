@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using Restaurante.API.Extensions;
 using Restaurante.API.Filters;
 using Restaurante.API.Middlewares;
@@ -36,6 +37,11 @@ namespace Restaurante.API
             {
                 o.Filters.Add<DeactivateMethodFilter>();
                 o.Filters.Add<Status500Filter>();
+                o.Filters.Add<ValidationFilter>();
+            });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
             });
             services.AddHttpContextAccessor();
             services.AddCustomAutoMapper();

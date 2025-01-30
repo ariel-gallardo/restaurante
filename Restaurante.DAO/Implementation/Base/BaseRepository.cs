@@ -68,5 +68,8 @@ namespace Restaurante.DAO
 
         public (int,IQueryable<T>) WhereAsPaginateQuerie(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1)
         => _repository.WhereAsPaginateQuerie(whereExpression, ordenarPor, ascendente, page);
+
+        public async Task<bool> Delete(dynamic id)
+        => await _repository.Delete(id);
     }
 }

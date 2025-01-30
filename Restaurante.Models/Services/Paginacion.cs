@@ -12,13 +12,13 @@ namespace Restaurante.Models
         public int PaginasTotales { get; set; }
         public dynamic Content { get; set; }
 
-        public Paginacion(IEnumerable<T> data, int total, int pageSize)
+        public Paginacion(IEnumerable<T> data, int total, int pageSize, int page)
         {
             Total = total;
             CantidadActual = total > 0 ? data.Count() : 0;  
             if(total > 0)
             {
-                PaginaActual = (int)Math.Ceiling((double)total / pageSize);
+                PaginaActual = page;
                 PaginasTotales = (int)Math.Ceiling((double)total / pageSize);
                 PaginaAnterior = PaginaActual > 1 ? PaginaActual - 1 : null;
                 PaginaSiguiente = PaginaActual < PaginasTotales ? PaginaActual + 1 : null;
@@ -26,13 +26,13 @@ namespace Restaurante.Models
             }
         }
 
-        public Paginacion(IList<T> data, int total, int pageSize)
+        public Paginacion(IList<T> data, int total, int pageSize, int page)
         {
             Total = total;
             CantidadActual = total > 0 ? data.Count() : 0;
             if (total > 0)
             {
-                PaginaActual = (int)Math.Ceiling((double)total / pageSize);
+                PaginaActual = page;
                 PaginasTotales = (int)Math.Ceiling((double)total / pageSize);
                 PaginaAnterior = PaginaActual > 1 ? PaginaActual - 1 : null;
                 PaginaSiguiente = PaginaActual < PaginasTotales ? PaginaActual + 1 : null;
@@ -40,10 +40,10 @@ namespace Restaurante.Models
             }
         }
 
-        public static Paginacion<T> Crear<T>(IEnumerable<T> data, int total)
-        => new Paginacion<T>(data, total, AppSettings.Take);
+        public static Paginacion<T> Crear<T>(IEnumerable<T> data, int total, int page)
+        => new Paginacion<T>(data, total, AppSettings.Take, page);
 
-        public static Paginacion<T> Crear<T>(IList<T> data, int total)
-        => new Paginacion<T>(data, total, AppSettings.Take);
+        public static Paginacion<T> Crear<T>(IList<T> data, int total, int page)
+        => new Paginacion<T>(data, total, AppSettings.Take, page);
     }
 }

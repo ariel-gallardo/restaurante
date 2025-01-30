@@ -29,5 +29,6 @@ namespace Restaurante.Models
         [Required]
         [MaxLength(2, ErrorMessage = "ERROR_MAX_LENGTH_2")]
         public string Unidad { get; set; }
+        public long? CategoriaId { get; set; }
     }
 }

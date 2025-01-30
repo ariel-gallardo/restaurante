@@ -11,6 +11,7 @@ namespace Restaurante.DAO
         Task<int> Update(T entity);
         Task<int> Update(IList<T> entity);
         Task<int> Update(IEnumerable<T> entity);
+        Task<bool> Delete(dynamic id);
         Task<int> Delete(T entity);
         Task<int> Delete(IList<T> entity);
         Task<int> Delete(IEnumerable<T> entity);

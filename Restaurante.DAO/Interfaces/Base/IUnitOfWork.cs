@@ -1,4 +1,5 @@
-﻿using Restaurante.Models;
+﻿using Restaurante.Migrations;
+using Restaurante.Models;
 
 namespace Restaurante.DAO
 {
@@ -12,6 +13,7 @@ namespace Restaurante.DAO
         IProductoRepository Producto { get; }
         IIngredienteRepository Ingrediente { get; }
         IProductoIngredienteRepository ProductoIngrediente { get; }
+        ICategoriaRepository Categoria { get; }
         IPedidoRepository Pedido { get; }
         IRepository<DetallePedido> DetallePedido { get; }
         void BeginTransaction();

@@ -73,9 +73,10 @@ namespace Restaurante.Services
                     response.StatusCode = 200;
                     var userInfo = _mapper.Map<Usuario, UserInfoDTO>(usuario);
                     (token,var expTime) = _passServices.GenerateToken(usuario);
+                    userInfo.Token = $"Bearer {token}";
                     userInfo.CaducaEn = expTime;
-                    response.Content = (userInfo,token);
-                    response.Message = $"USER_WELCOME {response.Content.Item1.NombreCompleto}";
+                    response.Content = userInfo;
+                    response.Message = $"USER_WELCOME {userInfo.NombreCompleto}";
                 }
                 else
                 {

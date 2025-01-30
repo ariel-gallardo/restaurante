@@ -1,0 +1,20 @@
+<div class="d-md-flex">
+    <div class="ms-1 mt-1">
+        <input class="form-control" type="text" placeholder="Que quieres comer?">
+        <ul class="list-group mt-1">
+            <li class="list-group-item" id="cat-{{item.id}}" ng-click="ctrl.SeleccionarCategoria(item,$event)" ng-repeat="item in ctrl.CategoriesStore">{{item.nombre}}</li>
+        </ul>
+    </div>
+    <div>
+        <div class="card" style="width: 18rem;" ng-repeat="item in ctrl.ProductsStore">
+            <img ng-src="item.imagenUrl" class="card-img-top" alt="{{item.nombre}}">
+            <div class="card-body">
+              <h5 class="card-title">{{item.nombre}}</h5>
+              <p class="card-text">{{item.descripcion}}</p>
+              <p class="card-text">{{item.precioVenta}}</p>
+              <a href="#" class="btn btn-outline-info">DETAILS</a>
+              <a href="#" class="btn btn-outline-success">ADD_TO_CART</a>
+            </div>
+        </div>
+    </div>
+</div>

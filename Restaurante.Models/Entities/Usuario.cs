@@ -7,6 +7,9 @@ namespace Restaurante.Models
     [Table("usuarios")]
     public class Usuario : BigIntEntity
     {
+        [Column("imagen_url")]
+        public string ImagenUrl { get; set; }
+
         [Required]
         [Column("email")]
         public string Email { get; set; }

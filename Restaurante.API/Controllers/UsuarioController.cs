@@ -38,8 +38,7 @@ namespace Restaurante.API.Controllers
             var operation = await _services.Login(dto);
             if (operation.StatusCode == StatusCodes.Status200OK)
             {
-                Response.Headers.Add("Authorization", $"Bearer {operation.Content.Item2}");
-                return Ok(operation.Content.Item1);
+                return Ok(operation);
             }
             else
             {

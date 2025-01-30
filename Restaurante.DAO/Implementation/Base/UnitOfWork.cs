@@ -20,6 +20,7 @@ namespace Restaurante.DAO
         private readonly IProductoIngredienteRepository _productoIngredienteRepository;
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IRepository<DetallePedido> _detallePedidoRepository;
+        private readonly ICategoriaRepository _categoriaRepository;
         #endregion
 
         #region Public
@@ -28,14 +29,13 @@ namespace Restaurante.DAO
         public IRepository<Rol> Rol { get => _rolRepository; }
         public IRepository<Telefono> Telefono { get => _telefonoRepository; }
         public IUsuarioRepository Usuario { get => _usuarioRepository; }
-
         public IProductoRepository Producto { get => _productoRepository; }
         public IIngredienteRepository Ingrediente { get => _ingredienteRepository; }
         public IProductoIngredienteRepository ProductoIngrediente { get => _productoIngredienteRepository; }
-
         public IPedidoRepository Pedido { get => _pedidoRepository; }
         public IRepository<DetallePedido> DetallePedido => _detallePedidoRepository;
-
+        public ICategoriaRepository Categoria { get => _categoriaRepository; }
+        public RestauranteContext Context { get => _ctx; }
         #endregion
 
         #region Constructor
@@ -50,7 +50,8 @@ namespace Restaurante.DAO
             IIngredienteRepository ingredienteRepository,
             IProductoIngredienteRepository productoIngredienteRepository,
             IPedidoRepository pedidoRepository,
-            IRepository<DetallePedido> detallePedidoRepository
+            IRepository<DetallePedido> detallePedidoRepository,
+            ICategoriaRepository categoriaRepository
             )
         {
             _domicilioRepository = domicilioRepository;
@@ -63,6 +64,7 @@ namespace Restaurante.DAO
             _productoIngredienteRepository = productoIngredienteRepository;
             _pedidoRepository = pedidoRepository;
             _detallePedidoRepository = detallePedidoRepository;
+            _categoriaRepository = categoriaRepository;
             _ctx = ctx;
             AssignUnitOfWork();
         }
@@ -84,6 +86,8 @@ namespace Restaurante.DAO
             _ingredienteRepository.UnitOfWork = this;
             _productoIngredienteRepository.UnitOfWork = this;
             _pedidoRepository.UnitOfWork = this;
+            _detallePedidoRepository.UnitOfWork = this;
+            _categoriaRepository.UnitOfWork = this;
         }
 
         private IDbContextTransaction _transaction;

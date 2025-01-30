@@ -15,7 +15,8 @@ namespace Restaurante.API
                 AppSettings.MSSQLConnectionString = cfg["MSSQL:ConnectionString"];
                 services.AddDbContext<RestauranteContext>(options =>
                 {
-                    options.UseSqlServer(AppSettings.MSSQLConnectionString);
+                    options.UseSqlServer(AppSettings.MSSQLConnectionString)
+                    .EnableSensitiveDataLogging();
                 });
             }
             return services;

@@ -3,6 +3,7 @@ using Restaurante.Infraestructure;
 using Restaurante.Migrations;
 using Restaurante.Models;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace Restaurante.DAO
 {
@@ -45,8 +46,6 @@ namespace Restaurante.DAO
         public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
         {
             var expression = _ctx.Set<T>().Where(whereExpression);
-            if(AppSettings.Take > 0)
-                expression = expression.Take(AppSettings.Take);
 
             if(orderByExpression != null)
             expression = ascending ? expression.OrderBy(orderByExpression) : expression.OrderByDescending(orderByExpression);
@@ -182,7 +181,7 @@ namespace Restaurante.DAO
 
             if (page > 1)
             {
-                querie = querie.Skip(page * AppSettings.Take).Take(AppSettings.Take);
+                querie = querie.Skip(page * AppSettings.Take - AppSettings.Take).Take(AppSettings.Take);
             }
             else
                 querie = querie.Take(AppSettings.Take);
@@ -198,9 +197,23 @@ namespace Restaurante.DAO
                 resultList.AddRange(await querie.Skip(page * AppSettings.Take).Take(AppSettings.Take).ToListAsync());
             else
                 resultList.AddRange(await querie.Take(AppSettings.Take).ToListAsync());
-            return Paginacion<T>.Crear(resultList, count);
+            return Paginacion<T>.Crear(resultList, count,page);
         }
 
-
+        public async Task<bool> Delete(dynamic id)
+        {
+            if(id is long)
+            {
+                long longId = id;
+                var entity = await WhereActive(x => x.Id == longId).FirstOrDefaultAsync();
+                if (entity != null)
+                {
+                    _ctx.Remove(entity);
+                    return true;
+                }
+                return false;
+            }
+            throw new NotImplementedException("INVALID_TYPEOF_ENTITY_DELETE");
+        }
     }
 }

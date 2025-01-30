@@ -11,6 +11,7 @@ namespace Restaurante.Models.Extensions
             c.AddProfile<UsuarioProfile>();
             c.AddProfile<ProductoProfile>();
             c.AddProfile<IngredienteProfile>();
+            c.AddProfile<CategoriaProfile>();
             c.AddProfile<PedidoProfile>();
         });
     }

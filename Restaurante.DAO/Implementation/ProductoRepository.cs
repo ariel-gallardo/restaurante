@@ -19,9 +19,10 @@ namespace Restaurante.DAO
         {
             if (!await ExistsProducto(entity.Nombre))
             {
+                await UnitOfWork.BeginTransactionAsync();
                 await Insert(entity);
                 await UnitOfWork.ProductoIngrediente.Insert(entity.Ingredientes);
-                await UnitOfWork.SaveChangesAsync();
+                await UnitOfWork.CommitTransactionAsync();
                 return entity;
             }
             return null;
@@ -31,11 +32,12 @@ namespace Restaurante.DAO
         {
             if (entity != null)
             {
+                await UnitOfWork.BeginTransactionAsync();
                 Update(newProperties);
                 UnitOfWork.ProductoIngrediente.Update(newProperties.Ingredientes.Where(x => entity.Ingredientes.Contains(x)));
                 UnitOfWork.ProductoIngrediente.Delete(entity.Ingredientes.Where(x => !newProperties.Ingredientes.Contains(x) && x.CreatedAt != null));
                 await UnitOfWork.ProductoIngrediente.Insert(newProperties.Ingredientes.Where(x => !entity.Ingredientes.Contains(x) && x.CreatedAt == null));
-                await UnitOfWork.SaveChangesAsync();
+                await UnitOfWork.CommitTransactionAsync();
                 return true;
             }
             return false;
@@ -99,5 +101,11 @@ namespace Restaurante.DAO
                 resultList.AddRange(await querie.Include(x => x.Categoria).ToListAsync());
             return Paginacion<Producto>.Crear(resultList, total, paginaNum.HasValue ? paginaNum.Value : 1);
         }
+
+        public Task<List<Producto>> ProductoWithIngrediente(IList<string> ids)
+        => WhereActive(x => ids.Contains(x.Id)).Include(x => x.Ingredientes).ToListAsync();
+
+        public Task<List<Producto>> ProductoWithIngrediente(IEnumerable<string> ids)
+        => WhereActive(x => ids.Contains(x.Id)).Include(x => x.Ingredientes).ToListAsync();
     }
 }

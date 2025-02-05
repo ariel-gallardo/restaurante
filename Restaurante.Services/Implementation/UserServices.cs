@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Restaurante.DAO;
@@ -13,12 +14,40 @@ namespace Restaurante.Services
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordServices _passServices;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserServices(IMapper mapper, IUnitOfWork unitOfWork, IPasswordServices passServices)
+        public UserServices(IMapper mapper, IUnitOfWork unitOfWork, IPasswordServices passServices, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _passServices = passServices;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public string CurrentRol 
+        { 
+            get 
+            {
+                string stringRole = string.Empty;
+                var role = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Rol");
+                if(role != null && role.Value != "Ninguno")
+                    stringRole = role.Value;
+                return stringRole;
+            } 
+        }
+
+        public long? CurrentId
+        {
+            get
+            {
+                long id = 0;
+                var idClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Id");
+                if (idClaim != null && !string.IsNullOrEmpty(idClaim.Value))
+                {
+                    long.TryParse(idClaim.Value, out id);
+                }
+                return id > 0L ? id : null;
+            }
         }
 
         public async Task<ResultResponse> Info(string token)
@@ -71,8 +100,10 @@ namespace Restaurante.Services
             var userCreated = _unitOfWork.Usuario.SearchUserActiveByEmail(dto.Correo);
             if(userCreated == null)
             {
+                await _unitOfWork.BeginTransactionAsync();
                 await _unitOfWork.Usuario.Insert(user);
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
                 userCreated = _unitOfWork.Usuario.SearchUserActiveByEmail(dto.Correo);
                 var userInfoDTO = _mapper.Map<Usuario, UserInfoDTO>(userCreated);
                 result.Content = userInfoDTO;

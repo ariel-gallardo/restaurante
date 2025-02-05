@@ -7,5 +7,7 @@ namespace Restaurante.Services
         public Task<ResultResponse> Register(RegisterDTO dto);
         public Task<ResultResponse> Login(LoginDTO dto);
         public Task<ResultResponse> Info(string token);
+        public string CurrentRol { get; }
+        public long? CurrentId { get; }
     }
 }

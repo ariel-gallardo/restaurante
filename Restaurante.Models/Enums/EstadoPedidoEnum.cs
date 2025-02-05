@@ -1,12 +1,14 @@
 ﻿namespace Restaurante.Models.Enums
 {
-    public enum EstadoPedido
+    public static class EstadoPedido
     {
-        Buscando,        // El cliente está buscando en la tienda
-        PedidoRealizado, // El cliente ha realizado un pedido
-        EnPreparacion,   // El pedido está siendo preparado por el cocinero
-        ListoParaEntregar, // El pedido está listo para ser entregado
-        Entregado,       // El pedido ha sido entregado al cliente
-        Cancelado        // El pedido ha sido cancelado
+        public const string Buscando = "SEARCHING";
+        public const string Realizado = "CREATED";
+        public const string Preparando = "PREPAIRING";
+        public const string Delivery = "DELIVERY";
+        public const string Puerta = "CLIENT_DOOR";
+        public const string Recepcion = "RECEPTION";
+        public const string Entregado = "DONE";
+        public const string Cancelado = "CANCELLED";
     }
 }

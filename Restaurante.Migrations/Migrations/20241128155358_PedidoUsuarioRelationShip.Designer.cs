@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurante.Migrations;
 
@@ -11,9 +12,10 @@ using Restaurante.Migrations;
 namespace Restaurante.Migrations.Migrations
 {
     [DbContext(typeof(RestauranteContext))]
-    partial class RestauranteContextModelSnapshot : ModelSnapshot
+    [Migration("20241128155358_PedidoUsuarioRelationShip")]
+    partial class PedidoUsuarioRelationShip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,57 +23,6 @@ namespace Restaurante.Migrations.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Restaurante.Models.Categoria", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long?>("CategoriaPadreId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("categoria_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("descripcion");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("nombre");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoriaPadreId");
-
-                    b.HasIndex("CreatedAt");
-
-                    b.HasIndex("DeletedAt");
-
-                    b.HasIndex("Nombre");
-
-                    b.HasIndex("UpdatedAt");
-
-                    b.ToTable("categorias");
-                });
 
             modelBuilder.Entity("Restaurante.Models.DetallePedido", b =>
                 {
@@ -88,8 +39,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 667, DateTimeKind.Utc).AddTicks(3171))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -145,8 +96,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 665, DateTimeKind.Utc).AddTicks(8687))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -229,8 +180,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 666, DateTimeKind.Utc).AddTicks(6220))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -305,8 +256,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 667, DateTimeKind.Utc).AddTicks(4824))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -355,8 +306,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 666, DateTimeKind.Utc).AddTicks(2108))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -449,15 +400,11 @@ namespace Restaurante.Migrations.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<long?>("CategoriaId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("categoria_id");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 667, DateTimeKind.Utc).AddTicks(678))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -506,8 +453,6 @@ namespace Restaurante.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
-
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("DeletedAt");
@@ -538,8 +483,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 666, DateTimeKind.Utc).AddTicks(8624))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -593,8 +538,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 665, DateTimeKind.Utc).AddTicks(6629))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -671,8 +616,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 666, DateTimeKind.Utc).AddTicks(450))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -746,8 +691,8 @@ namespace Restaurante.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValue(new DateTime(2024, 11, 28, 15, 53, 57, 666, DateTimeKind.Utc).AddTicks(3726))
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -757,10 +702,6 @@ namespace Restaurante.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("email");
-
-                    b.Property<string>("ImagenUrl")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("imagen_url");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -847,17 +788,6 @@ namespace Restaurante.Migrations.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Restaurante.Models.Categoria", b =>
-                {
-                    b.HasOne("Restaurante.Models.Categoria", "CategoriaPadre")
-                        .WithMany()
-                        .HasForeignKey("CategoriaPadreId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CategoriaPadre");
-                });
-
             modelBuilder.Entity("Restaurante.Models.DetallePedido", b =>
                 {
                     b.HasOne("Restaurante.Models.Pedido", null)
@@ -899,17 +829,6 @@ namespace Restaurante.Migrations.Migrations
                     b.Navigation("Domicilio");
 
                     b.Navigation("Telefono");
-                });
-
-            modelBuilder.Entity("Restaurante.Models.Producto", b =>
-                {
-                    b.HasOne("Restaurante.Models.Categoria", "Categoria")
-                        .WithMany()
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("Restaurante.Models.ProductoIngrediente", b =>

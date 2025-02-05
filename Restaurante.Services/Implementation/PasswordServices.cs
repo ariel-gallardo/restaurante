@@ -21,6 +21,7 @@ namespace Restaurante.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
             {
+                new Claim("Id",usuario.Id.ToString()),
                 new Claim("Correo", usuario.Email),
                 new Claim("Nombre", $"{usuario.Persona.Nombre} {usuario.Persona.Apellido}"),
                 new Claim("CaducaEn", $"{expirationTime}"),

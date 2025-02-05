@@ -23,7 +23,7 @@ namespace Restaurante.Services
             if (_unitOfWork.Producto.ExistsActive(dTO.ProductoId))
             {
                 var producto = await _unitOfWork.Producto.ProductoWithIngrediente(dTO.ProductoId);
-
+                await _unitOfWork.BeginTransactionAsync();
                 var grouped = dTO.Data.GroupBy(x => x.IngredienteId).ToList();
                 var groupedIds = dTO.Data.GroupBy(x => x.Id).ToList();
                 if (!grouped.Any(x => x.Count() > 1) && !groupedIds.Any(x => x.Count() > 1))
@@ -43,6 +43,7 @@ namespace Restaurante.Services
                     _unitOfWork.ProductoIngrediente.Delete(toDelete);
                     await _unitOfWork.ProductoIngrediente.Insert(toInsert);
                     await _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.CommitTransactionAsync();
                     resultResponse.Message = $@"ENTITY_CHANGES ""PRODUCT_INGREDIENT,{toUpdate.Count},{toDelete.Count},{toInsert.Count},{toUpdate.Count + toDelete.Count + toInsert.Count}""";
                     resultResponse.StatusCode = StatusCodes.Status200OK;
                 }
@@ -70,9 +71,11 @@ namespace Restaurante.Services
         public async Task<ResultResponse> Restaurar(string productoIngredienteId)
         {
             var result = new ResultResponse();
+            await _unitOfWork.BeginTransactionAsync();
             if (await _unitOfWork.ProductoIngrediente.Restore(productoIngredienteId))
             {
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
                 result.Content = await _unitOfWork.ProductoIngrediente.WhereActive(x => x.Id == productoIngredienteId).FirstOrDefaultAsync();
                 result.Message = $@"ENTITY_RESTORED ""PRODUCT_INGREDIENT,{productoIngredienteId}""";
                 result.StatusCode = 200;

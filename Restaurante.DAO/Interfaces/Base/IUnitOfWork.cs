@@ -5,10 +5,6 @@ namespace Restaurante.DAO
 {
     public interface IUnitOfWork : IDisposable
     {
-        public RestauranteContext Context { get; }
-        void ClearChanges();
-        Task SaveChangesAsync();
-        void SaveChanges();
         IRepository<Domicilio> Domicilio { get; }
         IRepository<Persona> Persona { get; }
         IRepository<Rol> Rol { get; }
@@ -18,5 +14,15 @@ namespace Restaurante.DAO
         IIngredienteRepository Ingrediente { get; }
         IProductoIngredienteRepository ProductoIngrediente { get; }
         ICategoriaRepository Categoria { get; }
+        IPedidoRepository Pedido { get; }
+        IRepository<DetallePedido> DetallePedido { get; }
+        void BeginTransaction();
+        Task BeginTransactionAsync();
+        void CommitTransaction();
+        Task CommitTransactionAsync();
+        void RollbackTransaction();
+        Task RollbackTransactionAsync();
+        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

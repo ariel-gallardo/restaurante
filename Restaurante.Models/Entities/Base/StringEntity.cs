@@ -5,7 +5,7 @@ namespace Restaurante.Models
 {
     public class StringEntity
     {
-        private string _id;
+        private string _id = string.Empty;
 
         [Column("id")]
         [Key]
@@ -26,9 +26,6 @@ namespace Restaurante.Models
         public DateTime? UpdatedAt { get; set; }
 
         public override bool Equals(object obj)
-        => obj != null && GetHashCode() == obj.GetHashCode() && obj is StringEntity;
-
-        public override int GetHashCode()
-        => Id.GetHashCode() + GetType().GetHashCode();
+        => obj != null && !string.IsNullOrEmpty(Id) && Id == ((StringEntity)obj).Id && obj is StringEntity;
     }
 }

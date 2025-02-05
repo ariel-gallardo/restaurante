@@ -42,6 +42,7 @@ namespace Restaurante.Migrations
             mB.MapRelationShips<Categoria>();
             mB.MapRelationShips<Producto>();
             mB.MapRelationShips<ProductoIngrediente>();
+            mB.MapRelationShips<Pedido>();
         }
 
         private void GenerateDemoData(ref ModelBuilder mB)

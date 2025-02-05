@@ -22,10 +22,11 @@ namespace Restaurante.Services
         public async Task<ResultResponse> Consumir(ConsumirProductoDTO dto)
         {
             var resultResponse = new ResultResponse();
-
+            
             var ids = dto.Data.Select(x => x.Id);
             if(ids.Count() > 0)
             {
+                await _unitOfWork.BeginTransactionAsync();
                 var products = new List<Producto>();
                 var ingredients = new List<Ingrediente>();
                 
@@ -71,11 +72,12 @@ namespace Restaurante.Services
                     if(prodIdCannotConsume.Count > 0)
                     {
                         prodIdCannotConsume = prodIdCannotConsume.Distinct().ToList();
-                        _unitOfWork.ClearChanges();
+                        await _unitOfWork.RollbackTransactionAsync();
                     }
                     else
                     {
                         await _unitOfWork.SaveChangesAsync();
+                        await _unitOfWork.CommitTransactionAsync();
                     }
 
                     resultResponse.Content = prodIdCannotConsume.Count > 0 ? prodIdCannotConsume : null;
@@ -140,8 +142,10 @@ namespace Restaurante.Services
             if (_unitOfWork.Producto.ExistsActive(productId))
             {
                 var currentProduct = _unitOfWork.Producto.WhereActive(x => x.Id == productId).FirstOrDefault();
-                _unitOfWork.Producto.Delete(currentProduct);
+                await _unitOfWork.BeginTransactionAsync();
+                await _unitOfWork.Producto.Delete(currentProduct);
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
                 result.Message = $@"ENTITY_DELETED ""PRODUCT,{currentProduct.Nombre}""";
                 result.StatusCode = 200;
             }
@@ -169,9 +173,11 @@ namespace Restaurante.Services
         public async Task<ResultResponse> Restaurar(string productId)
         {
             var result = new ResultResponse();
+            await _unitOfWork.BeginTransactionAsync();
             if (await _unitOfWork.Producto.Restore(productId))
             {
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
                 result.Content = await _unitOfWork.Producto.WhereActive(x => x.Id == productId).FirstOrDefaultAsync();
                 result.Message = $@"ENTITY_RESTORED ""PRODUCTS,{productId}""";
                 result.StatusCode = 200;
@@ -181,6 +187,66 @@ namespace Restaurante.Services
                 result.Message = $@"ENTITY_CANNOT_BE_RESTORED ""PRODUCTS,{productId}""";
                 result.StatusCode = 404;
             }
+            return result;
+        }
+
+        public async Task<ResultResponse> RestaurarIngredientes(ConsumirProductoDTO dto)
+        {
+            var result = new ResultResponse();
+            List<Producto> productos = new List<Producto>();
+            List<Ingrediente> ingredientes = new List<Ingrediente>();
+            var ingredienteIds = new List<string>();
+            var prodFaltantes = new List<string>();
+            var ingrFaltantes = new List<string>();
+
+            await _unitOfWork.BeginTransactionAsync();
+            productos.AddRange(await _unitOfWork.Producto.ProductoWithIngrediente(dto.Data.Select(x => x.Id)));
+            
+            var consumo = productos.VerConsumoDeProductos(dto);
+
+            foreach (var (id,(cantidad, esIngrediente)) in consumo)
+                if (esIngrediente) ingredienteIds.Add(id);
+
+            if(ingredienteIds.Count > 0)
+            ingredientes.AddRange(await _unitOfWork.Ingrediente.WhereActive(x => ingredienteIds.Contains(x.Id)).ToListAsync());
+
+            foreach (var (id, (cantidad, esIngrediente)) in consumo)
+            {
+                if (esIngrediente)
+                {
+                    var i = ingredientes.FirstOrDefault(x => x.Id == id);
+                    if (i != null)
+                        i.StockActual += cantidad;
+                    else
+                        ingrFaltantes.Add(id);
+                }
+                else
+                {
+                    var p = productos.FirstOrDefault(x => x.Id == id);
+                    if (p != null)
+                        p.StockActual += cantidad;
+                    else
+                        prodFaltantes.Add(id);
+                }
+            }
+
+            if (ingrFaltantes.Count > 0)
+                result.Message = !string.IsNullOrEmpty(result.Message) ? $@"{result.Message}|ENTITY_NOT_FOUND ""{nameof(Ingrediente)},{string.Join(",", ingrFaltantes)}""" : $@"ENTITY_NOT_FOUND ""{nameof(Ingrediente)},{string.Join(",", ingrFaltantes)}""";
+            else
+                result.Message = !string.IsNullOrEmpty(result.Message) ? $@"{result.Message}|INGREDIENTS_RESTORED" : $@"INGREDIENTS_RESTORED";
+
+            if (prodFaltantes.Count > 0)
+                result.Message = !string.IsNullOrEmpty(result.Message) ? $@"{result.Message}|ENTITY_NOT_FOUND ""{nameof(Producto)},{string.Join(",", prodFaltantes)}""" : $@"ENTITY_NOT_FOUND ""{nameof(Producto)},{string.Join(",", prodFaltantes)}""";
+            else
+                result.Message = !string.IsNullOrEmpty(result.Message) ? $@"{result.Message}|PRODUCTS_RESTORED" : $@"PRODUCTS_RESTORED";
+
+            if (ingrFaltantes.Count > 0 || prodFaltantes.Count > 0)
+                result.StatusCode = 400;
+            else
+            {
+                result.StatusCode = 200;
+            }
+
             return result;
         }
     }

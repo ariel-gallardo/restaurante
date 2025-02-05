@@ -14,21 +14,22 @@ namespace Restaurante.DAO.Extensions
              .AddScoped<IRepository<Rol>, BigIntRepository<Rol>>()
              .AddScoped<IRepository<Telefono>, BigIntRepository<Telefono>>()
              .AddScoped<IRepository<Usuario>, BigIntRepository<Usuario>>()
+             .AddScoped<IRepository<Categoria>, BigIntRepository<Categoria>>()
              .AddScoped<IRepository<Ingrediente>, StringRepository<Ingrediente>>()
              .AddScoped<IRepository<Producto>, StringRepository<Producto>>()
              .AddScoped<IRepository<ProductoIngrediente>, StringRepository<ProductoIngrediente>>()
-             .AddScoped<IRepository<Categoria>, BigIntRepository<Categoria>>();
-
+             .AddScoped<IRepository<Pedido>, StringRepository<Pedido>>()
+             .AddScoped<IRepository<DetallePedido>, StringRepository<DetallePedido>>();
+             
             services =
                 services
                 .AddScoped<IUsuarioRepository, UsuarioRepository>()
-                .AddScoped<IProductoRepository, ProductoRepository>()
+                .AddScoped<ICategoriaRepository, CategoriaRepository>()
                 .AddScoped<IIngredienteRepository, IngredienteRepository>()
+                .AddScoped<IProductoRepository, ProductoRepository>()
                 .AddScoped<IProductoIngredienteRepository, ProductoIngredienteRepository>()
-                .AddScoped<ICategoriaRepository, CategoriaRepository>();
-
-
-
+                .AddScoped<IPedidoRepository, PedidoRepository>();
+                
              return services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

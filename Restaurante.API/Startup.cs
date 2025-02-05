@@ -35,6 +35,7 @@ namespace Restaurante.API
             // Agrega los controladores
             services.AddControllers(o =>
             {
+                o.Filters.Add<DeactivateMethodFilter>();
                 o.Filters.Add<Status500Filter>();
                 o.Filters.Add<ValidationFilter>();
             });
@@ -42,8 +43,9 @@ namespace Restaurante.API
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            services.AddHttpContextAccessor();
             services.AddCustomAutoMapper();
-
+            
             // Configura Swagger/OpenAPI
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(o =>

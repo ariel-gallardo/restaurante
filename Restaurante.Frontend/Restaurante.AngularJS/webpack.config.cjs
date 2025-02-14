@@ -4,15 +4,42 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const {DefinePlugin, ProvidePlugin} = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const glob = require('glob');
+const fs = require('fs');
+
 
 module.exports = {
-  entry: './src/index.js',
+  entry: [
+    ...glob.sync('./src/**/*.js'),
+    ...glob.sync('./src/**/*.ts')
+  ],
+  devtool: 'source-map',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.ts$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+            compilerOptions: {
+              sourceMap: true,
+            }
+          }
+       },
+        exclude: [/node_modules/],
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -35,31 +62,34 @@ module.exports = {
       {
         test: /\.html5$/,
         use: ['html-loader']
-      },
-      {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
+      }
     ],
   },
   devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    port: 8080,
-    open: true,
+    port: 443,
+    server:{
+      type: 'https',
+      options:{
+        key: fs.readFileSync(path.resolve(__dirname, 'certs', 'key.pem')),
+        cert: fs.readFileSync(path.resolve(__dirname, 'certs', 'cert.pem'))
+      }
+    },
+    open: false,
     historyApiFallback: {
       rewrites: [
         { from: /\/assets\/.*\.(css)/, to: '/assets/styles/empty.css' }
       ]
     },
-    hot: true
+    hot: true,
   },
   plugins: [
     new ProvidePlugin({
       $: 'jquery',
-      jQuery: 'jquery'
+      jQuery: 'jquery',
+      signalR: '@microsoft/signalr'
     }),
     new DefinePlugin({
       'window': 'window'
@@ -116,6 +146,5 @@ module.exports = {
       '@filters': path.resolve(__dirname, 'src/filters/'),
       '@queries': path.resolve(__dirname, 'src/queries/'),
     }
-  },
-  devtool: 'source-map'
+  }
 };

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -30,9 +30,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Restaurante.Assets\Restaurante.Assets.csproj" />
     <ProjectReference Include="..\Restaurante.DAO\Restaurante.DAO.csproj" />
+    <ProjectReference Include="..\Restaurante.Hubs\Restaurante.Hubs.csproj" />
     <ProjectReference Include="..\Restaurante.Infraestructure\Restaurante.Infraestructure.csproj" />
     <ProjectReference Include="..\Restaurante.Migrations\Restaurante.Migrations.csproj" />
-    <ProjectReference Include="..\Restaurante.Services\Restaurante.Services.csproj" />
+    <ProjectReference Include="..\Restaurante.Services.Extensions\Restaurante.Services.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

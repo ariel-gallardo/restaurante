@@ -22,5 +22,6 @@
         public static string MSSQLConnectionString { get; set; }
         public static int Take { get; set; }
         public static double PorcentajeGanancia { get; set; }
+        public static string ClientURL { get; set; }
     }
 }

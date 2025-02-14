@@ -20,6 +20,8 @@
       "angular-resource",
       "angular-route",
       "angular-sanitize",
+      "@microsoft/signalr",
+      "bootstrap"
     ],
     "target": "ESNext",
     "outDir": "dist",
@@ -65,6 +67,6 @@
   },"include": [
     "src/**/*.js",  
     "src/**/*.ts",
-    "src/global.d.ts"  
+    "global.d.ts"
   ]
 }

@@ -1,0 +1,11 @@
+<ul class="list-group my-2">
+    <order-item 
+        class="list-group-item d-flex align-items-center" id="prod-{{ctrl.infoId}}"
+        ng-repeat="item in ctrl.Data"
+        on-plus="ctrl.onPlus" 
+        on-minus="ctrl.onMinus" 
+        on-remove="ctrl.onRemove" 
+        info-id="item.productoId" 
+        info-quantity="item.cantidad">
+    </order-item>
+</ul>

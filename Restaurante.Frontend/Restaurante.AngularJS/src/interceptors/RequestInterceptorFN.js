@@ -1,17 +1,16 @@
-import ResponseServices from "@services/ResponseServices";
 import EnvironmentServices from "@services/EnvironmentServices";
+import MessageServices from "@services/MessageServices";
 /**
  * Interceptor para agregar el token de autenticación desde las cookies y manejar errores de respuesta.
  * 
  * @param {angular.IQService} $q - El servicio `$q` para manejar promesas en AngularJS.
  * @param {angular.cookies.ICookiesService} $cookies - El servicio `$cookies` para acceder a las cookies.
  * @param {angular.ILocationService} $location - El servicio `$location` para acceder a las rutas.
- * @param {ResponseServices} ResponseServices - El servicio `$location` para acceder a las rutas.
- * @param {angular.IRootScopeService} ResponseServices - El servicio ResponseServices.
  * @param {EnvironmentServices} EnvironmentServices - El servicio EnvironmentServices.
+ * @param {MessageServices} MessageServices - El servicio EnvironmentServices.
  * @returns {Object} - El interceptor con métodos para `request`, `response` y `responseError`.
  */
-const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootScope, EnvironmentServices) => {
+const RequestInterceptorFN = ($q, $cookies, $location, $rootScope, EnvironmentServices, MessageServices) => {
     return {
         /**
          * Método que agrega el token de autenticación a las cabeceras de la solicitud.
@@ -24,6 +23,7 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
             if(config.url.startsWith('/api')){
                 config.headers.Accept = '*/*';
                 config.headers['Content-Type'] = 'application/json';
+                if(MessageServices.ConnectionId) config.headers['GroupId'] = MessageServices.ConnectionId;
                 config.url = `${API_ADDRESS}${config.url}`;
             }
             if(config.url.includes(API_ADDRESS)) {
@@ -65,8 +65,6 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
             let API_ADDRESS = EnvironmentServices.ApiAdress;
             if(response.config.url.includes(API_ADDRESS)){
                 if(response.data && response.data.content){
-                    ResponseServices.newData(response.data);
-                    $rootScope.$emit('showResponseToast');
                     if(response.data.content.token){
                         $cookies.put('auth_token', response.data.content.token);
                         response.data.content = {...response.data.content,token:null}
@@ -86,7 +84,6 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
         responseError: (rejection) => {
             $rootScope.$emit('RemoveNextUrl');
             if(rejection.data){
-                ResponseServices.newData(rejection.data);
                 if(rejection.status >= 400){
                     rejection.data = null;
                     if(rejection.status == 401)
@@ -95,7 +92,6 @@ const RequestInterceptorFN = ($q, $cookies, $location, ResponseServices, $rootSc
                         $location.path('/login')
                     }
                 }
-                $rootScope.$emit('showResponseToast');
             } 
             return $q.reject(rejection);
         }

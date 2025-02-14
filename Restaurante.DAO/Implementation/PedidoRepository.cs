@@ -12,12 +12,12 @@ namespace Restaurante.DAO
 
         public async Task<Pedido> PedidoActual(long userId)
         {
-            var pedidoActual = await UnitOfWork.Pedido.WhereActive(x => x.UsuarioId == userId && (x.Estado != EstadoPedido.Cancelado || x.Estado != EstadoPedido.Entregado))
+            var pedidoActual = await UnitOfWork.Pedido.Where(x => x.UsuarioId == userId && x.Estado != EstadoPedido.Cancelado && x.Estado != EstadoPedido.Entregado)
                 .Include(x => x.Detalles)
                 .OrderByDescending(x => x.Id)
                 .FirstOrDefaultAsync();
 
-            if(pedidoActual == null)
+            if (pedidoActual == null)
             {
                 pedidoActual = new Pedido { UsuarioId = userId, Estado = EstadoPedido.Buscando };
                 await Insert(pedidoActual);

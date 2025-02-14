@@ -16,14 +16,16 @@ namespace Restaurante.Models
         [Required]
         [Column("password")]
         public string Password { get; set; }
-        [ForeignKey("PersonaId")]
         public virtual Persona Persona { get; set; }
-        [ForeignKey("RolId")]
         public virtual Rol Rol { get; set; }
+        [ForeignKey("Rol")]
         [Column("rol_id")]
         public long? RolId { get; set; }
         [Column("persona_id")]
+        [ForeignKey("Persona")]
         public long? PersonaId { get; set; }
+        [NotMapped]
+        public virtual Pedido PedidoActual { get; set; }
     }
 
 }

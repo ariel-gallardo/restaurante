@@ -1,4 +1,4 @@
-export default interface ProductStoreMin{
+export default class ProductStoreMin {
     id: string
     nombre: string
     descripcion: string
@@ -6,4 +6,4 @@ export default interface ProductStoreMin{
     precioVenta: number
     stockActual: number
     unidad: string
-}
+} 

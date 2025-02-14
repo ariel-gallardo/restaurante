@@ -5,7 +5,11 @@ import RegisterController from "./RegisterController";
 import { RestauranteController } from "./RestauranteController";
 import UserController from "./UserController";
 import NotFoundController from "./NotFoundController";
-import ResponseController from "./ResponseController";
+import MessageController from "./MessageController";
+import CartController from "@controllers/CartController";
+import OrderItemController from "@controllers/OrderItemController";
+import OrderListController from "@controllers/OrderListController";
+
 export default [
     ["RestauranteCtrl",RestauranteController],
     ["HomeCtrl",HomeController],
@@ -14,5 +18,8 @@ export default [
     ["RegisterCtrl",RegisterController],
     ["LoginCtrl",LoginController],
     ["NotFoundCtrl",NotFoundController],
-    ["ResponseCtrl",ResponseController]
+    ["MessageCtrl",MessageController],
+    ["OrderItemCtrl",OrderItemController],
+    ["OrderListCtrl",OrderListController],
+    ["CartCtrl",CartController]
 ]

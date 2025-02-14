@@ -1,7 +1,11 @@
 import NavBarComponent from "./NavBarComponent";
-import ResponseComponent from "./ResponseComponent";
+import MessageComponent from "./MessageComponent";
+import OrderListComponent from "./OrderListComponent";
+import OrderItemComponent from "./OrderItemComponent";
 
 export default [
     ["navBar", NavBarComponent],
-    ["response",ResponseComponent]
+    ["message",MessageComponent],
+    ["orderItem",OrderItemComponent],
+    ["orderList",OrderListComponent]
 ]

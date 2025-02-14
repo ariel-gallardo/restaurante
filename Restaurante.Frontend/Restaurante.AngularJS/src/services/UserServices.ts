@@ -7,6 +7,7 @@ import { ILocationService } from "angular";
 
 export default class UserServices {
 
+    static $inject = ['ApiServices', '$cookies', '$location', '$rootScope', 'LocalStorageServices'];
     private ApiServices : ApiServices;
     private cookies : angular.cookies.ICookiesService;
     private location : ILocationService;
@@ -50,30 +51,44 @@ export default class UserServices {
     }
 
     get NombreCompleto(){
-       return this.LocalStorageServices.UserInfo.NombreCompleto;
+       return this.LocalStorageServices.CurrentUser.nombreCompleto;
     }
 
     get Correo(){
-        return this.LocalStorageServices.UserInfo.Correo;
+        return this.LocalStorageServices.CurrentUser.correo;
     }
 
     get Rol(){
-        return this.LocalStorageServices.UserInfo.Rol;
+        return this.LocalStorageServices.CurrentUser.tipoDeUsuario;
     }
 
     get Domicilio(){
-        return this.LocalStorageServices.UserInfo.Domicilio;
+        return this.LocalStorageServices.CurrentUser.domicilio;
     }
 
     get Telefono(){
-        return this.LocalStorageServices.UserInfo.Telefono;
+        return this.LocalStorageServices.CurrentUser.telefono;
     }
 
     get ImagenUrl(){
-        return this.LocalStorageServices.UserInfo.ImagenUrl;
+        return this.LocalStorageServices.CurrentUser.imagenUrl;
     }
 
     get TiempoExpiracionToken(){
-        return this.TiempoExpiracion;
+        return this.LocalStorageServices.CurrentUser.tiempoExpiracionToken;
+    }
+
+    public get Pedido(){
+        return this.LocalStorageServices.CurrentUser.pedido;
+    }
+
+    public get DetallesPedido(){
+        return this.Pedido.data;
+    }
+    
+
+    public get Token()
+    {
+        return this.cookies.get('auth_token');
     }
 }

@@ -1,5 +1,5 @@
 import RequestInterceptorFN from "./RequestInterceptorFN";
 
 export default {
-    RequestInterceptor: ['$q','$cookies', '$location', 'ResponseServices', '$rootScope', 'EnvironmentServices',RequestInterceptorFN]
+    RequestInterceptor: ['$q','$cookies', '$location', '$rootScope', 'EnvironmentServices', 'MessageServices',RequestInterceptorFN]
 }

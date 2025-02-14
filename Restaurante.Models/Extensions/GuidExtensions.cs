@@ -5,7 +5,7 @@ namespace Restaurante.Models.Profiles
     {
         public static string ToGuidString(this string value)
         {
-            return Guid.TryParse(value, out var result) ? result.ToString() : string.Empty;
+            return Guid.TryParse(value, out var result) ? result.ToString().ToUpper() : string.Empty;
         }
     }
 

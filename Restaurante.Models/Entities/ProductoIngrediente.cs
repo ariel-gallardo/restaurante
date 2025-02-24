@@ -7,10 +7,11 @@ namespace Restaurante.Models
     {
         [ForeignKey("IngredienteId")]
         public virtual Ingrediente Ingrediente { get; set; }
-        [ForeignKey("ProductoId")]
+        
         public virtual Producto Producto { get; set; }
         [Column("ingrediente_id")]
         public string IngredienteId { get; set; }
+        [ForeignKey("Producto")]
         [Column("producto_id")]
         public string ProductoId { get; set; }
         [Column("unidad")]

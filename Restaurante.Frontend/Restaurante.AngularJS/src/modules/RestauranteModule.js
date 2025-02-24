@@ -30,6 +30,17 @@ Filters.forEach(([name,filter]) => {
 });
 
 RestauranteModule = RestauranteModule.config(Routes);
+
+
+RestauranteModule = RestauranteModule.config(['$compileProvider',
+/**
+ * @param {angular.ICompileProvider} $compileProvider
+*/
+    function($compileProvider) {
+        //$compileProvider.strictComponentBindingsEnabled(true);
+        $compileProvider.cssClassDirectivesEnabled(true);
+    }
+]);
 RestauranteModule = RestauranteModule.factory('RequestInterceptor',Interceptors.RequestInterceptor);
 RestauranteModule = RestauranteModule.config(['$httpProvider', function($httpProvider, $filterProvider) {
     $httpProvider.interceptors.push('RequestInterceptor');

@@ -17,7 +17,7 @@ namespace Restaurante.DAO
             Categoria catPadre = null;
             if (categoria.CategoriaPadre != null && !string.IsNullOrWhiteSpace(categoria.CategoriaPadre.Nombre) && categoria.CategoriaPadreId == null)
             {
-                catPadre = await WhereActive(x => x.Nombre == categoria.CategoriaPadre.Nombre).FirstOrDefaultAsync();
+                catPadre = await Where(x => x.Nombre == categoria.CategoriaPadre.Nombre).FirstOrDefaultAsync();
                 if (catPadre == null)
                 {
                     catPadre = new Categoria { Nombre = categoria.CategoriaPadre.Nombre };
@@ -30,7 +30,7 @@ namespace Restaurante.DAO
                     categoria.CategoriaPadre = catPadre;
                 }
             }
-            if ((await WhereActive(x => x.Nombre == categoria.Nombre).FirstOrDefaultAsync()) == null)
+            if ((await Where(x => x.Nombre == categoria.Nombre).FirstOrDefaultAsync()) == null)
             {
                 await Insert(categoria);
                 await UnitOfWork.SaveChangesAsync();

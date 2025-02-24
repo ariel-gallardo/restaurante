@@ -7,6 +7,8 @@ import CategoryServices from "@services/CategoryServices";
 import ProductoServices from "@services/ProductoServices";
 import angular, { forEach, IRootScopeService, IScope } from "angular";
 import CategoryGetQuerie from "@queries/CategoryGetQuerie";
+import OrderAction from "@models/Order/OrderAction";
+import OrderInteraction from "@models/Order/OrderInteraction";
 
 export default class HomeController{
 
@@ -94,7 +96,8 @@ export default class HomeController{
                 nombre: x.nombre,
                 precioVenta: x.precioVenta,
                 stockActual: x.stockActual,
-                unidad: x.unidad
+                unidad: x.unidad,
+                seleccion: 0
             })) : []
         });
         
@@ -114,5 +117,13 @@ export default class HomeController{
         });
 
         this.SeleccionarCategoria = this.SeleccionarCategoria.bind(this);
+    }
+
+    InteractuarCarrito(i: ProductStoreMin,a:string){
+        if(a == '+' || a == '-'){
+            this.$rootScope.$emit('InteractuarCarrito',
+                a == '+' ? OrderInteraction.Adicionar(i.id) : OrderInteraction.Quitar(i.id)
+            );
+        }
     }
 }

@@ -9,26 +9,22 @@ namespace Restaurante.DAO
 {
     public class BigIntRepository<T> : IRepository<T> where T : BigIntEntity
     {
-        private readonly RestauranteContext _ctx;
+        private RestauranteContext Context => UnitOfWork.Context;
 
         public IUnitOfWork UnitOfWork { get; set; }
 
-        public BigIntRepository(RestauranteContext ctx)
-        {
-            _ctx = ctx;
-        }
         public async Task<int> Delete(T entity)
         {
-            _ctx.Remove(entity);
-            return await _ctx.SaveChangesAsync();
+            Context.Remove(entity);
+            return await Context.SaveChangesAsync();
         }
 
         public async Task<int> Delete(IList<T> entity)
         {
             if (entity?.Count > 0)
             {
-                _ctx.RemoveRange(entity);
-                return await _ctx.SaveChangesAsync();
+                Context.RemoveRange(entity);
+                return await Context.SaveChangesAsync();
             }
             return 0;
         }
@@ -37,15 +33,15 @@ namespace Restaurante.DAO
         {
             if (entity?.Count() > 0)
             {
-                _ctx.RemoveRange(entity);
-                return await _ctx.SaveChangesAsync();
+                Context.RemoveRange(entity);
+                return await Context.SaveChangesAsync();
             }
             return 0;
         }
 
         public IQueryable<T> Where(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
         {
-            var expression = _ctx.Set<T>().Where(whereExpression);
+            var expression = Context.Set<T>().Where(whereExpression);
 
             if(orderByExpression != null)
             expression = ascending ? expression.OrderBy(orderByExpression) : expression.OrderByDescending(orderByExpression);
@@ -55,16 +51,16 @@ namespace Restaurante.DAO
 
         public async Task<int> Insert(T entity)
         {
-            await _ctx.AddAsync(entity);
-            return await _ctx.SaveChangesAsync();
+            await Context.AddAsync(entity);
+            return await Context.SaveChangesAsync();
         }
 
         public async Task<int> Insert(IList<T> entity)
         {
             if (entity?.Count > 0)
             {
-                await _ctx.AddRangeAsync(entity);
-                return await _ctx.SaveChangesAsync();
+                await Context.AddRangeAsync(entity);
+                return await Context.SaveChangesAsync();
             }
             return 0;
         }
@@ -73,24 +69,24 @@ namespace Restaurante.DAO
         {
             if (entity?.Count() > 0)
             {
-                await _ctx.AddRangeAsync(entity);
-
+                await Context.AddRangeAsync(entity);
+                return await Context.SaveChangesAsync();
             }
             return 0;
         }
 
         public async Task<int> Update(T entity)
         {
-            _ctx.Update(entity);
-            return await _ctx.SaveChangesAsync();
+            Context.Update(entity);
+            return await Context.SaveChangesAsync();
         }
 
         public async Task<int> Update(IList<T> entity)
         {
             if (entity?.Count > 0)
             {
-                _ctx.UpdateRange(entity);
-                return await _ctx.SaveChangesAsync();
+                Context.UpdateRange(entity);
+                return await Context.SaveChangesAsync();
             }
             return 0;
         }
@@ -99,32 +95,10 @@ namespace Restaurante.DAO
         {
             if (entity?.Count() > 0)
             {
-                _ctx.UpdateRange(entity);
-                return await _ctx.SaveChangesAsync();
+                Context.UpdateRange(entity);
+                return await Context.SaveChangesAsync();
             }
             return 0;
-        }
-
-        public IQueryable<T> WhereActive(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
-        {
-            T nullEntity;
-            var activeExpression = Expression.Lambda<Func<T, bool>>(
-                Expression.Equal(
-                    Expression.Property(whereExpression.Parameters[0], nameof(nullEntity.DeletedAt)),
-                    Expression.Constant(null, typeof(DateTime?))
-                ),
-                whereExpression.Parameters
-            );
-
-            var whereBody = whereExpression.Body;
-            var activeBody = activeExpression.Body;
-
-            var combinedBody = Expression.Lambda<Func<T, bool>>(
-                Expression.AndAlso(whereBody, activeBody),
-                whereExpression.Parameters
-            );
-
-            return Where(combinedBody, orderByExpression, ascending);
         }
 
         public IQueryable<T> WhereSoftDeleted(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> orderByExpression = null, bool ascending = false)
@@ -149,11 +123,11 @@ namespace Restaurante.DAO
 
             return Where(combinedBody, orderByExpression, ascending).IgnoreQueryFilters();
         }
-        public bool ExistsActive(dynamic id)
+        public bool Exists(dynamic id)
         {
             long cId = 0L;
             if(id != null) long.TryParse(id, out cId);
-            return cId > 0 ? WhereActive(x => x.Id == cId).Take(1).Count() == 1 : false;
+            return cId > 0 ? Where(x => x.Id == cId).Take(1).Count() == 1 : false;
         }
         public bool ExistsSoftDeleted(dynamic id)
         {
@@ -176,7 +150,7 @@ namespace Restaurante.DAO
         public (int,IQueryable<T>) WhereAsPaginateQuerie(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1)
         {
             var resultList = new List<T>();
-            var querie = WhereActive(whereExpression, ordenarPor, ascendente);
+            var querie = Where(whereExpression, ordenarPor, ascendente);
             var count = querie.Count();
 
             if (page > 1)
@@ -191,7 +165,7 @@ namespace Restaurante.DAO
         public async Task<Paginacion<T>> WhereAsPaginateListAsync(Expression<Func<T, bool>> whereExpression, Expression<Func<T, object>> ordenarPor = null, bool ascendente = true, int page = 1)
         {
             var resultList = new List<T>();
-            var querie = WhereActive(whereExpression, ordenarPor, ascendente);
+            var querie = Where(whereExpression, ordenarPor, ascendente);
             var count = await querie.CountAsync();
             if (page > 1)
                 resultList.AddRange(await querie.Skip(page * AppSettings.Take).Take(AppSettings.Take).ToListAsync());
@@ -205,10 +179,10 @@ namespace Restaurante.DAO
             if(id is long)
             {
                 long longId = id;
-                var entity = await WhereActive(x => x.Id == longId).FirstOrDefaultAsync();
+                var entity = await Where(x => x.Id == longId).FirstOrDefaultAsync();
                 if (entity != null)
                 {
-                    _ctx.Remove(entity);
+                    Context.Remove(entity);
                     return true;
                 }
                 return false;

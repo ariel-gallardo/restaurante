@@ -13,7 +13,7 @@ namespace Restaurante.DAO
         }
 
         public async Task<bool> ExistsProducto(string nombreProducto)
-        => await WhereActive(x => EF.Functions.Like(x.Nombre, nombreProducto)).CountAsync() > 0;
+        => await Where(x => EF.Functions.Like(x.Nombre, nombreProducto)).CountAsync() > 0;
 
         public async Task<Producto> CrearProducto(Producto entity)
         {
@@ -44,7 +44,7 @@ namespace Restaurante.DAO
         }
 
         public async Task<Producto> ProductoWithIngrediente(string id)
-        => await WhereActive(x => x.Id == id).Include(x => x.Ingredientes).Include(x => x.Categoria).FirstOrDefaultAsync();
+        => await Where(x => x.Id == id).Include(x => x.Ingredientes).Include(x => x.Categoria).FirstOrDefaultAsync();
 
         public async Task<Paginacion<Producto>> ListarProductos(int? paginaNum = 1, string? ordenarPor = "", bool? ascendente = true, string? nombreClave = "", double? precioMin = 0.0, double? precioMax = 0.0, long? categoria = 0)
         {
@@ -103,9 +103,9 @@ namespace Restaurante.DAO
         }
 
         public Task<List<Producto>> ProductoWithIngrediente(IList<string> ids)
-        => WhereActive(x => ids.Contains(x.Id)).Include(x => x.Ingredientes).ToListAsync();
+        => Where(x => ids.Contains(x.Id)).Include(x => x.Ingredientes).ToListAsync();
 
         public Task<List<Producto>> ProductoWithIngrediente(IEnumerable<string> ids)
-        => WhereActive(x => ids.Contains(x.Id)).Include(x => x.Ingredientes).ToListAsync();
+        => Where(x => ids.Contains(x.Id)).Include(x => x.Ingredientes).ToListAsync();
     }
 }

@@ -15,7 +15,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Restaurante.DAO\Restaurante.DAO.csproj" />
+    <ProjectReference Include="..\Restaurante.Hubs\Restaurante.Hubs.csproj" />
     <ProjectReference Include="..\Restaurante.Models\Restaurante.Models.csproj" />
+    <ProjectReference Include="..\Restaurante.Services.Interfaces\Restaurante.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Restaurante.Services.Models.Extensions\Restaurante.Services.Models.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebSockets;
 using Microsoft.OpenApi.Models;
 using Restaurante.API.Extensions;
 using Restaurante.API.Filters;
 using Restaurante.API.Middlewares;
 using Restaurante.DAO.Extensions;
+using Restaurante.Hubs;
+using Restaurante.Infraestructure;
 using Restaurante.Models.Extensions;
 using Restaurante.Services;
 using Restaurante.Services.Extensions;
@@ -26,12 +30,14 @@ namespace Restaurante.API
             {
                 options.AddPolicy("AllowAllOrigins", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins(AppSettings.ClientURL)
+                           .AllowCredentials()
                            .AllowAnyMethod()
                            .AllowAnyHeader();
                 });
             });
 
+            
             // Agrega los controladores
             services.AddControllers(o =>
             {
@@ -43,6 +49,9 @@ namespace Restaurante.API
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            services
+                .AddSignalR()
+                .AddJsonProtocol();
             services.AddHttpContextAccessor();
             services.AddCustomAutoMapper();
             
@@ -84,7 +93,7 @@ namespace Restaurante.API
                         new string[] {}
                     }
                 });
-
+                services.AddAuthorization();
                 o.ExampleFilters();
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var ctrlOutput = Path.Combine(AppContext.BaseDirectory, xmlFilename);
@@ -119,6 +128,9 @@ namespace Restaurante.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<StatusHub>("/ws");
+                endpoints.MapHub<PedidoHub>("/ws/pedidos");
+                endpoints.MapHub<MessagesHub>("/ws/messages");
             });
         }
     }

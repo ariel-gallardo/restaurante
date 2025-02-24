@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Restaurante.Models.Enums;
+using static Restaurante.Models.PedidoDTO;
 
 namespace Restaurante.Models.Profiles
 {
@@ -22,6 +23,11 @@ namespace Restaurante.Models.Profiles
                 ProductoId = z.ProductoId.ToGuidString(),
                 PedidoId = y.Pedido.ToGuidString()
             }).ToList()));
+
+            CreateMap<Pedido, PedidoDTO>()
+            .ForMember(x => x.Estado, x => x.MapFrom(y => y.Estado))
+            .ForMember(x => x.Pedido, x => x.MapFrom(y => y.Id))
+            .ForMember(x => x.Data, x => x.MapFrom(y => y.Detalles != null && y.Detalles.Count > 0 ? y.Detalles.Select(z => new PedidoDTOData { Cantidad = z.Cantidad, ProductoId = z.ProductoId}) : new List<PedidoDTOData>()));
         }
     }
 }

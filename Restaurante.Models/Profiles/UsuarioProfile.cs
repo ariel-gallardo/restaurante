@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Restaurante.Models.Enums;
 using System.Security.Claims;
+using static Restaurante.Models.PedidoDTO;
 
 namespace Restaurante.Models.Profiles
 {
@@ -45,7 +47,19 @@ namespace Restaurante.Models.Profiles
                 .ForMember(y => y.TipoDeUsuario, x => x.MapFrom(xx => xx.Rol != null ? xx.Rol.Descripcion : "-"))
                 .ForMember(y => y.NombreCompleto, x => x.MapFrom(xx => $"{xx.Persona.Nombre} {xx.Persona.Apellido}"))
                 .ForMember(y => y.Domicilio, x => x.MapFrom(xx => xx.Persona != null && xx.Persona.Domicilio != null ? ($"{xx.Persona.Domicilio.Calle} {xx.Persona.Domicilio.Numero}") : string.Empty))
-                .ForMember(y => y.Telefono, x => x.MapFrom(xx => xx.Persona != null && xx.Persona.Telefono != null ? $"({xx.Persona.Telefono.CodigoArea}) {xx.Persona.Telefono.Numero}" : string.Empty ));
+                .ForMember(y => y.Telefono, x => x.MapFrom(xx => xx.Persona != null && xx.Persona.Telefono != null ? $"({xx.Persona.Telefono.CodigoArea}) {xx.Persona.Telefono.Numero}" : string.Empty))
+                .ForMember(y => y.Pedido, x => x.MapFrom(xx => xx.PedidoActual != null ? 
+                        new PedidoDTO { 
+                            Estado = xx.PedidoActual.Estado,
+                            Data = xx.PedidoActual.Detalles != null && xx.PedidoActual.Detalles.Count > 0 ? xx.PedidoActual.Detalles
+                            .Select(y => 
+                                new PedidoDTOData { ProductoId = y.ProductoId, Cantidad = y.Cantidad } 
+                            ).ToList() : new List<PedidoDTOData>(), 
+                            Pedido = xx.PedidoActual.Id
+                        } 
+                        : new PedidoDTO { Estado = EstadoPedido.Buscando, Data = new List<PedidoDTOData>()}
+                    )
+                ).ForMember(y => y.UsuarioId, x => x.MapFrom(xx => xx.Id));
             #endregion
 
             #region Claims to Info
@@ -55,7 +69,8 @@ namespace Restaurante.Models.Profiles
                 .ForMember(y => y.NombreCompleto, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Nombre").Value))
                 .ForMember(y => y.Telefono, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Telefono").Value))
                 .ForMember(y => y.Domicilio, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Domicilio").Value))
-                .ForMember(y => y.CaducaEn, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "CaducaEn").Value));
+                .ForMember(y => y.CaducaEn, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "CaducaEn").Value))
+                .ForMember(y => y.UsuarioId, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Id").Value));
 
             #endregion
         }

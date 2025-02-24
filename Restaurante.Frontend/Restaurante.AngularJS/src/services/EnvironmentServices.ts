@@ -1,11 +1,30 @@
 export default class EnvironmentServices{
-    get Provincia(){
+    public get Provincia(){
         return process.env.PROVINCIA;
     }
-    get ResponseTimeout(){
+    public get ResponseTimeout(){
         return parseInt(process.env.RESPONSE_TIMEOUT);
     }
-    get ApiAdress(){
+    public get ApiAdress(){
         return process.env.API_ADDRESS;
+    }
+    public get WsAddress(){
+        return process.env.WS_ADDRESS;
+    }
+
+    public get WsAddressPedido(){
+        return `${this.WsAddress}/pedidos`;
+    }
+
+    public get WsAddressMessages(){
+        return `${this.WsAddress}/messages`;
+    }
+
+    public get WsRetryMS() : number{
+        return Number(process.env.WS_RETRY_MS);
+    }
+
+    public get WsRetryTimes():number{
+        return Number(process.env.WS_RETRY_TIMES);
     }
 }

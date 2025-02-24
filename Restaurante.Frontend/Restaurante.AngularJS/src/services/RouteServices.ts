@@ -6,12 +6,10 @@ export default class RouteServices {
     private static $inject = ['$rootScope','$location','$interval','$cookies', 'LocalStorageServices'];
     private _nUrl: string;
     private _authScope: ICustomScope;
-    private _authController: any;
     private _isAuthScope: boolean;
-    private _isLogged: boolean;
 
     public get IsLogged(){
-        return this._isLogged;
+        return this.LocalStorageServices?.CurrentUser?.tiempoExpiracionToken != '-';
     }
 
     public IsAuthRoute:boolean;
@@ -30,6 +28,7 @@ export default class RouteServices {
     private Location: ILocationService;
     private FirstInit: boolean;
     private TimeoutTokenTimePromise: IPromise<any>;
+    private CheckAuthViewPromise: IPromise<any>;
 
      
 
@@ -41,13 +40,13 @@ export default class RouteServices {
         private LocalStorageServices: LocalStorageServices
         ) {
         this.FirstInit = true;
-        this._authController = null;
         this._authScope = null;
         this.$rootScope.$on('CheckNextUrl',() => {if(this._nUrl) this.$location.url(this.NextUrl);});
         this.$rootScope.$on('RemoveNextUrl',() => {this._nUrl = null;});
         this.$rootScope.$on('$destroy',() => this.RemoveCheckAuth());
         this.$rootScope.$on('CancelTokenTime', () => {if(this.TimeoutTokenTimePromise) this.$interval.cancel(this.TimeoutTokenTimePromise);})
         this.TimeoutTokenTimePromise = this.$interval(() => this.UpdateExpirationTime(),500);
+        this.CheckAuthViewPromise = this.$interval(() => this.CheckAuthView(),500);
     }
 
     private CheckAuthView(){
@@ -56,7 +55,6 @@ export default class RouteServices {
 
         if(authViewData.length > 0){
             this._authScope = authViewData.scope();
-            this._authController = this._authScope.ctrl;
             this._isAuthScope = true;
             if(this.IsLogged && (currentUrl == '/register' || currentUrl == '/login'))
                 this.$location.url('/profile');
@@ -68,7 +66,6 @@ export default class RouteServices {
             if(this.IsLogged && (currentUrl == '/register' || currentUrl == '/login'))
                 this.$location.url('/profile');
             this._authScope = null;
-            this._authController = null;
             this._isAuthScope = false;
         }
     }
@@ -78,21 +75,19 @@ export default class RouteServices {
     }
 
     private UpdateExpirationTime(){
-        let tE = this.LocalStorageServices.UserInfo.TiempoExpiracionToken;
+        let tE = this.LocalStorageServices.CurrentUser.tiempoExpiracionToken;
         this.$rootScope.$emit('UpdateTokenTime',tE);
 
         if(this.FirstInit){
             this.FirstInit = false;
              if(!this.$cookies.get('auth_token') || tE == '-'){
-             }else this._isLogged = true;
+             }
         }
         else if (tE == '-'){
                 this.$interval.cancel(this.TimeoutTokenTimePromise);     
                 this.$cookies.remove('auth_token');
                 this.LocalStorageServices.RemoveUserInfo();
-                this._isLogged = false;
         }
-        this.CheckAuthView();
     }
 
     get RedirectToLogin(){

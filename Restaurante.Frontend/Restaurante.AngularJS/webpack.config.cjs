@@ -89,7 +89,7 @@ module.exports = {
     new ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      signalR: '@microsoft/signalr'
+      signalR: '@microsoft/signalr',
     }),
     new DefinePlugin({
       'window': 'window'

@@ -9,11 +9,13 @@ import ProductoServices from "@services/ProductoServices";
 import CategoryServices from "@services/CategoryServices";
 import PedidosServices from "@services/PedidosServices";
 import MessageServices from "@services/MessageServices";
+import GoogleMapsServices from "@services/GoogleMapsServices";
 
 export default [
     ["EnvironmentServices", EnvironmentServices],
     ["LocalStorageServices",LocalStorageServices],
     ["RouteServices",RouteServices],
+    ["GoogleMapsServices",GoogleMapsServices],
     ["ApiServices", ApiServices],
     ["MessageServices",MessageServices],
     ["CategoryServices", CategoryServices],

@@ -1,18 +1,22 @@
+import GoogleMapsServices from "@services/GoogleMapsServices";
 import UserServices from "@services/UserServices";
 
 export default class UserController{
+     static $inject = ['$location', '$cookies', 'UserServices', '$rootScope','$scope', 'GoogleMapsServices'];
 /**
  * @param {angular.ILocationService} $location
  * @param {angular.cookies.ICookiesService} $cookies
  * @param {UserServices} UserServices
- * @param {angular.IRootScopeService} $scope 
+ * @param {angular.IRootScopeService} $rootScope 
+ * @param {angular.IScope} $scope 
+ * @param {GoogleMapsServices} GoogleMapsServices  
  */
-    constructor($location, $cookies, UserServices, $scope){
+    constructor($location, $cookies, UserServices, $rootScope, $scope, GoogleMapsServices){
           this.UserServices = UserServices;
           this.cookies = $cookies;
           this.location = $location;
           this.element = angular.element;
-
+          this.GoogleMapsServices = GoogleMapsServices;
           this.editar = {
                nombre: false,
                correo: false,
@@ -27,6 +31,7 @@ export default class UserController{
           this.correo = '';
           this.imagenUrl = '';
           this.telefono = '';
+          $rootScope.$emit('LoadMap','1',`#maps`);
     }
 
      get ShowView(){

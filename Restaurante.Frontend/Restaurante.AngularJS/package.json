@@ -26,8 +26,10 @@
     "angular-route": "^1.8.3",
     "angular-sanitize": "^1.8.3",
     "angular-touch": "^1.8.3",
+    "axios": "^1.8.3",
     "bootstrap": "^5.3.3",
     "jquery": "^3.7.1",
+    "ngmap": "^1.18.5",
     "reflect-metadata": "^0.1.14"
   },
   "devDependencies": {
@@ -43,6 +45,7 @@
     "@types/angular-route": "^1.7.6",
     "@types/angular-sanitize": "^1.8.4",
     "@types/bootstrap": "^5.2.10",
+    "@types/ngmap": "^1.17.11",
     "@types/node": "^22.10.5",
     "@types/typescript": "^0.4.29",
     "babel-core": "^6.26.3",

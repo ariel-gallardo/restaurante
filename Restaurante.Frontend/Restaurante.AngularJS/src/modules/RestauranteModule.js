@@ -3,6 +3,7 @@ import ngRoute from "angular-route";
 import ngCookies from "angular-cookies";
 import ngResource from "angular-resource";
 import ngSanitize from "angular-sanitize";
+import ngMap from 'ngmap'
 import ngAria from "angular-aria";
 import Routes from "@routes";
 import Components from "@components";
@@ -11,7 +12,7 @@ import Services from "@services";
 import Interceptors from "@interceptors";
 import Filters from "@filters";
 
-let RestauranteModule = angular.module("RestauranteModule", [ngRoute, ngCookies, ngResource, ngAria, ngSanitize]);
+let RestauranteModule = angular.module("RestauranteModule", [ngRoute, ngCookies, ngResource, ngAria, ngSanitize, ngMap]);
 
 Services.forEach(([name,service]) => {
     RestauranteModule = RestauranteModule.service(name,service);

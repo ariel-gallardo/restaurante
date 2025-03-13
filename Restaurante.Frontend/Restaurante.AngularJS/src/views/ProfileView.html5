@@ -2,6 +2,7 @@
     <div class="text-center my-2">
         <img class="img-thumbnail center-image" id="img-profile" ng-src="{{ctrl.ImagenUrl}}" />
     </div>
+    <div id="maps" style="height: 500px;"></div>
     <div class="row">
         <div ng-if="!ctrl.editar.nombre" class="col-ms-12 col-md-5" ng-click="ctrl.EditarNombre">
             <label for="full_name" class="form-label"><b>FULL_NAME</b></label>

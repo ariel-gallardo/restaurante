@@ -1,3 +1,4 @@
+import './global-styles/maps';
 import './global-styles/center-image';
 import './global-styles/custom-toast';
 import './global-styles/status-code';

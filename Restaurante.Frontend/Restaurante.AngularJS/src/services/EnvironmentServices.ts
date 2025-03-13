@@ -1,4 +1,5 @@
 export default class EnvironmentServices{
+
     public get Provincia(){
         return process.env.PROVINCIA;
     }
@@ -26,5 +27,9 @@ export default class EnvironmentServices{
 
     public get WsRetryTimes():number{
         return Number(process.env.WS_RETRY_TIMES);
+    }
+
+    public get MapsApiKey(){
+        return process.env.MAPS_API_KEY;
     }
 }

@@ -21,7 +21,8 @@
       "angular-route",
       "angular-sanitize",
       "@microsoft/signalr",
-      "bootstrap"
+      "bootstrap",
+      "ngmap"
     ],
     "target": "ESNext",
     "outDir": "dist",

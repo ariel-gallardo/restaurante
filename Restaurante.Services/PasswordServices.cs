@@ -28,6 +28,8 @@ namespace Restaurante.Services
                 new Claim("Rol", usuario.Rol.Descripcion),
                 new Claim("Domicilio",$"{usuario.Persona.Domicilio.Calle}, {usuario.Persona.Domicilio.Numero} - {usuario.Persona.Domicilio.Localidad}"),
                 new Claim("Telefono",$"({usuario.Persona.Telefono.CodigoArea}) {usuario.Persona.Telefono.Numero}"),
+                new Claim("Latiud",$"{(usuario.Persona.Domicilio.Latitud.HasValue ? usuario.Persona.Domicilio.Latitud : "")}"),
+                new Claim("Longitud",$"{(usuario.Persona.Domicilio.Longitud.HasValue ? usuario.Persona.Domicilio.Longitud : "")}"),
             }),
                 Expires = DateTime.UtcNow.AddHours(AppSettings.JWTHourExpirationTime), 
                 SigningCredentials = new SigningCredentials(

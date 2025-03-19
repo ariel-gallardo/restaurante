@@ -59,7 +59,10 @@ namespace Restaurante.Models.Profiles
                         } 
                         : new PedidoDTO { Estado = EstadoPedido.Buscando, Data = new List<PedidoDTOData>()}
                     )
-                ).ForMember(y => y.UsuarioId, x => x.MapFrom(xx => xx.Id));
+                )
+                .ForMember(y => y.UsuarioId, x => x.MapFrom(xx => xx.Id))
+                .ForMember(y => y.Latitud, x => x.MapFrom(xx => xx.Persona.Domicilio != null && xx.Persona.Domicilio.Latitud.HasValue ? $"{xx.Persona.Domicilio.Latitud}" : "-"))
+                .ForMember(y => y.Longitud, x => x.MapFrom(xx => xx.Persona.Domicilio != null && xx.Persona.Domicilio.Longitud.HasValue ? $"{xx.Persona.Domicilio.Longitud}" : "-"));
             #endregion
 
             #region Claims to Info
@@ -70,7 +73,9 @@ namespace Restaurante.Models.Profiles
                 .ForMember(y => y.Telefono, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Telefono").Value))
                 .ForMember(y => y.Domicilio, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Domicilio").Value))
                 .ForMember(y => y.CaducaEn, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "CaducaEn").Value))
-                .ForMember(y => y.UsuarioId, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Id").Value));
+                .ForMember(y => y.UsuarioId, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Id").Value))
+                .ForMember(y => y.Latitud, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Latitud").Value))
+                .ForMember(y => y.Longitud, x => x.MapFrom(xx => xx.FirstOrDefault(yy => yy.Type == "Longitud").Value));
 
             #endregion
         }

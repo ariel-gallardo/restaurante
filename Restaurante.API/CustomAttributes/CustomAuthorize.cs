@@ -39,7 +39,7 @@ namespace Restaurante.API
             if(rol != null && !string.IsNullOrEmpty(rol.Value) && rol.Value != "Ninguno")
             foreach (var role in _roles)
             {
-                    if (_roles.Contains(rol.Value))
+                    if (_roles.Contains(rol.Value) || Roles.Administrador == rol.Value)
                     {
                         hasRole = true;
                         break;

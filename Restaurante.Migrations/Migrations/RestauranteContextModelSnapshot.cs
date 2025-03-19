@@ -152,10 +152,18 @@ namespace Restaurante.Migrations.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("deleted_at");
 
+                    b.Property<double?>("Latitud")
+                        .HasColumnType("float")
+                        .HasColumnName("lat");
+
                     b.Property<string>("Localidad")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("localidad");
+
+                    b.Property<double?>("Longitud")
+                        .HasColumnType("float")
+                        .HasColumnName("lng");
 
                     b.Property<int>("Numero")
                         .HasColumnType("int")
@@ -312,6 +320,10 @@ namespace Restaurante.Migrations.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("deleted_at");
 
+                    b.Property<long?>("DeliveryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("delivery_id");
+
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -330,6 +342,8 @@ namespace Restaurante.Migrations.Migrations
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("DeletedAt");
+
+                    b.HasIndex("DeliveryId");
 
                     b.HasIndex("UpdatedAt");
 
@@ -439,6 +453,72 @@ namespace Restaurante.Migrations.Migrations
                             Nombre = "Ariel",
                             TelefonoId = 5L
                         });
+                });
+
+            modelBuilder.Entity("Restaurante.Models.Posicion", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<long>("DeliveryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("delivery_id");
+
+                    b.Property<int>("Direccion")
+                        .HasColumnType("int")
+                        .HasColumnName("direccion");
+
+                    b.Property<double>("Latitud")
+                        .HasColumnType("float")
+                        .HasColumnName("latitud");
+
+                    b.Property<double>("Longitud")
+                        .HasColumnType("float")
+                        .HasColumnName("longitud");
+
+                    b.Property<string>("PedidoId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("pedido_id");
+
+                    b.Property<DateTimeOffset>("Tiempo")
+                        .HasColumnType("datetimeoffset")
+                        .HasColumnName("tiempo");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("Velocidad")
+                        .HasColumnType("int")
+                        .HasColumnName("velocidad");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("DeletedAt");
+
+                    b.HasIndex("DeliveryId");
+
+                    b.HasIndex("PedidoId");
+
+                    b.HasIndex("UpdatedAt");
+
+                    b.ToTable("posiciones");
                 });
 
             modelBuilder.Entity("Restaurante.Models.Producto", b =>
@@ -877,11 +957,18 @@ namespace Restaurante.Migrations.Migrations
 
             modelBuilder.Entity("Restaurante.Models.Pedido", b =>
                 {
+                    b.HasOne("Restaurante.Models.Usuario", "Delivery")
+                        .WithMany()
+                        .HasForeignKey("DeliveryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Restaurante.Models.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Delivery");
 
                     b.Navigation("Usuario");
                 });
@@ -899,6 +986,25 @@ namespace Restaurante.Migrations.Migrations
                     b.Navigation("Domicilio");
 
                     b.Navigation("Telefono");
+                });
+
+            modelBuilder.Entity("Restaurante.Models.Posicion", b =>
+                {
+                    b.HasOne("Restaurante.Models.Usuario", "Delivery")
+                        .WithMany()
+                        .HasForeignKey("DeliveryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Restaurante.Models.Pedido", "Pedido")
+                        .WithMany()
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Delivery");
+
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("Restaurante.Models.Producto", b =>

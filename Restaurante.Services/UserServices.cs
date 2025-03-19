@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurante.Const;
 using Restaurante.DAO;
 using Restaurante.Hubs;
 using Restaurante.Models;
@@ -22,9 +23,10 @@ namespace Restaurante.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPedidoRepository _pRepository;
         private readonly IMessageServices _smsServices;
+        private readonly IHubContext<PedidoHub> _pedidosHub;
         private HubCallerContext _hubCallerContext;
 
-        public UserServices(IMapper mapper, IUnitOfWork unitOfWork, IPasswordServices passServices, IHttpContextAccessor httpContextAccessor, IPedidoRepository pRepostiory, IMessageServices smsServices)
+        public UserServices(IMapper mapper, IUnitOfWork unitOfWork, IPasswordServices passServices, IHttpContextAccessor httpContextAccessor, IPedidoRepository pRepostiory, IMessageServices smsServices, IHubContext<PedidoHub> pedidosHub)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -32,6 +34,7 @@ namespace Restaurante.Services
             _httpContextAccessor = httpContextAccessor;
             _pRepository = pRepostiory;
             _smsServices = smsServices;
+            _pedidosHub = pedidosHub;
         }
 
         public IEnumerable<Claim> CurrentUserClaims { 
@@ -44,7 +47,8 @@ namespace Restaurante.Services
             } 
         }
 
-        public T CurrentUserClaim<T>(string type){
+        public T CurrentUserClaim<T>(string type)
+        {
             var claim = CurrentUserClaims.FirstOrDefault(x => x.Type == type);
             dynamic t = default(T);
             if (claim != null && !string.IsNullOrWhiteSpace(claim.Value))
@@ -56,7 +60,7 @@ namespace Restaurante.Services
                         baseType = Nullable.GetUnderlyingType(baseType);
                     t = Convert.ChangeType(claim.Value, Type.GetTypeCode(baseType));
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     try
                     {
@@ -65,13 +69,20 @@ namespace Restaurante.Services
                             t = JsonSerializer.Deserialize<T>(claim.Value);
                         }
                     }
-                    catch (Exception ex2) { 
+                    catch (Exception ex2)
+                    {
 
                     }
                 }
             }
             return t;
         }
+
+        public double? Latitud
+        => CurrentUserClaim<double?>("Latitud");
+
+        public double? Longitud
+        => CurrentUserClaim<double?>("Longitud");
 
         public string CurrentRol
         => CurrentUserClaim<string>("Rol") ?? "Ninguno";
@@ -109,6 +120,8 @@ namespace Restaurante.Services
                     userInfo.Token = $"Bearer {token}";
                     userInfo.CaducaEn = expTime;
                     userInfo.Rol = usuario.Rol.Descripcion;
+                    userInfo.Latitud = $"{usuario.Persona.Domicilio.Latitud}" ?? "-";
+                    userInfo.Longitud = $"{usuario.Persona.Domicilio.Longitud}" ?? "-";
                     response.Content = userInfo;
                     response.Message = $"USER_WELCOME {userInfo.NombreCompleto}";
                     await _smsServices.SendMessage(response.Message, response.StatusCode);
@@ -162,6 +175,29 @@ namespace Restaurante.Services
         public void AddHubContext(HubCallerContext context)
         {
             _hubCallerContext = context;
+        }
+
+        public async Task JoinWorkGroup()
+        {
+            switch (CurrentRol)
+            {
+                case Roles.Cocinero:
+                    await _pedidosHub.Groups.AddToGroupAsync(_hubCallerContext.ConnectionId, Roles.Cocinero);
+                    break;
+                case Roles.Recepcionista:
+                    await _pedidosHub.Groups.AddToGroupAsync(_hubCallerContext.ConnectionId, Roles.Recepcionista);
+                    break;
+                case Roles.Delivery:
+                    await _pedidosHub.Groups.AddToGroupAsync(_hubCallerContext.ConnectionId, Roles.Delivery);
+                    break;
+                case Roles.Administrador:
+                    await Task.WhenAll(
+                        _pedidosHub.Groups.AddToGroupAsync(_hubCallerContext.ConnectionId, Roles.Cocinero),
+                        _pedidosHub.Groups.AddToGroupAsync(_hubCallerContext.ConnectionId, Roles.Recepcionista),
+                        _pedidosHub.Groups.AddToGroupAsync(_hubCallerContext.ConnectionId, Roles.Delivery)
+                    );
+                    break;
+            }
         }
     }
 }

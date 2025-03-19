@@ -21,6 +21,10 @@ export default class EnvironmentServices{
         return `${this.WsAddress}/messages`;
     }
 
+    public get WsAddressDelivery(){
+        return `${this.WsAddress}/delivery`;
+    }
+
     public get WsRetryMS() : number{
         return Number(process.env.WS_RETRY_MS);
     }
@@ -31,5 +35,9 @@ export default class EnvironmentServices{
 
     public get MapsApiKey(){
         return process.env.MAPS_API_KEY;
+    }
+
+    public get RestaurantePosition(){
+        return [-32.90775874265699, -68.80538460717636];
     }
 }

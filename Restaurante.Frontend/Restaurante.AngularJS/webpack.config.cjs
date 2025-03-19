@@ -145,6 +145,8 @@ module.exports = {
       '@interceptors': path.resolve(__dirname, 'src/interceptors/'),
       '@filters': path.resolve(__dirname, 'src/filters/'),
       '@queries': path.resolve(__dirname, 'src/queries/'),
+      '@css': path.resolve(__dirname, 'src/css/'),
+      '@events': path.resolve(__dirname, 'src/events/'),
     }
   }
 };

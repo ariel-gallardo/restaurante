@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebSockets;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Restaurante.API.Extensions;
 using Restaurante.API.Filters;
@@ -37,7 +38,12 @@ namespace Restaurante.API
                 });
             });
 
-            
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = _cfg.GetConnectionString("Redis");
+                options.InstanceName = "Restaurante_"; 
+            });
+
             // Agrega los controladores
             services.AddControllers(o =>
             {

@@ -19,8 +19,9 @@ namespace Restaurante.DAO.Extensions
              .AddScoped<IRepository<Producto>, StringRepository<Producto>>()
              .AddScoped<IRepository<ProductoIngrediente>, StringRepository<ProductoIngrediente>>()
              .AddScoped<IRepository<Pedido>, StringRepository<Pedido>>()
-             .AddScoped<IRepository<DetallePedido>, StringRepository<DetallePedido>>();
-             
+             .AddScoped<IRepository<DetallePedido>, StringRepository<DetallePedido>>()
+             .AddScoped<IRepository<Posicion>, StringRepository<Posicion>>();
+
             services =
                 services
                 .AddScoped<IUsuarioRepository, UsuarioRepository>()
@@ -28,8 +29,10 @@ namespace Restaurante.DAO.Extensions
                 .AddScoped<IIngredienteRepository, IngredienteRepository>()
                 .AddScoped<IProductoRepository, ProductoRepository>()
                 .AddScoped<IProductoIngredienteRepository, ProductoIngredienteRepository>()
-                .AddScoped<IPedidoRepository, PedidoRepository>();
-                
+                .AddScoped<IPedidoRepository, PedidoRepository>()
+                .AddScoped<IPosicionRepository, PosicionRepository>();
+
+
              return services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

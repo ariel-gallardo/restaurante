@@ -15,6 +15,10 @@ namespace Restaurante.Models
         [Required]
         [Column("localidad")]
         public string Localidad { get; set; }
+        [Column("lat")]
+        public double? Latitud { get; set; }
+        [Column("lng")]
+        public double? Longitud { get; set; }
     }
 
 }

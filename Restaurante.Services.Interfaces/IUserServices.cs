@@ -7,6 +7,7 @@ namespace Restaurante.Services
     public interface IUserServices
     {
         void AddHubContext(HubCallerContext context);
+        Task JoinWorkGroup();
         HubCallerContext HubContext {get;}
         IEnumerable<Claim> CurrentUserClaims { get; }
         T CurrentUserClaim<T>(string type);

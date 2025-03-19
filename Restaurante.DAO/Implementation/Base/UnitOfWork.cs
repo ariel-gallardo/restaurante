@@ -20,6 +20,7 @@ namespace Restaurante.DAO
         private readonly IRepository<Persona> _b_personaRepository;
         private readonly IRepository<Rol> _b_rolRepository;
         private readonly IRepository<Telefono> _b_telefonoRepository;
+        private readonly IRepository<Posicion> _b_posicionRepository;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IProductoRepository _productoRepository;
         private readonly IIngredienteRepository _ingredienteRepository;
@@ -27,6 +28,7 @@ namespace Restaurante.DAO
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IRepository<DetallePedido> _detallePedidoRepository;
         private readonly ICategoriaRepository _categoriaRepository;
+        private readonly IPosicionRepository _posicionRepository;
         #endregion
 
         #region Public
@@ -41,6 +43,7 @@ namespace Restaurante.DAO
         public IPedidoRepository Pedido { get => _pedidoRepository; }
         public IRepository<DetallePedido> DetallePedido => _detallePedidoRepository;
         public ICategoriaRepository Categoria { get => _categoriaRepository; }
+        public IPosicionRepository Posicion { get => _posicionRepository; }
         public RestauranteContext Context { get => _ctx; }
         #endregion
 
@@ -57,13 +60,15 @@ namespace Restaurante.DAO
             IRepository<ProductoIngrediente> b_pIngredienteRepository,
             IRepository<Pedido> b_pedidoRepository,
             IRepository<Categoria> b_categoriaRepository,
+            IRepository<Posicion> b_posicionRepository,
             IUsuarioRepository usuarioRepository,
             IProductoRepository productoRepository,
             IIngredienteRepository ingredienteRepository,
             IProductoIngredienteRepository productoIngredienteRepository,
             IPedidoRepository pedidoRepository,
             IRepository<DetallePedido> detallePedidoRepository,
-            ICategoriaRepository categoriaRepository
+            ICategoriaRepository categoriaRepository,
+            IPosicionRepository posicionRepository
             )
         {
             _ctx = ctx;
@@ -77,6 +82,7 @@ namespace Restaurante.DAO
             _b_personaRepository = b_personaRepository;
             _b_rolRepository = b_rolRepository;
             _b_telefonoRepository = b_telefonoRepository;
+            _b_posicionRepository = b_posicionRepository;
             _usuarioRepository = usuarioRepository;
             _productoRepository = productoRepository;
             _ingredienteRepository = ingredienteRepository;
@@ -84,6 +90,7 @@ namespace Restaurante.DAO
             _pedidoRepository = pedidoRepository;
             _detallePedidoRepository = detallePedidoRepository;
             _categoriaRepository = categoriaRepository;
+            _posicionRepository = posicionRepository;
             AssignUnitOfWork();
         }
         #endregion
@@ -105,6 +112,7 @@ namespace Restaurante.DAO
             _b_personaRepository.UnitOfWork = this;
             _b_rolRepository.UnitOfWork = this;
             _b_telefonoRepository.UnitOfWork = this;
+            _b_posicionRepository.UnitOfWork = this;
             _usuarioRepository.UnitOfWork = this;
             _productoRepository.UnitOfWork = this;
             _ingredienteRepository.UnitOfWork = this;
@@ -112,6 +120,7 @@ namespace Restaurante.DAO
             _pedidoRepository.UnitOfWork = this;
             _detallePedidoRepository.UnitOfWork = this;
             _categoriaRepository.UnitOfWork = this;
+            _posicionRepository.UnitOfWork = this;
         }
 
         private IDbContextTransaction _transaction;

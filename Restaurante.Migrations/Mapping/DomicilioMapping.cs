@@ -12,6 +12,8 @@ namespace Restaurante.Migrations
             modelBuilder.Entity<T>().Property(x => x.Calle).IsRequired().ValueGeneratedNever();
             modelBuilder.Entity<T>().Property(x => x.Localidad).IsRequired().ValueGeneratedNever();
             modelBuilder.Entity<T>().Property(x => x.Numero).IsRequired().ValueGeneratedNever();
+            modelBuilder.Entity<T>().Property(x => x.Latitud).IsRequired(false);
+            modelBuilder.Entity<T>().Property(x => x.Longitud).IsRequired(false);
         }
     }
 }

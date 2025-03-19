@@ -14,6 +14,7 @@ namespace Restaurante.Services
             services.AddScoped<IIngredienteServices, IngredienteServices>();
             services.AddScoped<IProductoIngredienteServices, ProductoIngredienteServices>();
             services.AddScoped<IPedidoServices, PedidoServices>();
+            services.AddScoped<IPositionServices, PositionServices>();
         }
     }
 }

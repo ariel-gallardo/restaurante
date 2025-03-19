@@ -1,0 +1,11 @@
+<div>
+    <orders-list 
+        data="ctrl.Data"
+        on-viewmap="ctrl.onViewMap"
+        on-assign-delivery="ctrl.onAssignDelivery"
+        on-view-details="ctrl.onViewDetails"
+        on-modify-details="ctrl.onModifyDetails"
+        on-cancel="ctrl.onCancel"
+        permissions="ctrl.Permissions"
+    ></orders-list>
+</div>

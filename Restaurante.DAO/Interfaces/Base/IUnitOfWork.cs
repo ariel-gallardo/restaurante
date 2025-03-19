@@ -16,6 +16,7 @@ namespace Restaurante.DAO
         ICategoriaRepository Categoria { get; }
         IPedidoRepository Pedido { get; }
         IRepository<DetallePedido> DetallePedido { get; }
+        IPosicionRepository Posicion { get; }
         RestauranteContext Context { get; }
         void BeginTransaction();
         Task BeginTransactionAsync();

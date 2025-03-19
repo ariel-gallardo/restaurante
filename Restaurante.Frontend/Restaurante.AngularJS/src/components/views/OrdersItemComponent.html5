@@ -1,0 +1,17 @@
+<li>
+    <div>
+        <div>
+            <p>{{ctrl.order.usuarioId}}</p>
+            <p>{{ctrl.order.deliveryId}}</p>
+            <p>{{ctrl.order.estado}}</p>
+        </div>
+        <div>
+            <button ng-click="ctrl.onViewMap(order)">VIEW_MAP</button>
+            <button ng-click="ctrl.onAssignDelivery(order)">ASSIGN_DELIVERY</button>
+            <button ng-click="ctrl.onViewDetails(order)">DETAILS</button>
+            <button ng-click="ctrl.onModifyDetails(order)">MODIFY</button>
+            <button ng-click="ctrl.onCancel(order)">CANCEL</button>
+        </div>
+    </div>
+    <div id="maps"></div>
+</li>

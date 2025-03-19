@@ -33,6 +33,7 @@ namespace Restaurante.Migrations
             mB.Map<Producto>();
             mB.Map<DetallePedido>();
             mB.Map<Pedido>();
+            mB.Map<Posicion>();
         }
 
         private void MapRelationShips(ref ModelBuilder mB)
@@ -43,6 +44,7 @@ namespace Restaurante.Migrations
             mB.MapRelationShips<Producto>();
             mB.MapRelationShips<ProductoIngrediente>();
             mB.MapRelationShips<Pedido>();
+            mB.MapRelationShips<Posicion>();
         }
 
         private void GenerateDemoData(ref ModelBuilder mB)

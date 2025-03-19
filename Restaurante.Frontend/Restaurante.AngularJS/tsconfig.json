@@ -59,11 +59,16 @@
         "filters/*"
       ],
       "@styles/*": [
-        "global-styles/*"
+        "global-styles/*",
       ],
       "@queries/*": [
         "queries/*"
       ],
+      "@css/*":[
+        "css/*"
+      ],"@events/*":[
+        "events/*"
+      ]
     }
   },"include": [
     "src/**/*.js",  

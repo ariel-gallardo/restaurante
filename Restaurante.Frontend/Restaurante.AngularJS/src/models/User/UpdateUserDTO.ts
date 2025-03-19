@@ -7,4 +7,6 @@ export default interface UpdateUserDTO{
     Calle?: number
     Numero?: number
     Localidad: string
+    Latitud?: string
+    Longitud?: string
 }

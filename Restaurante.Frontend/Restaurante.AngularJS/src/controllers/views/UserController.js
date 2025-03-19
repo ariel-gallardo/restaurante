@@ -1,22 +1,23 @@
-import GoogleMapsServices from "@services/GoogleMapsServices";
+import ClassMap from "@css/ClassMap";
 import UserServices from "@services/UserServices";
+import MapButtonAddEventData from "@events/MapButtonAddEventData";
 
 export default class UserController{
-     static $inject = ['$location', '$cookies', 'UserServices', '$rootScope','$scope', 'GoogleMapsServices'];
+     static $inject = ['$location', '$cookies', 'UserServices', '$rootScope','$scope'];
 /**
  * @param {angular.ILocationService} $location
  * @param {angular.cookies.ICookiesService} $cookies
  * @param {UserServices} UserServices
  * @param {angular.IRootScopeService} $rootScope 
- * @param {angular.IScope} $scope 
- * @param {GoogleMapsServices} GoogleMapsServices  
+ * @param {angular.IScope} $scope  
  */
-    constructor($location, $cookies, UserServices, $rootScope, $scope, GoogleMapsServices){
+    constructor($location, $cookies, UserServices, $rootScope, $scope){
+          this.mapClass = new ClassMap;
+          this.orderId = 'none';
           this.UserServices = UserServices;
           this.cookies = $cookies;
           this.location = $location;
           this.element = angular.element;
-          this.GoogleMapsServices = GoogleMapsServices;
           this.editar = {
                nombre: false,
                correo: false,
@@ -31,8 +32,34 @@ export default class UserController{
           this.correo = '';
           this.imagenUrl = '';
           this.telefono = '';
-          $rootScope.$emit('LoadMap','1',`#maps`);
+          this.$scope = $scope;
+          this.$rootScope = $rootScope;
+          this.mapScope = null;
+          
+          $scope.$watch(() => this.PedidoId, (nV,oV) => {
+               if(this.orderId && this.orderId != '' && nV && nV != '-')
+               {
+                    this.orderId = nV;
+                    this.$rootScope.$applyAsync(x => {
+                         
+                         if(!this.map){
+                              let map = angular.element(document.getElementById(`Map-${this.orderId}`));
+                              if(map) {
+                                   this.mapScope = map.isolateScope();
+                                   this.mapScope.$emit('Map_Create');
+                                   this.mapScope.$applyAsync();
+                              }
+                         }
+                    });
+               }
+               else
+                    this.orderId = 'none';
+          });
     }
+
+     get PedidoId(){
+          return this.UserServices.PedidoId;
+     }
 
      get ShowView(){
           return this.UserServices.IsLogged;
@@ -179,7 +206,31 @@ export default class UserController{
                toSend = {...toSend,correo: this.Correo};
                empty = false;
           }
+
+          if(this.lat != '' && this.lat != '-' && this.lng != '' && this.lng != '-')
+          {
+               toSend = {...toSend, Latitud: this.lat, Longitud: this.lng};
+               empty = false;
+          }
           
           if(!empty) this.UserServices.update(toSend);
+     }
+
+     get lat(){
+          let r = this.UserServices.Latitude;
+          return  r && r != '-' ? Number(r) : 0.0;
+     }
+
+     set lat(nV){
+          if(nV && nV != '-' || nV != '') this.UserServices.Latitude = `${nV}`;
+     }
+
+     get lng(){
+          let r = this.UserServices.Longitude;
+          return  r && r != '-' ? Number(r) : 0.0;
+     }
+
+     set lng(nV){
+          if(nV && nV != '-' || nV != '') this.UserServices.Longitude = `${nV}`;
      }
 }

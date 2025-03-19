@@ -2,7 +2,15 @@
     <div class="text-center my-2">
         <img class="img-thumbnail center-image" id="img-profile" ng-src="{{ctrl.ImagenUrl}}" />
     </div>
-    <div id="maps" style="height: 500px;"></div>
+    <map-google 
+        map-id="ctrl.orderId" 
+        map-class="ctrl.mapClass"
+        map-latitude="ctrl.lat"
+        map-longitude="ctrl.lng"
+        map-width="'50vw'"
+        map-height="'300px'"
+        map-marker-house="true"
+    ></map-google>
     <div class="row">
         <div ng-if="!ctrl.editar.nombre" class="col-ms-12 col-md-5" ng-click="ctrl.EditarNombre">
             <label for="full_name" class="form-label"><b>FULL_NAME</b></label>

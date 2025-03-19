@@ -3,18 +3,32 @@ import Order from "@models/Order/Order";
 import OrderAction from "@models/Order/OrderAction";
 import OrderDetail from "@models/Order/OrderDetail";
 import OrderInteraction from "@models/Order/OrderInteraction";
+import Pagination from "@models/Pagination";
+import PosicionDTO from "@models/Posicion/PosicionDTO";
 import ProductStoreMin from "@models/Product/ProductStoreMin";
+import Response from "@models/Response";
+import OrderGetQuerie from "@queries/OrderGetQuerie";
+import ApiServices from "@services/ApiServices";
 import EnvironmentServices from "@services/EnvironmentServices";
 import LocalStorageServices from "@services/LocalStorageServices";
 import UserServices from "@services/UserServices";
-import { cookies, IRootScopeService } from "angular";
+import { cookies, IAngularEvent, IRootScopeService, IScope } from "angular";
 
 export default class PedidosServices{
-    static $inject = ['$rootScope', 'UserServices', 'EnvironmentServices', 'LocalStorageServices', '$cookies'];
+    static $inject = ['$rootScope','UserServices', 'EnvironmentServices', 'LocalStorageServices', '$cookies', 'ApiServices'];
     private _pedidosHub : HubConnection;
     private _smsId: string;
+    private _n: Navigator;
+    private _check: boolean = false;
+    private _url: string = '/api/pedido';
 
-    constructor(private $rootScope: IRootScopeService, private UserServices: UserServices, private EnvironmentServices: EnvironmentServices, private LocalStorageServices: LocalStorageServices, private $cookies: cookies.ICookiesService) {
+    constructor(private $rootScope: IRootScopeService,
+        private UserServices: UserServices, 
+        private EnvironmentServices: EnvironmentServices, 
+        private LocalStorageServices: LocalStorageServices, 
+        private $cookies: cookies.ICookiesService,
+        private ApiServices: ApiServices) {
+        this._n = window.navigator;
         this.$rootScope.$on('InteractuarCarrito', (e,i) => {
             this.InteractuarCarrito(i);
         });
@@ -29,10 +43,13 @@ export default class PedidosServices{
             }
         });
         this.$rootScope.$on('ConnectionId', (e,id:string) => {this._smsId = id;});
+        this.$rootScope.$on('Delivery_Select',this.Select.bind(this));
+        this.$rootScope.$on('Delivery_StopCheckPosition',this.StopCheckPosition.bind(this));
+        this.GetByQuerie.bind(this);
     }
 
 
-    private get PedidosHub(){
+    public get PedidosHub(){
         if(this._pedidosHub == null){
             let token = this.UserServices.Token.replace('Bearer ','');
             this._pedidosHub = new HubConnectionBuilder()
@@ -49,8 +66,70 @@ export default class PedidosServices{
             this._pedidosHub.on('Order', (order: any) => {
                 this.LocalStorageServices.CurrentUser.pedido = order;
             });
+            this._pedidosHub.on('Status', (nuevoEstado: string) => {
+                this.LocalStorageServices.CurrentUser.pedido.estado = nuevoEstado;
+            });
+            
+            this._pedidosHub.on('Assign', async (pedidoId: string, deliveryId: string, clienteId: string) => {
+                if(this.UserServices.Id == deliveryId &&
+                    !this.LocalStorageServices.CurrentUser.pedidoTrabajo.find(x => x.pedido == pedidoId)
+                )
+                {
+                    let {content} = await this.ApiServices.get<Response<Order>>(`/api/pedidos?id=${pedidoId}`);
+                    if(content != null){
+                        this.LocalStorageServices.CurrentUser.pedidoTrabajo=
+                        [...this.LocalStorageServices.CurrentUser.pedidoTrabajo,
+                            content as Order
+                        ];
+                        this._check = true;
+                        this.SetPosition();
+                    }
+
+                }else if(this.UserServices.Id == clienteId){
+                     let pos = new PosicionDTO;
+                     const [lat, lng] = this.EnvironmentServices.RestaurantePosition;
+                     pos.Latitud = lat;
+                     pos.Longitud = lng;
+                     this.UserServices.PosicionDelivery = pos;
+                }
+            });
+
+            this._pedidosHub.on('Posicion', (pos: PosicionDTO) => {
+                this.UserServices.PosicionDelivery = pos;
+                this.$rootScope.$emit('Map_Move',pos);
+            });
         }
         return this._pedidosHub;
+    }
+
+    //Recepcionista
+    private Select(e: IAngularEvent, orderId:string, clientId: string, deliveryId: string){
+        this._pedidosHub.invoke('SeleccionarDelivery',orderId, clientId, deliveryId);
+    }
+
+    //Sistema
+    private StopCheckPosition(){
+        this._check = false;
+        this.Disconnect();
+    }
+
+    //Delivery
+    private SetPosition(){
+        this._n.geolocation.getCurrentPosition(s => {
+            let p = this.UserServices.PedidosTrabajo[0];
+            if(this._check && this.UserServices.Rol == 'Delivery' && p){
+                this._pedidosHub.invoke('Posicionar',PosicionDTO.FromGeoLocation(s,p.pedido, this.UserServices.Id));
+            }
+        });
+    }
+
+    public async GetByQuerie(querie: OrderGetQuerie) : Promise<Response<Pagination<Order>>>{
+        return await this.ApiServices.get(`${this._url}${QuerieURLFromObject(querie)}`);
+    }
+
+    public Disconnect(){
+        this._pedidosHub.stop();
+        this._pedidosHub = null;
     }
 
     public get DetallesPedido(){

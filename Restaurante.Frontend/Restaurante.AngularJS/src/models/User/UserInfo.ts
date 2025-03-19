@@ -11,4 +11,7 @@ export default class UserInfo{
     tiempoExpiracionToken: string = '-';
     caducaEn: string = '-';
     pedido: Order = new Order;
+    pedidoTrabajo: Order[] = [];
+    latitud: string = '-';
+    longitud: string = '-';
 }

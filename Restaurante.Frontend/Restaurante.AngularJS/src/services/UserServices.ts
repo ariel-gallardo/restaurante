@@ -1,3 +1,4 @@
+import PosicionDTO from "@models/Posicion/PosicionDTO";
 import RegisterDTO from "@models/User/RegisterDTO";
 import UpdateUserDTO from "@models/User/UpdateUserDTO";
 import ApiServices from "@services/ApiServices";
@@ -14,6 +15,8 @@ export default class UserServices {
     private LocalStorageServices: LocalStorageServices;
     private TiempoExpiracion: string;
     private RootScope: IRootScopeService;
+    
+    public PosicionDelivery: PosicionDTO;
     
     constructor(ApiServices : ApiServices, $cookies : angular.cookies.ICookiesService, $location: ILocationService, $rootScope: IRootScopeService, LocalStorageServices: LocalStorageServices) {
         this.ApiServices = ApiServices;
@@ -50,6 +53,10 @@ export default class UserServices {
         this.ApiServices.post('/api/user/register',data);
     }
 
+    get Id(){
+        return this.LocalStorageServices.CurrentUser.id;
+    }
+
     get NombreCompleto(){
        return this.LocalStorageServices.CurrentUser.nombreCompleto;
     }
@@ -66,6 +73,22 @@ export default class UserServices {
         return this.LocalStorageServices.CurrentUser.domicilio;
     }
 
+    get Latitude(){
+        return this.LocalStorageServices.CurrentUser.latitud;
+    }
+
+    get Longitude(){
+        return this.LocalStorageServices.CurrentUser.longitud;
+    }
+
+    set Latitude(nV: string){
+        this.LocalStorageServices.CurrentUser.latitud = nV;
+    }
+
+    set Longitude(nV: string){
+        this.LocalStorageServices.CurrentUser.longitud = nV;
+    }
+
     get Telefono(){
         return this.LocalStorageServices.CurrentUser.telefono;
     }
@@ -78,6 +101,10 @@ export default class UserServices {
         return this.LocalStorageServices.CurrentUser.tiempoExpiracionToken;
     }
 
+    public get PedidoId(){
+        return this.LocalStorageServices.CurrentUser?.pedido?.pedido ?? '';
+    }
+
     public get Pedido(){
         return this.LocalStorageServices.CurrentUser.pedido;
     }
@@ -85,8 +112,15 @@ export default class UserServices {
     public get DetallesPedido(){
         return this.Pedido.data;
     }
-    
 
+    public get PedidosTrabajo(){
+        return this.LocalStorageServices.CurrentUser.pedidoTrabajo;
+    }
+
+    public DetallePedidoTrabajo(id: string){
+        return this.PedidosTrabajo.find(x => x.pedido == id);
+    }
+    
     public get Token()
     {
         return this.cookies.get('auth_token');

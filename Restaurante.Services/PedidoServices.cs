@@ -267,5 +267,45 @@ namespace Restaurante.Services
                 await _pedidoHub.Clients.Client(conId).SendAsync(MethodsHub.SendMessage, $@"NOT_FOUND ""{pedidoId.Trim()}""");
             }
         }
+
+        public async Task SeleccionarDelivery(string pedidoId, long clienteId, long deliveryId)
+        {
+            if (await _unitOfWork.Pedido.SeleccionarDelivery(pedidoId, clienteId, deliveryId) != null)
+                await Task.WhenAll(
+                    _pedidoHub.Clients.Group(Roles.Delivery).SendAsync("Assign", pedidoId, deliveryId, clienteId),
+                    _pedidoHub.Clients.Group(pedidoId).SendAsync("Status",EstadoPedido.Delivery),
+                    _pedidoHub.Clients.Group(pedidoId).SendAsync("Assign", pedidoId, deliveryId, clienteId)
+                );
+        }
+
+        public async Task<ResultResponse> BuscarPorId(string id)
+        {
+            var result = new ResultResponse();
+            var data = await _unitOfWork.Pedido.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if(data != null)
+            {
+                result.StatusCode = StatusCodes.Status200OK;
+                result.Content = _mapper.Map<PedidoDTO>(data);
+                result.Message = $@"ENTITY_FOUND ""{nameof(Pedido)},{id}""";
+            }
+            else
+            {
+                result.StatusCode = StatusCodes.Status404NotFound;
+                result.Message = $@"ENTITY_NOT_FOUND ""{nameof(Pedido)},{id}""";
+            }
+
+            return result;
+        }
+
+        public async Task<ResultResponse> BuscarActualesPorRol(bool asc, int page = 1)
+        {
+            var role = _userServices.CurrentRol;
+            var result = new ResultResponse();
+            result.StatusCode = StatusCodes.Status200OK;
+            var data = await _unitOfWork.Pedido.BuscarActualesPorRol(_userServices.CurrentId.Value, role,asc,page);
+            result.Content = data;
+            return result;
+        }
     }
 }

@@ -10,8 +10,12 @@ namespace Restaurante.Models
         [Column("estado")]
         public string Estado { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Usuario Delivery { get; set; }
         [ForeignKey("Usuario")]
         [Column("usuario_id")]
         public long UsuarioId { get; set; }
+        [ForeignKey("Delivery")]
+        [Column("delivery_id")]
+        public long? DeliveryId { get; set; }
     }
 }

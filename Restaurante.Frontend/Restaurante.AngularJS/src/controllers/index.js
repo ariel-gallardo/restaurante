@@ -13,7 +13,6 @@ import OrdersListController from "@controllers/components/orders/OrdersListContr
 import OrdersItemController from "@controllers/components/orders/OrdersItemController";
 import WorkController from "@controllers/views/WorkController";
 import MapGoogleController from "@controllers/components/maps/MapGoogleController";
-
 export default [
     ["RestauranteCtrl",RestauranteController],
     ["HomeCtrl",HomeController],

@@ -18,12 +18,40 @@ export default class MapGoogleController{
     private _longitude: number = 0.0;
     private _width: string;
     private _height: string;
-    private _markerPointerHouseAdded: boolean;
-    private _markerPointerHouseVisible: boolean;
-    private _markerPointerHouse: google.maps.Marker;
     private _mapCtrl: JQuery<HTMLSpanElement>;
-    private _markerHouseCanBeAdded: boolean;
-    private _markerHouseAdded: boolean;
+    private _directiveOutputs = {};
+    private _directiveScopes = {};
+
+    //Directives
+    public AddDirectiveOutput<T>(from: string, data:T){
+        this._directiveOutputs = {...this._directiveOutputs, [from]: data};
+    };
+
+    public get DirectiveOutputs(){
+        return this._directiveOutputs;
+    }
+
+    private SendDirectiveOutputs(){
+        this.$scope.$emit('Directive_Output',this.DirectiveOutputs);
+    }
+
+    //Scopes
+    public get DirectiveScopes(){
+        return this._directiveScopes;
+    }
+
+    public AddDirectiveScope(from: string, data:IScope){
+        this._directiveScopes = {...this._directiveScopes, [from]: data};
+        this.$scope.$emit('Scopes_Output',this._directiveScopes);
+    };
+
+    public get Map(){
+        return this._map;
+    }
+
+    public get OrderId(){
+        return this._orderId;
+    }
 
     constructor(
         private $rootScope : IRootScopeService, 
@@ -32,31 +60,8 @@ export default class MapGoogleController{
         private $attrs : IAttributes,
         private EnvironmentServices: EnvironmentServices
     ) {
-        this.$scope.$watchGroup([() => this._map,'ctrl.mapMarkerHouse'],(nV:string) => {
-            this._markerHouseCanBeAdded = Boolean(nV);
-            if(this._markerHouseCanBeAdded && !this._markerHouseAdded && this._map){
-                this.$scope.$emit('Map_Button_Add',
-                    new MapButtonAddEventData(
-                         () => this.$scope.$emit('Map_NewHouse_Add_Pointer'),
-                         'NewHousePointer',
-                         '2rem',
-                         '2rem',
-                         'btn btn-info',
-                         '/assets/images/houseAdd.svg'
-                    ));
+        this.$scope.$watch(() => this.DirectiveOutputs, this.SendDirectiveOutputs.bind(this));
 
-                    this.$scope.$emit('Map_Button_Add',
-                         new MapButtonAddEventData(
-                              () => this.$scope.$emit('Map_NewHouse_Remove_Pointer'),
-                              'RemoveHousePointer',
-                              '2rem',
-                              '2rem',
-                              'btn btn-info',
-                              '/assets/images/houseRemove.svg'
-                    ));
-                    this._markerHouseAdded = true;
-            }
-        });
         this.$scope.$watchGroup(['ctrl.mapHeight', 'ctrl.mapWidth'],(nV:string) => {
             if(nV){
                 const [h,w] = nV;
@@ -66,22 +71,13 @@ export default class MapGoogleController{
                 }
             }
         });
-
-        this.$scope.$watch('ctrl.mapClass', (nV: ClassMap) => this._mapClass = nV);
         this.$scope.$watchGroup(['ctrl.mapLatitude', 'ctrl.mapLongitude'],(nV,oV) => {
             const [lat,lng] = nV;
             this._latitude = lat;
             this._longitude = lng;
         });
         this.$scope.$watch('ctrl.mapClass', (nV: ClassMap) => this._mapClass = nV);
-        this.$scope.$watch('ctrl.mapId',async (nV : string, oV: string) =>  {
-            if(!this._orderId)
-            {
-                this._orderId = nV;
-                this.$element.attr('id',`Map-${this._orderId}`);
-                await this.$scope.$applyAsync();
-            }
-        });
+
         this.$scope.$on('Map_Create',this.createMap.bind(this));
         this.$scope.$on('Map_AddRoute',this.addRouteToMap.bind(this));
         this.$scope.$on('Map_Assign',this.assignDelivery.bind(this));
@@ -89,9 +85,6 @@ export default class MapGoogleController{
         this.$scope.$on('Map_End', this.removeCurrent.bind(this));
         this.$scope.$on('Map_Button_Add', this.addButton.bind(this));
         this.$scope.$on('Map_Button_Remove', this.removeButton.bind(this));
-        this.$scope.$on('Map_NewHouse_Add_Pointer', this.addMarkerHouse.bind(this));
-        this.$scope.$on('Map_NewHouse_Remove_Pointer', this.removeMarkerHouse.bind(this));
-
         this.$rootScope.$on('Map_Move',(e: IAngularEvent, pos: PosicionDTO) => {
             if(pos.PedidoId == this._orderId)
                 this.$scope.$emit('Map_Move',pos);
@@ -204,7 +197,11 @@ export default class MapGoogleController{
         }
     }
 
-    private async createMap(e: IAngularEvent){
+    private async createMap(e: IAngularEvent, id: string){
+        if(!id) return;
+        
+        this._orderId = id;
+
         if(this.$element.children(`#Map-I-${this._orderId}`).length > 0) return;
         else
         {
@@ -242,27 +239,6 @@ export default class MapGoogleController{
         this._deliveryId = null;
     }
 
-    private addMarkerHouse(e: IAngularEvent) {
-        if (!this._markerPointerHouseAdded && this._markerHouseCanBeAdded) {
-          const position = this._map.getCenter();
-          this._markerPointerHouse = new google.maps.Marker({
-            position: position,
-            map: this._map,
-            label: 'C',
-            draggable: true,
-          });
-          this._markerPointerHouseAdded = true;
-          this._markerPointerHouseVisible = true;
-        }
-    }
-
-    private removeMarkerHouse() {
-        if (this._markerPointerHouseAdded && this._markerPointerHouse && this._markerHouseCanBeAdded) {
-          this._markerPointerHouse.setMap(null);
-          this._markerPointerHouseAdded = false;
-          this._markerPointerHouseVisible = false;
-        }
-    }
 
     private addButton(e: IAngularEvent, data: MapButtonAddEventData){
         const {callback, classes, height, width, iconUrl, name} = data;

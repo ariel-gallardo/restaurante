@@ -68,6 +68,12 @@
         "css/*"
       ],"@events/*":[
         "events/*"
+      ],
+      "@directives/*":[
+        "directives/*"
+      ],
+      "@links/*":[
+        "links/*"
       ]
     }
   },"include": [

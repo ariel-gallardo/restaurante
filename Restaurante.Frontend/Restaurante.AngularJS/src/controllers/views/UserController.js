@@ -1,6 +1,7 @@
 import ClassMap from "@css/ClassMap";
 import UserServices from "@services/UserServices";
 import MapButtonAddEventData from "@events/MapButtonAddEventData";
+import PosicionUsuario from "@models/Posicion/PosicionUsuario";
 
 export default class UserController{
      static $inject = ['$location', '$cookies', 'UserServices', '$rootScope','$scope'];
@@ -24,7 +25,7 @@ export default class UserController{
                domicilio: false,
                telefono: false
           }
-          
+          this._editPosition = true;
           this.nombre = '';
           this.apellido = '';
           this.calle = '';
@@ -35,19 +36,41 @@ export default class UserController{
           this.$scope = $scope;
           this.$rootScope = $rootScope;
           this.mapScope = null;
+
           
           $scope.$watch(() => this.PedidoId, (nV,oV) => {
+               
                if(this.orderId && this.orderId != '' && nV && nV != '-')
                {
                     this.orderId = nV;
                     this.$rootScope.$applyAsync(x => {
-                         
                          if(!this.map){
-                              let map = angular.element(document.getElementById(`Map-${this.orderId}`));
-                              if(map) {
+                              let map = angular.element($('map-google').get(0));
+                              map.attr('id',this.orderId);
+                              if(map){
                                    this.mapScope = map.isolateScope();
-                                   this.mapScope.$emit('Map_Create');
-                                   this.mapScope.$applyAsync();
+                                   if(this.mapScope){
+                                        this.mapScope.$emit('Map_Create',this.orderId);
+                                        this.mapScope.$on('Directive_Output', (e, o) => {
+                                             if(this._editPosition && o && o['MarkerHouse']){
+                                                  let nPos = o['MarkerHouse'].Position;
+                                                  if(nPos){
+                                                       this.lat = nPos.Latitud;
+                                                       this.lng = nPos.Longitud;
+                                                       console.log(`[${this.lat},${this.lng}]`)
+                                                  }
+                                             }
+                                        });
+                                        this.mapScope.$on('Scopes_Output', (e, o) => {
+                                             if(!this.MarkerHouseScope && o && o['MarkerHouse'] )
+                                             {
+                                                  this.MarkerHouseScope = o['MarkerHouse']; 
+                                                  this.$scope.$on('AddMarkerHouse',this.MarkerHouseScope.$emit('Buttons_Add'));
+                                                  this.$scope.$on('RemoveMarkerHouse',this.MarkerHouseScope.$emit('Buttons_Remove'));
+                                             }
+                                        });
+                                        this.mapScope.$applyAsync();
+                                   }
                               }
                          }
                     });
@@ -55,7 +78,17 @@ export default class UserController{
                else
                     this.orderId = 'none';
           });
+
+          this.editarPosicion = this.EditarPosicion.bind(this);
     }
+
+     EditarPosicion(){
+          console.log(this)
+          this._editPosition = !this._editPosition;
+          if(this._editPosition) this.$scope.$emit('AddMarkerHouse');
+          else this.$scope.$emit('RemoveMarkerHouse');
+          return this._editPosition;
+     }
 
      get PedidoId(){
           return this.UserServices.PedidoId;

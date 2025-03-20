@@ -2,15 +2,25 @@
     <div class="text-center my-2">
         <img class="img-thumbnail center-image" id="img-profile" ng-src="{{ctrl.ImagenUrl}}" />
     </div>
-    <map-google 
-        map-id="ctrl.orderId" 
-        map-class="ctrl.mapClass"
-        map-latitude="ctrl.lat"
-        map-longitude="ctrl.lng"
-        map-width="'50vw'"
-        map-height="'300px'"
-        map-marker-house="true"
-    ></map-google>
+    <div ng-style="ctrl.ViewMap">
+        <map-google 
+            ng-if="ctrl.orderId"
+            map-id="ctrl.orderId" 
+            map-class="ctrl.mapClass"
+            map-latitude="ctrl.lat"
+            map-longitude="ctrl.lng"
+            map-width="'50vw'"
+            map-height="'300px'"
+            marker-house
+        ></map-google>
+    </div>
+    <div>
+        <button class="btn btn-warning my-1" type="button" ng-click="ctrl.editarPosicion()">POSITION_EDIT</button>
+        <span class="d-flex gap-1">
+            <p>{{ctrl.lat}}</p>
+            <p>{{ctrl.lng}}</p>
+        </span>
+    </div>
     <div class="row">
         <div ng-if="!ctrl.editar.nombre" class="col-ms-12 col-md-5" ng-click="ctrl.EditarNombre">
             <label for="full_name" class="form-label"><b>FULL_NAME</b></label>
@@ -34,6 +44,7 @@
             <input id="correo" class="form-control" ng-model="ctrl.Correo" ng-disabled="!ctrl.editar.correo" ng-blur="ctrl.BlurCorreo">
         </div>
 
+        
         <div ng-if="!ctrl.editar.domicilio" class="col-ms-12 col-md-5 mt-2" ng-click="ctrl.EditarDomicilio">
             <label for="full_address" class="form-label"><b>FULL_ADDRESS</b></label>
             <input id="full_address" class="form-control" name="full_address" value="{{ctrl.Domicilio}}" disabled>

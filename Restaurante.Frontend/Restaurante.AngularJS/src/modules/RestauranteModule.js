@@ -10,9 +10,11 @@ import Components from "@components";
 import Controllers from "@controllers";
 import Services from "@services";
 import Interceptors from "@interceptors";
+import Directives from "@directives";
 import Filters from "@filters";
 
-let RestauranteModule = angular.module("RestauranteModule", [ngRoute, ngCookies, ngResource, ngAria, ngSanitize, ngMap]);
+
+let RestauranteModule = angular.module("RestauranteModule", [ngRoute, ngCookies, ngResource, ngAria, ngSanitize]);
 
 Services.forEach(([name,service]) => {
     RestauranteModule = RestauranteModule.service(name,service);
@@ -30,15 +32,18 @@ Filters.forEach(([name,filter]) => {
     RestauranteModule = RestauranteModule.filter(name,filter);
 });
 
-RestauranteModule = RestauranteModule.config(Routes);
+Directives.forEach(([name,directive]) => {
+    RestauranteModule.directive(name,directive);
+});
 
+RestauranteModule = RestauranteModule.config(Routes);
 
 RestauranteModule = RestauranteModule.config(['$compileProvider',
 /**
  * @param {angular.ICompileProvider} $compileProvider
 */
     function($compileProvider) {
-        //$compileProvider.strictComponentBindingsEnabled(true);
+        $compileProvider.strictComponentBindingsEnabled(true);
         $compileProvider.cssClassDirectivesEnabled(true);
     }
 ]);

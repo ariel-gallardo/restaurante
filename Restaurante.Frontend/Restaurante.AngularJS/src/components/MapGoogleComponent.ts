@@ -9,6 +9,5 @@ export default {
         mapLongitude: '<',
         mapWidth: '<',
         mapHeight: '<',
-        mapMarkerHouse: '<'
     }
 }

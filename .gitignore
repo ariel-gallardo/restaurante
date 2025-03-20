@@ -8,3 +8,5 @@
 **/package-lock.json
 **/dist
 !Restaurante.Frontend/Restaurante.AngularJS/.vscode
+**/.env
+**/.env.production

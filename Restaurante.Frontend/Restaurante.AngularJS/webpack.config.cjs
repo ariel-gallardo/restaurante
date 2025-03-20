@@ -147,6 +147,8 @@ module.exports = {
       '@queries': path.resolve(__dirname, 'src/queries/'),
       '@css': path.resolve(__dirname, 'src/css/'),
       '@events': path.resolve(__dirname, 'src/events/'),
+      '@directives': path.resolve(__dirname, 'src/directives/'),
+      '@links': path.resolve(__dirname, 'src/links/'),
     }
   }
 };

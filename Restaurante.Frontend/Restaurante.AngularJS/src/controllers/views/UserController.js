@@ -25,6 +25,7 @@ export default class UserController{
                domicilio: false,
                telefono: false
           }
+          this._positionChanges = false;
           this._editPosition = true;
           this.nombre = '';
           this.apellido = '';
@@ -57,7 +58,7 @@ export default class UserController{
                                                   if(nPos){
                                                        this.lat = nPos.Latitud;
                                                        this.lng = nPos.Longitud;
-                                                       console.log(`[${this.lat},${this.lng}]`)
+                                                       this._positionChanges = true;
                                                   }
                                              }
                                         });
@@ -240,13 +241,17 @@ export default class UserController{
                empty = false;
           }
 
-          if(this.lat != '' && this.lat != '-' && this.lng != '' && this.lng != '-')
+          if(this.lat != '' && this.lat != '-' && this.lng != '' && this.lng != '-' && this._positionChanges)
           {
                toSend = {...toSend, Latitud: this.lat, Longitud: this.lng};
                empty = false;
           }
           
-          if(!empty) this.UserServices.update(toSend);
+          if(!empty) 
+          {
+               this.UserServices.update(toSend);
+               this._positionChanges = false;
+          }
      }
 
      get lat(){

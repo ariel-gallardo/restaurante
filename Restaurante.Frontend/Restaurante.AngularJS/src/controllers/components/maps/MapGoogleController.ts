@@ -239,6 +239,10 @@ export default class MapGoogleController{
         this._deliveryId = null;
     }
 
+    private addMarker(e: IAngularEvent, data: any){
+        
+    }
+
 
     private addButton(e: IAngularEvent, data: MapButtonAddEventData){
         const {callback, classes, height, width, iconUrl, name} = data;
@@ -249,7 +253,12 @@ export default class MapGoogleController{
         let nameId = `Map-C-B-${this._orderId}`;
         if(this._mapCtrl.children(`#${nameId}`).length == 0){
             let btn = $(`<button id='Map-C-B-${this._orderId}-${name}'></button>`) as JQuery<HTMLButtonElement>;
-            if(classes && classes != '') btn = btn.addClass(classes);
+            if(classes && classes != ''){
+                this.$scope.$watch(() => data.classes, (nV) => {
+                    btn.attr('class', nV || '');
+                });
+                btn = btn.addClass(classes);
+            }
             if(iconUrl && iconUrl != '') btn = btn.append($(`<img src='${iconUrl}'/>`).css('width',width).css('height',height).get(0));  
             else btn = btn.css('width',width).css('height',height);
             if(callback) btn.on('click', callback);

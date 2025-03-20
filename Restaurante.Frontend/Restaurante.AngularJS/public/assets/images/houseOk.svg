@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   height="16"
+   width="16"
+   version="1.1"
+   id="Capa_1"
+   viewBox="0 0 9.72392 9.72392"
+   xml:space="preserve"
+   sodipodi:docname="houseOk.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs1"><rect
+     x="396.93488"
+     y="327.20306"
+     width="161.68582"
+     height="108.81226"
+     id="rect3" /></defs><sodipodi:namedview
+   id="namedview1"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   showgrid="false"
+   inkscape:zoom="10.44"
+   inkscape:cx="-5.9386972"
+   inkscape:cy="6.1781607"
+   inkscape:window-width="1360"
+   inkscape:window-height="705"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g4" />
+
+<text
+   xml:space="preserve"
+   transform="scale(0.607745)"
+   id="text3"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.66667px;font-family:Serif;-inkscape-font-specification:Serif;text-align:start;letter-spacing:-0.03px;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect3);display:inline;fill:#1a1a1a;stroke-width:3.77953;stroke-linecap:round;stroke-linejoin:round" /><g
+   id="g4"
+   transform="matrix(0.03000076,0,0,0.0324398,0.34926628,-5.8940389)"><g
+     id="g1"
+     transform="matrix(0.24737282,0,0,0.19060119,25.757596,236.58425)"><path
+       d="m 512,512 m -448,0 a 448,448 0 1 0 896,0 448,448 0 1 0 -896,0 z"
+       fill="#4caf50"
+       id="path1" /><path
+       d="M 738.13333,311.46667 448,601.6 328.53333,482.13333 268.8,541.86667 448,721.06667 797.86667,371.2 Z"
+       fill="#ccff90"
+       id="path2" /></g></g></svg>

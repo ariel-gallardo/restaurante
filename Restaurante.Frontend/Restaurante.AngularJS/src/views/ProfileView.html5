@@ -14,13 +14,6 @@
             marker-house
         ></map-google>
     </div>
-    <div>
-        <button class="btn btn-warning my-1" type="button" ng-click="ctrl.editarPosicion()">POSITION_EDIT</button>
-        <span class="d-flex gap-1">
-            <p>{{ctrl.lat}}</p>
-            <p>{{ctrl.lng}}</p>
-        </span>
-    </div>
     <div class="row">
         <div ng-if="!ctrl.editar.nombre" class="col-ms-12 col-md-5" ng-click="ctrl.EditarNombre">
             <label for="full_name" class="form-label"><b>FULL_NAME</b></label>

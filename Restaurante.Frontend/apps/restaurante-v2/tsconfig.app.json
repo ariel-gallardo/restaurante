@@ -2,9 +2,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": []
+    "types": [],
+    "emitDeclarationOnly": false,
+    "composite": false,
+    "lib": ["es2022", "dom"],
+    "baseUrl": "."
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": [
     "src/**/*.spec.ts",
     "src/**/*.test.ts"

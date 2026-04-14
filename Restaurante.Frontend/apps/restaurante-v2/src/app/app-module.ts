@@ -3,10 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { App } from './app';
 import { appRoutes } from './app.routes';
-import { NxWelcome } from './nx-welcome';
+import { LegacyHostComponent } from './legacy-host.component';
+import { V2HomeComponent } from './v2-home.component';
 
 @NgModule({
-  declarations: [App, NxWelcome],
+  declarations: [App, LegacyHostComponent, V2HomeComponent],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),

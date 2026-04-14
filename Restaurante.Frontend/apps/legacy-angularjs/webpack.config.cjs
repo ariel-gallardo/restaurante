@@ -6,6 +6,7 @@ const {DefinePlugin, ProvidePlugin} = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const glob = require('glob');
 const fs = require('fs');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 
 module.exports = {
@@ -69,13 +70,13 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    port: 443,
+    port: 4201,
     server:{
-      type: 'https',
-      options:{
+      type: 'http',
+      /*options:{
         key: fs.readFileSync(path.resolve(__dirname, 'certs', 'key.pem')),
         cert: fs.readFileSync(path.resolve(__dirname, 'certs', 'cert.pem'))
-      }
+      }*/
     },
     open: false,
     historyApiFallback: {
@@ -129,6 +130,14 @@ module.exports = {
           to: path.resolve(__dirname, 'dist/bootstrap')
         },
       ],
+    }),
+    new ModuleFederationPlugin({
+      name: "v1",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./main": "./src/index.js",
+      },
+      shared: {},
     })
   ],
   resolve:{

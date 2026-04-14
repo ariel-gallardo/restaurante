@@ -1,0 +1,21 @@
+{
+  "name": "legacy-angularjs",
+  "projectType": "application",
+  "sourceRoot": "apps/legacy-angularjs",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm start",
+        "cwd": "apps/legacy-angularjs"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run build",
+        "cwd": "apps/legacy-angularjs"
+      }
+    }
+  }
+}

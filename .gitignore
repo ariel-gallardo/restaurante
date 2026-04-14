@@ -7,4 +7,5 @@
 **/build
 **/package-lock.json
 **/dist
+**/.nx
 !Restaurante.Frontend/Restaurante.AngularJS/.vscode

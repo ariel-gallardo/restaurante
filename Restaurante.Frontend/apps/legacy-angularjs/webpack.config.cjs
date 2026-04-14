@@ -70,6 +70,11 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
+    headers: {
+      'Access-Control-Allow-Origin': 'http://localhost:4200',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization, GroupId'
+    },
     port: 4201,
     server:{
       type: 'http',

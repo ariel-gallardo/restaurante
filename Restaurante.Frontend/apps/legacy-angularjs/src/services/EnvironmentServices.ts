@@ -1,4 +1,9 @@
 export default class EnvironmentServices{
+    public get LegacyPublicBaseUrl(){
+        const value = process.env.LEGACY_PUBLIC_BASE_URL || window.location.origin;
+        return value.replace(/\/$/, '');
+    }
+
     public get Provincia(){
         return process.env.PROVINCIA;
     }

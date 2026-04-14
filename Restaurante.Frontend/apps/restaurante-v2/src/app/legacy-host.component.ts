@@ -20,7 +20,6 @@ export class LegacyHostComponent implements AfterViewInit {
       if (typeof remote.mount !== 'function') {
         throw new Error('El remoto v1/main no expone mount().');
       }
-
       remote.mount(this.legacyRoot.nativeElement);
     } catch (error) {
       this.error = 'No se pudo cargar la aplicación legacy (v1).';

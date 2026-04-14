@@ -11,6 +11,11 @@ import MessageServices from "@services/MessageServices";
  * @returns {Object} - El interceptor con métodos para `request`, `response` y `responseError`.
  */
 const RequestInterceptorFN = ($q, $cookies, $location, $rootScope, EnvironmentServices, MessageServices) => {
+    const toAbsolutePublicUrl = (relativePath) => {
+        const publicBase = EnvironmentServices.LegacyPublicBaseUrl;
+        return `${publicBase}${relativePath}`;
+    };
+
     return {
         /**
          * Método que agrega el token de autenticación a las cabeceras de la solicitud.
@@ -32,23 +37,25 @@ const RequestInterceptorFN = ($q, $cookies, $location, $rootScope, EnvironmentSe
                     config.headers['Authorization'] = token;
                 }
             }else if(config.url.includes('/components/views/')){
+                config.url = toAbsolutePublicUrl(config.url);
                 let cssFileName = config.url.substring(config.url.lastIndexOf('/')+1).replace('.html5','.css');
                 let head = document.getElementsByTagName('head')[0];
                 if(!document.getElementById(cssFileName)){
                     let link = document.createElement('link');
                     link.id = cssFileName;
                     link.rel = 'stylesheet';
-                    link.href = `/assets/styles/components/${cssFileName}`;
+                    link.href = toAbsolutePublicUrl(`/assets/styles/components/${cssFileName}`);
                     head.appendChild(link);
                 }
             }else if(config.url.includes('/views/')){
+                config.url = toAbsolutePublicUrl(config.url);
                 let cssFileName = config.url.substring(config.url.lastIndexOf('/')+1).replace('.html5','.css');
                 let head = document.getElementsByTagName('head')[0];
                 if(!document.getElementById(cssFileName)){
                     let link = document.createElement('link');
                     link.id = cssFileName;
                     link.rel = 'stylesheet';
-                    link.href = `/assets/styles/views/${cssFileName}`;
+                    link.href = toAbsolutePublicUrl(`/assets/styles/views/${cssFileName}`);
                     head.appendChild(link);
                 }
             }

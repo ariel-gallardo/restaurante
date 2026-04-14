@@ -1,20 +1,51 @@
-# Proyecto Restaurante - Ideas.
-- La idea es que cada usuario tenga un rol - Listo.
-- Segun el rol el tipo de tarea que puede hacer.
-- Implementar WebSockets para actualizar estados del pedido.
-- Implementar WebSockets para comunicarse con el soporte.
-- Comunicacion con el equipo mediante WebSockets
-- Implementar rol de soporte o asignar alguno.
-- Implementar mapas para la localizacion cliente/restaurante
-- Asignar medios de pago
-- Logica medios de pago devolucion etc...
-- Actualmente puede utilizar SQLite, la idea es implementar SQL Server.
-- Tambien utilizar para algunas aplicaciones NHibernate ORM aparte de Entity Framework.
-- La idea seria aplicar en algunos casos microservicios.
-- Hacer una interfaz grafica con React
-- Hacer una interfaz grafica con Angular
-- Hacer una interfaz grafica con AngularJS
+# Proyecto Restaurante
 
-# Accounts
+Proyecto fullstack para gestion de restaurante con backend .NET y frontend en monorepo usando Nx.
+
+## Frontend (Monorepo Nx)
+
+El frontend esta organizado en un monorepo con Nx para centralizar apps, compartir codigo y ejecutar tareas de forma consistente.
+
+- `apps/legacy-angularjs`: aplicacion existente basada en AngularJS.
+- `apps/restaurante-v2`: nueva aplicacion frontend basada en Angular.
+- `libs/shared/shell`: libreria compartida para logica reutilizable.
+
+### Comunicacion entre aplicaciones
+
+La integracion entre AngularJS y Angular se maneja desde el mismo workspace. El estado compartido entre `legacy-angularjs` y `restaurante-v2` se va a centralizar con Redux para desacoplar la comunicacion y facilitar la migracion progresiva.
+
+## Tecnologias
+
+- Nx (monorepo, grafo de dependencias, ejecucion de tareas, cacheo)
+- Angular (nueva aplicacion `restaurante-v2`)
+- AngularJS (aplicacion legacy `legacy-angularjs`)
+- Redux (estado compartido entre ambas aplicaciones frontend)
+- .NET / C# (backend)
+- WebSockets (actualizacion de estados y comunicacion en tiempo real)
+- SQLite (actual) y SQL Server (objetivo)
+- Entity Framework y NHibernate (segun modulo/caso de uso)
+
+## Comandos utiles del frontend
+
+```sh
+cd Restaurante.Frontend
+pnpm nx show projects
+pnpm nx graph
+pnpm nx run <project>:build
+pnpm nx run <project>:serve
+```
+
+## Ideas y roadmap
+
+- Segun el rol, definir el tipo de tarea que cada usuario puede hacer.
+- Implementar WebSockets para actualizar estados del pedido.
+- Implementar WebSockets para comunicacion con soporte y equipo interno.
+- Implementar rol de soporte o reasignar uno existente.
+- Implementar mapas para localizacion cliente/restaurante.
+- Asignar y consolidar medios de pago y logica de devolucion.
+- Evaluar microservicios en modulos que lo requieran.
+
+## Accounts de prueba
+
 Seed account credentials are managed via environment variables or user secrets.
 See the project's setup documentation for details on configuring test accounts.

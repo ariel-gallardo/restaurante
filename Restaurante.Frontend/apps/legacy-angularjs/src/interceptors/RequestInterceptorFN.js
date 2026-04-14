@@ -79,6 +79,15 @@ const RequestInterceptorFN = ($q, $cookies, $location, $rootScope, EnvironmentSe
                     }  
                     $rootScope.$emit('CheckNextUrl');
                 }
+            } else if (
+                typeof response.data === 'string' &&
+                (response.config.url.includes('/views/') || response.config.url.includes('/components/views/'))
+            ) {
+                const publicBase = EnvironmentServices.LegacyPublicBaseUrl;
+                response.data = response.data
+                    .replace(/(src|href)="\/assets\//g, `$1="${publicBase}/assets/`)
+                    .replace(/url\('\/assets\//g, `url('${publicBase}/assets/`)
+                    .replace(/url\("\/assets\//g, `url("${publicBase}/assets/`);
             }
             return response;
         },

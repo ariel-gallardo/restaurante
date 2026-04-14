@@ -1,5 +1,7 @@
 declare global {
-    function QuerieURLFromObject(querie: { [key: string]: any }): string;
+    interface GlobalThis {
+        QuerieURLFromObject: (querie: { [key: string]: any }) => string;
+    }
 }
 export {};
   

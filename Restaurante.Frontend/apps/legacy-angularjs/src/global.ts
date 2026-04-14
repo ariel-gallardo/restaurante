@@ -8,4 +8,4 @@ function QuerieURLFromObject(querie: { [key: string]: any }){
     return data.length > 0 ? `?${new URLSearchParams(data).toString()}` : '';
 }
 
-global.QuerieURLFromObject = QuerieURLFromObject;
+globalThis.QuerieURLFromObject = QuerieURLFromObject;

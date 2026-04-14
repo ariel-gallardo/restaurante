@@ -83,7 +83,17 @@ namespace Restaurante.Services
         public async Task<ResultResponse> Info(string token)
         {
             var result = new ResultResponse();
-            var tData = new JwtSecurityToken(token.Replace("Bearer ",string.Empty));
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = System.Text.Encoding.UTF8.GetBytes(Restaurante.Infraestructure.AppSettings.JWTSecretKey);
+            tokenHandler.ValidateToken(token.Replace("Bearer ", string.Empty), new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            }, out Microsoft.IdentityModel.Tokens.SecurityToken validatedToken);
+            var tData = validatedToken as JwtSecurityToken;
             var claims = tData.Claims;
             var content = _mapper.Map<IEnumerable<Claim>, UserInfoDTO>(claims);
             content.Pedido = _mapper.Map<Pedido,PedidoDTO>(await _pRepository.PedidoActual(long.Parse(content.UsuarioId)));
@@ -116,14 +126,14 @@ namespace Restaurante.Services
                 else
                 {
                     response.StatusCode = 401;
-                    response.Message = $"USER_WRONG_PASSWORD {dto.Correo}";
+                    response.Message = "INVALID_CREDENTIALS";
                     await _smsServices.SendMessage(response.Message, response.StatusCode);
                 }
             }
             else
             {
                 response.StatusCode = 401;
-                response.Message = $"USER_EMAIL_NOT_FOUND {dto.Correo}";
+                response.Message = "INVALID_CREDENTIALS";
                 await _smsServices.SendMessage(response.Message,response.StatusCode);
             }
             return response;

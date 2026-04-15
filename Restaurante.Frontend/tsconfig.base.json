@@ -19,11 +19,14 @@
     "strict": true,
     "target": "es2022",
     "customConditions": [
-      "@org/source"
+      "@resto/source"
     ],
     "paths": {
-      "@org/shell": [
-        "libs/shared/shell/src/index.ts"
+      "@resto/v1": [
+        "libs/v1/src/index.ts"
+      ],
+      "@resto/v2": [
+        "libs/v2/src/index.ts"
       ]
     }
   }

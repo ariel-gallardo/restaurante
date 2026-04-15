@@ -1,0 +1,22 @@
+{
+  "name": "v1-app",
+  "projectType": "application",
+  "sourceRoot": "apps/v1",
+  "prefix": "v1",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm start",
+        "cwd": "apps/v1"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run build",
+        "cwd": "apps/v1"
+      }
+    }
+  }
+}

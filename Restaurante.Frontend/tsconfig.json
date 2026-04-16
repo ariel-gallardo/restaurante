@@ -13,7 +13,7 @@
       "path": "./libs/v2"
     },
     {
-      "path": "./libs/v2/shell"
+      "path": "./libs/v2/src/lib/shell"
     },
     {
       "path": "./libs/v1/src/lib/legacy-host"

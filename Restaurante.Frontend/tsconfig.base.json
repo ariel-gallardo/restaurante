@@ -29,7 +29,7 @@
         "libs/v2/src/index.ts"
       ],
       "@resto/shell": [
-        "libs/v2/shell/src/index.ts"
+        "libs/v2/src/lib/shell/src/index.ts"
       ],
       "@resto/legacy-host": [
         "libs/v1/src/lib/legacy-host/src/index.ts"

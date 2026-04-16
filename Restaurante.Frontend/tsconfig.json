@@ -17,6 +17,12 @@
     },
     {
       "path": "./libs/v1/src/lib/legacy-host"
+    },
+    {
+      "path": "./libs/v1/src/lib/shell"
+    },
+    {
+      "path": "./libs/shared/src/lib/shell"
     }
   ]
 }

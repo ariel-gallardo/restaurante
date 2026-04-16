@@ -17,6 +17,9 @@
   ],
   "references": [
     {
+      "path": "../../../../shared/src/lib/shell/tsconfig.lib.json"
+    },
+    {
       "path": "../../../../v1/tsconfig.lib.json"
     }
   ]

@@ -1,8 +1,8 @@
 {
-  "name": "v2-shell",
+  "name": "shared-shell",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/v2/src/lib/shell/src",
-  "prefix": "lib",
+  "sourceRoot": "libs/shared/src/lib/shell/src",
+  "prefix": "shared",
   "projectType": "library",
   "tags": [],
   "targets": {

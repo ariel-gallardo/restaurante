@@ -1,7 +1,7 @@
 {
-  "name": "v2-shell",
+  "name": "v1-shell",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/v2/src/lib/shell/src",
+  "sourceRoot": "libs/v1/src/lib/shell/src",
   "prefix": "lib",
   "projectType": "library",
   "tags": [],

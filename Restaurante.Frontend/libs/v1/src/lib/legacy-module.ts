@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LegacyHostModule } from '@resto/legacy-host';
+import { V1ShellModule } from '@resto/v1-shell';
 
 @NgModule({
-  imports: [CommonModule, LegacyHostModule],
+  imports: [CommonModule, V1ShellModule],
 })
 export class LegacyModule {}

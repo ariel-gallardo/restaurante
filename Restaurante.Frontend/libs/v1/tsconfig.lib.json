@@ -13,11 +13,13 @@
   ],
   "exclude": [
     "src/**/*.spec.ts",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "src/lib/shell/**/*.ts",
+    "src/lib/legacy-host/**/*.ts"
   ],
   "references": [
     {
-      "path": "src/lib/legacy-host/tsconfig.lib.json"
+      "path": "src/lib/shell/tsconfig.lib.json"
     }
   ]
 }

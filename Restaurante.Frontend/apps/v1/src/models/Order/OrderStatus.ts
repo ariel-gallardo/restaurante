@@ -1,0 +1,17 @@
+const ORDER_STATUS = {
+    NONE: 'NONE',
+    SEARCHING: 'SEARCHING',
+    CREATED: 'CREATED',
+    PREPAIRING: 'PREPAIRING',
+    DELIVERY: 'DELIVERY',
+    CLIENT_DOOR: 'CLIENT_DOOR',
+    RECEPTION: 'RECEPTION',
+    TO_CLIENT: 'TO_CLIENT',
+    CANCEL: 'CANCEL',
+    CANCELED: 'CANCELED',
+    DONE: 'DONE'
+} as const;
+
+export type OrderStatus = typeof ORDER_STATUS[keyof typeof ORDER_STATUS];
+
+export default ORDER_STATUS;

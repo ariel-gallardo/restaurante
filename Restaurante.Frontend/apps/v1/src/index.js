@@ -4,12 +4,16 @@ import ngCookies from "angular-cookies";
 import ngResource from "angular-resource";
 import ngSanitize from "angular-sanitize";
 import ngAria from "angular-aria";
+import ngRedux from "ng-redux";
+import { combineReducers } from "redux";
 import Routes from "@routes";
 import Components from "@components";
 import Controllers from "@controllers";
 import Services from "@services";
 import Interceptors from "@interceptors";
 import Filters from "@filters";
+import ORDER_STATUS from "@models/Order/OrderStatus";
+import { orderStatusReducer } from "@store/orderStatusStore";
 
 const getPublicBaseUrl = () => {
     const value = process.env.LEGACY_PUBLIC_BASE_URL || window.location.origin;
@@ -52,8 +56,21 @@ export const mount = async (containerElement) => {
     await ensureScript('legacy-bootstrap-js', `${publicBaseUrl}/bootstrap/js/bootstrap.bundle.min.js`);
 
     let RestauranteModule = angular.module("RestauranteModule", [
-        ngRoute, ngCookies, ngResource, ngAria, ngSanitize
+        ngRoute, ngCookies, ngResource, ngAria, ngSanitize, ngRedux
     ]);
+
+    // Global app constant available from any AngularJS controller/service.
+    RestauranteModule.constant('ORDER_STATUS', ORDER_STATUS);
+
+    RestauranteModule.config(['$ngReduxProvider', function ($ngReduxProvider) {
+        const rootReducer = combineReducers({
+            orderState: orderStatusReducer,
+        });
+        const enhancers = window.__REDUX_DEVTOOLS_EXTENSION__
+            ? [window.__REDUX_DEVTOOLS_EXTENSION__({ name: 'v1-angularjs-redux' })]
+            : [];
+        $ngReduxProvider.createStoreWith(rootReducer, [], enhancers);
+    }]);
 
 
     Services.forEach(([name, service]) => {

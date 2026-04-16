@@ -343,6 +343,12 @@ importers:
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
+      ng-redux:
+        specifier: ^4.4.5
+        version: 4.4.5(redux@5.0.1)
+      redux:
+        specifier: ^5.0.1
+        version: 5.0.1
       reflect-metadata:
         specifier: ^0.1.14
         version: 0.1.14
@@ -5965,6 +5971,11 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
+  ng-redux@4.4.5:
+    resolution: {integrity: sha512-KXbDpH4EEb3AyHwrtw5HB/UwGGlcoFfvBItZKzK9Sp7WmPwF4exLJNI7tYi6LRpK1c3Y3f6xy/ByBPozjhxZhA==}
+    peerDependencies:
+      redux: '>3.0.0'
+
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
@@ -6776,6 +6787,9 @@ packages:
   rechoir@0.8.0:
     resolution: {integrity: sha512-/vxpCXddiX8NGfGO/mTafwjq4aFa/71pvamip0++IQk3zG8cbCj0fifNPrjjF1XMXUne91jL9OoxmdykoEtifQ==}
     engines: {node: '>= 10.13.0'}
+
+  redux@5.0.1:
+    resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
 
   reflect-metadata@0.1.14:
     resolution: {integrity: sha512-ZhYeb6nRaXCfhnndflDK8qI6ZQ/YcWZCISRAWICW9XYqMUwjZM9Z0DveWX/ABN01oxSHwVxKQmxeYZSsm0jh5A==}
@@ -14721,6 +14735,13 @@ snapshots:
 
   neo-async@2.6.2: {}
 
+  ng-redux@4.4.5(redux@5.0.1):
+    dependencies:
+      babel-runtime: 6.26.0
+      invariant: 2.2.4
+      lodash: 4.18.1
+      redux: 5.0.1
+
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
@@ -15561,6 +15582,8 @@ snapshots:
   rechoir@0.8.0:
     dependencies:
       resolve: 1.22.12
+
+  redux@5.0.1: {}
 
   reflect-metadata@0.1.14: {}
 

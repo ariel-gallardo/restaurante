@@ -63,6 +63,9 @@
       "@queries/*": [
         "queries/*"
       ],
+      "@store/*": [
+        "store/*"
+      ],
     }
   },"include": [
     "src/**/*.js",  

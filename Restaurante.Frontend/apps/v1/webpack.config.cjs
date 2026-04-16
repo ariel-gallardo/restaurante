@@ -159,6 +159,7 @@ module.exports = {
       '@interceptors': path.resolve(__dirname, 'src/interceptors/'),
       '@filters': path.resolve(__dirname, 'src/filters/'),
       '@queries': path.resolve(__dirname, 'src/queries/'),
+      '@store': path.resolve(__dirname, 'src/store/'),
     }
   }
 };

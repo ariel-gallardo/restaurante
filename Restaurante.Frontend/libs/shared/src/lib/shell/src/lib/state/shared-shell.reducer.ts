@@ -4,6 +4,7 @@ import { sharedShellEventTracked } from './shared-shell.actions';
 export const sharedShellFeatureKey = 'sharedShell';
 
 export interface SharedShellState {
+  ORDER_STATUS: string;
   totalEvents: number;
   bySource: {
     v1: number;
@@ -12,6 +13,7 @@ export interface SharedShellState {
 }
 
 const initialState: SharedShellState = {
+  ORDER_STATUS: 'SEARCHING',
   totalEvents: 0,
   bySource: {
     v1: 0,

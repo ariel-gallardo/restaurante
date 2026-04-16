@@ -4,17 +4,19 @@ import OrderAction from "@models/Order/OrderAction";
 import OrderDetail from "@models/Order/OrderDetail";
 import OrderInteraction from "@models/Order/OrderInteraction";
 import ProductStoreMin from "@models/Product/ProductStoreMin";
+import ORDER_STATUS, { OrderStatus } from "@models/Order/OrderStatus";
 import EnvironmentServices from "@services/EnvironmentServices";
 import LocalStorageServices from "@services/LocalStorageServices";
+import { setOrderStatus } from "@store/orderStatusStore";
 import UserServices from "@services/UserServices";
 import { cookies, IRootScopeService } from "angular";
 
 export default class PedidosServices{
-    static $inject = ['$rootScope', 'UserServices', 'EnvironmentServices', 'LocalStorageServices', '$cookies'];
+    static $inject = ['$rootScope', 'UserServices', 'EnvironmentServices', 'LocalStorageServices', '$cookies', '$ngRedux'];
     private _pedidosHub : HubConnection;
     private _smsId: string;
 
-    constructor(private $rootScope: IRootScopeService, private UserServices: UserServices, private EnvironmentServices: EnvironmentServices, private LocalStorageServices: LocalStorageServices, private $cookies: cookies.ICookiesService) {
+    constructor(private $rootScope: IRootScopeService, private UserServices: UserServices, private EnvironmentServices: EnvironmentServices, private LocalStorageServices: LocalStorageServices, private $cookies: cookies.ICookiesService, private $ngRedux: any) {
         this.$rootScope.$on('InteractuarCarrito', (e,i) => {
             this.InteractuarCarrito(i);
         });
@@ -29,6 +31,7 @@ export default class PedidosServices{
             }
         });
         this.$rootScope.$on('ConnectionId', (e,id:string) => {this._smsId = id;});
+        this.pushOrderStatusToRedux(ORDER_STATUS.CREATED);
     }
 
 
@@ -48,9 +51,15 @@ export default class PedidosServices{
             //this._pedidosHub.on('Operation',(m:string) => console.log(`Operation ${m}`));
             this._pedidosHub.on('Order', (order: any) => {
                 this.LocalStorageServices.CurrentUser.pedido = order;
+                this.pushOrderStatusToRedux(order?.estado as OrderStatus);
             });
         }
         return this._pedidosHub;
+    }
+
+    private pushOrderStatusToRedux(status: OrderStatus){
+        if(status)
+            this.$ngRedux.dispatch(setOrderStatus(status));
     }
 
     public get DetallesPedido(){
@@ -110,8 +119,11 @@ export default class PedidosServices{
                 if(i.Action != pedido.Action && 
                     (pedido.Action != OrderAction.Adicionar 
                     || pedido.Action != OrderAction.Remover 
-                    || pedido.Action != OrderAction.Quitar))
-                pedido.estado = i.Action;send = true;
+                    || pedido.Action != OrderAction.Quitar)) {
+                    pedido.estado = i.Action;
+                    send = true;
+                    this.pushOrderStatusToRedux(i.Action as OrderStatus);
+                }
                 break;   
         }
         if(send && this.UserServices.TiempoExpiracionToken != '-')

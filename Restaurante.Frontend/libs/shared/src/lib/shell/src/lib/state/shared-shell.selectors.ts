@@ -10,6 +10,11 @@ export const selectSharedShellTotalEvents = createSelector(
   (state) => state.totalEvents
 );
 
+export const selectSharedOrderStatus = createSelector(
+  selectSharedShellState,
+  (state) => state.ORDER_STATUS
+);
+
 export const selectSharedShellV1Events = createSelector(
   selectSharedShellState,
   (state) => state.bySource.v1

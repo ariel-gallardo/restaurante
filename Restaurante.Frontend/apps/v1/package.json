@@ -28,6 +28,8 @@
     "angular-touch": "^1.8.3",
     "bootstrap": "^5.3.3",
     "jquery": "^3.7.1",
+    "ng-redux": "^4.4.5",
+    "redux": "^5.0.1",
     "reflect-metadata": "^0.1.14"
   },
   "devDependencies": {

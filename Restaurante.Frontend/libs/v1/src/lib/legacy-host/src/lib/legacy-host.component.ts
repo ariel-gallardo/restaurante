@@ -19,7 +19,7 @@ export class LegacyHostComponent implements AfterViewInit {
       }
       remote.mount(this.legacyRoot.nativeElement);
     } catch (error) {
-      this.error = 'No se pudo cargar la aplicación legacy (v1).';
+      this.error = 'No se pudo cargar la aplicacion legacy (v1).';
       console.error(error);
     }
   }

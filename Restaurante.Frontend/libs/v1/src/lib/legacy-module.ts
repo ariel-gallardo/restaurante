@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LegacyHostComponent } from './legacy-host/legacy-host.component';
-import { RouterModule } from '@angular/router';
+import { LegacyHostModule } from '@resto/legacy-host';
 
 @NgModule({
-  declarations: [LegacyHostComponent],
-  imports: [CommonModule, 
-    RouterModule.forChild([{ path: '**', component: LegacyHostComponent }])]
+  imports: [CommonModule, LegacyHostModule],
 })
 export class LegacyModule {}

@@ -1,5 +1,5 @@
 import { platformBrowser } from '@angular/platform-browser';
-import { ShellModule } from '@resto/v2';
+import { ShellModule } from '@resto/shell';
 
 platformBrowser()
   .bootstrapModule(ShellModule)

@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
   selector: 'v2-dashboard',
   standalone: false,
   templateUrl: './dashboard.ng.html',
-  styleUrl: './dashboard.scss'
+  styleUrl: './dashboard.scss',
 })
 export class Dashboard {}
- 

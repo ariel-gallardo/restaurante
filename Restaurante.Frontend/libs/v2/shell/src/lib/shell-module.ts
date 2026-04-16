@@ -1,8 +1,8 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { shellRoutes } from './dashboard/dashboard.routes';
-import { Dashboard } from './dashboard/dashboard';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { Dashboard } from './dashboard/dashboard';
+import { shellRoutes } from './dashboard/dashboard.routes';
 
 @NgModule({
   declarations: [Dashboard],
@@ -10,4 +10,4 @@ import { BrowserModule } from '@angular/platform-browser';
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [Dashboard],
 })
-export class ShellModule { }
+export class ShellModule {}

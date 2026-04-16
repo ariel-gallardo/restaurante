@@ -19,11 +19,35 @@
     "strict": true,
     "target": "es2022",
     "customConditions": [
-      "@org/source"
+      "@resto/source"
     ],
     "paths": {
-      "@org/shell": [
-        "libs/shared/shell/src/index.ts"
+      "@resto/v1": [
+        "libs/v1/src/index.ts"
+      ],
+      "@resto/v2": [
+        "libs/v2/src/index.ts"
+      ],
+      "@resto/shell": [
+        "libs/v2/src/lib/shell/src/index.ts"
+      ],
+      "@resto/legacy-host": [
+        "libs/v1/src/lib/legacy-host/src/index.ts"
+      ],
+      "@resto/v1-shell": [
+        "libs/v1/src/lib/shell/src/index.ts"
+      ],
+      "@org/v1-shell": [
+        "libs/v1/src/lib/shell/src/index.ts"
+      ],
+      "@org/v2-shell": [
+        "libs/v2/src/lib/shell/src/index.ts"
+      ],
+      "@org/legacy-host": [
+        "libs/v1/src/lib/legacy-host/src/index.ts"
+      ],
+      "@org/shared-shell": [
+        "libs/shared/src/lib/shell/src/index.ts"
       ]
     }
   }

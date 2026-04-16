@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/v1",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/lib/shell/**/*.ts",
+    "src/lib/legacy-host/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "src/lib/shell/tsconfig.lib.json"
+    }
+  ]
+}

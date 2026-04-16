@@ -8,7 +8,7 @@ El workspace está dividido en aplicaciones y librerías compartidas:
 
 - `apps/legacy-angularjs`: aplicación existente basada en AngularJS.
 - `apps/restaurante-v2`: nueva aplicación frontend basada en Angular.
-- `libs/shared/shell`: librería compartida para lógica reutilizable entre las aplicaciones.
+- `libs/shared/src/lib/shell`: librería compartida para lógica reutilizable entre las aplicaciones.
 
 Nx se usa para administrar el monorepo, resolver dependencias entre proyectos y ejecutar tareas de forma consistente con `pnpm nx`.
 

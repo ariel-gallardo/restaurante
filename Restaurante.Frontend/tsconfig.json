@@ -4,10 +4,25 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/restaurante-v2"
+      "path": "./libs/v1"
     },
     {
-      "path": "./libs/shared/shell"
+      "path": "./apps/v2"
+    },
+    {
+      "path": "./libs/v2"
+    },
+    {
+      "path": "./libs/v2/src/lib/shell"
+    },
+    {
+      "path": "./libs/v1/src/lib/legacy-host"
+    },
+    {
+      "path": "./libs/v1/src/lib/shell"
+    },
+    {
+      "path": "./libs/shared/src/lib/shell"
     }
   ]
 }

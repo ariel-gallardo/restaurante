@@ -26,6 +26,15 @@ importers:
       '@angular/router':
         specifier: ~21.2.0
         version: 21.2.8(@angular/common@21.2.8(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(@angular/platform-browser@21.2.8(@angular/common@21.2.8(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@ngrx/effects':
+        specifier: ^21.1.0
+        version: 21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(@ngrx/store@21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2))(rxjs@7.8.2)
+      '@ngrx/store':
+        specifier: ^21.1.0
+        version: 21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@ngrx/store-devtools':
+        specifier: ^21.1.0
+        version: 21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(@ngrx/store@21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2))(rxjs@7.8.2)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -177,6 +186,169 @@ importers:
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
+      reflect-metadata:
+        specifier: ^0.1.14
+        version: 0.1.14
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.26.0
+        version: 7.29.0
+      '@babel/preset-env':
+        specifier: ^7.26.0
+        version: 7.29.2(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7.26.0
+        version: 7.28.5(@babel/core@7.29.0)
+      '@types/angular':
+        specifier: ^1.8.9
+        version: 1.8.9
+      '@types/angular-animate':
+        specifier: ^1.5.14
+        version: 1.5.14
+      '@types/angular-aria':
+        specifier: ^1.7.5
+        version: 1.7.5
+      '@types/angular-cookies':
+        specifier: ^1.8.4
+        version: 1.8.4
+      '@types/angular-mocks':
+        specifier: ^1.7.4
+        version: 1.7.4
+      '@types/angular-resource':
+        specifier: ^1.5.20
+        version: 1.5.20
+      '@types/angular-route':
+        specifier: ^1.7.6
+        version: 1.7.6
+      '@types/angular-sanitize':
+        specifier: ^1.8.4
+        version: 1.8.4
+      '@types/bootstrap':
+        specifier: ^5.2.10
+        version: 5.2.10
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.19.17
+      '@types/typescript':
+        specifier: ^0.4.29
+        version: 0.4.29
+      babel-core:
+        specifier: ^6.26.3
+        version: 6.26.3
+      babel-loader:
+        specifier: ^8.4.1
+        version: 8.4.1(@babel/core@7.29.0)(webpack@5.106.1)
+      babel-plugin-lodash:
+        specifier: ^3.3.4
+        version: 3.3.4
+      babel-preset-env:
+        specifier: ^1.7.0
+        version: 1.7.0
+      copy-webpack-plugin:
+        specifier: ^12.0.2
+        version: 12.0.2(webpack@5.106.1)
+      css-loader:
+        specifier: ^7.1.2
+        version: 7.1.4(@rspack/core@1.7.11(@swc/helpers@0.5.21))(webpack@5.106.1)
+      dotenv-webpack:
+        specifier: ^8.1.0
+        version: 8.1.1(webpack@5.106.1)
+      html-loader:
+        specifier: ^5.1.0
+        version: 5.1.0(webpack@5.106.1)
+      html-webpack-plugin:
+        specifier: ^5.6.3
+        version: 5.6.6(@rspack/core@1.7.11(@swc/helpers@0.5.21))(webpack@5.106.1)
+      install:
+        specifier: ^0.13.0
+        version: 0.13.0
+      mini-css-extract-plugin:
+        specifier: ^2.9.2
+        version: 2.10.2(webpack@5.106.1)
+      npm:
+        specifier: ^11.0.0
+        version: 11.12.1
+      sass:
+        specifier: ^1.83.0
+        version: 1.99.0
+      sass-loader:
+        specifier: ^16.0.4
+        version: 16.0.7(@rspack/core@1.7.11(@swc/helpers@0.5.21))(sass-embedded@1.99.0)(sass@1.99.0)(webpack@5.106.1)
+      source-map-loader:
+        specifier: ^5.0.0
+        version: 5.0.0(webpack@5.106.1)
+      style-loader:
+        specifier: ^4.0.0
+        version: 4.0.0(webpack@5.106.1)
+      ts-loader:
+        specifier: ^9.5.1
+        version: 9.5.7(typescript@5.9.3)(webpack@5.106.1)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      webpack:
+        specifier: ^5.97.1
+        version: 5.106.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(webpack-cli@5.1.4)
+      webpack-cli:
+        specifier: ^5.1.4
+        version: 5.1.4(webpack-dev-server@5.2.3)(webpack@5.106.1)
+      webpack-dev-server:
+        specifier: ^5.2.0
+        version: 5.2.3(tslib@2.8.1)(webpack-cli@5.1.4)(webpack@5.106.1)
+
+  apps/v1:
+    dependencies:
+      '@microsoft/signalr':
+        specifier: ^8.0.7
+        version: 8.0.17(encoding@0.1.13)
+      '@types/jquery':
+        specifier: ^3.5.32
+        version: 3.5.34
+      angular:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-animate:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-aria:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-cookies:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-loader:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-message-format:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-messages:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-resource:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-route:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-sanitize:
+        specifier: ^1.8.3
+        version: 1.8.3
+      angular-touch:
+        specifier: ^1.8.3
+        version: 1.8.3
+      bootstrap:
+        specifier: ^5.3.3
+        version: 5.3.8(@popperjs/core@2.11.8)
+      jquery:
+        specifier: ^3.7.1
+        version: 3.7.1
+      ng-redux:
+        specifier: ^4.4.5
+        version: 4.4.5(redux@5.0.1)
+      redux:
+        specifier: ^5.0.1
+        version: 5.0.1
       reflect-metadata:
         specifier: ^0.1.14
         version: 0.1.14
@@ -2055,6 +2227,26 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
+
+  '@ngrx/effects@21.1.0':
+    resolution: {integrity: sha512-Hh+PlV+xYP3i65XK2yOxpIQ9pP4T70gLpm6JIjBE02DumW+evr6LdUgeixfq5vaUS1kN3Rqvl24fNUDJKGkkZw==}
+    peerDependencies:
+      '@angular/core': ^21.0.0
+      '@ngrx/store': 21.1.0
+      rxjs: ^6.5.3 || ^7.5.0
+
+  '@ngrx/store-devtools@21.1.0':
+    resolution: {integrity: sha512-agN2qzVg3dA9N4/0+WMBHCbCJ6SPJbDswDbz2UQZLFBYOghXMuII51TuhRrWdHGrK5QyCBAQ9wOSFbPFGYU91g==}
+    peerDependencies:
+      '@angular/core': ^21.0.0
+      '@ngrx/store': 21.1.0
+      rxjs: ^6.5.3 || ^7.5.0
+
+  '@ngrx/store@21.1.0':
+    resolution: {integrity: sha512-XnpzqmmENOQGtIzFSDX4qq7zVB2WwfMZWoK78yt36lIeDvtgZuUvxyIiGo5mla7e7+KlsSAeNDUvi9zmqIezfw==}
+    peerDependencies:
+      '@angular/core': ^21.0.0
+      rxjs: ^6.5.3 || ^7.5.0
 
   '@ngtools/webpack@21.2.7':
     resolution: {integrity: sha512-Z4gjCaJbO16VUO8I2QjRNT87uRYxjTKSSImDhzgVgLpV2/stlv/akbLU8dJYa7pK7eIYb/tkNRxGn/AtCiViUQ==}
@@ -5779,6 +5971,11 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
+  ng-redux@4.4.5:
+    resolution: {integrity: sha512-KXbDpH4EEb3AyHwrtw5HB/UwGGlcoFfvBItZKzK9Sp7WmPwF4exLJNI7tYi6LRpK1c3Y3f6xy/ByBPozjhxZhA==}
+    peerDependencies:
+      redux: '>3.0.0'
+
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
@@ -6590,6 +6787,9 @@ packages:
   rechoir@0.8.0:
     resolution: {integrity: sha512-/vxpCXddiX8NGfGO/mTafwjq4aFa/71pvamip0++IQk3zG8cbCj0fifNPrjjF1XMXUne91jL9OoxmdykoEtifQ==}
     engines: {node: '>= 10.13.0'}
+
+  redux@5.0.1:
+    resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
 
   reflect-metadata@0.1.14:
     resolution: {integrity: sha512-ZhYeb6nRaXCfhnndflDK8qI6ZQ/YcWZCISRAWICW9XYqMUwjZM9Z0DveWX/ABN01oxSHwVxKQmxeYZSsm0jh5A==}
@@ -10067,6 +10267,26 @@ snapshots:
       '@emnapi/runtime': 1.9.2
       '@tybys/wasm-util': 0.10.1
     optional: true
+
+  '@ngrx/effects@21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(@ngrx/store@21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/core': 21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)
+      '@ngrx/store': 21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@ngrx/store-devtools@21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(@ngrx/store@21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/core': 21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)
+      '@ngrx/store': 21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@ngrx/store@21.1.0(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/core': 21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
 
   '@ngtools/webpack@21.2.7(@angular/compiler-cli@21.2.8(@angular/compiler@21.2.8)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.105.2(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.27.3))':
     dependencies:
@@ -14515,6 +14735,13 @@ snapshots:
 
   neo-async@2.6.2: {}
 
+  ng-redux@4.4.5(redux@5.0.1):
+    dependencies:
+      babel-runtime: 6.26.0
+      invariant: 2.2.4
+      lodash: 4.18.1
+      redux: 5.0.1
+
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
@@ -15355,6 +15582,8 @@ snapshots:
   rechoir@0.8.0:
     dependencies:
       resolve: 1.22.12
+
+  redux@5.0.1: {}
 
   reflect-metadata@0.1.14: {}
 

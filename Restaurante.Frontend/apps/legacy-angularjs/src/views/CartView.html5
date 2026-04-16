@@ -1,8 +1,0 @@
-<div class="container">
-    <h1>CURRENT_ORDER - {{ctrl.EstadoPedido}}</h1>
-    <order-list data="ctrl.Data" on-plus="ctrl.onPlus" on-minus="ctrl.onMinus" on-remove="ctrl.onRemove"></order-list>
-    <div>
-        <button class="btn btn-success me-1" ng-click="ctrl.Request()">REQUEST</button>
-        <button class="btn btn-danger" ng-click="ctrl.Cancel()">CANCEL</button>
-    </div>
-</div>

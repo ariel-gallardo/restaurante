@@ -1,0 +1,11 @@
+<div class="container">
+    <h1>CURRENT_ORDER - {{ctrl.EstadoPedido}}</h1>
+    <p ng-if="ctrl.IsSearching" class="text-muted mb-2">
+        ORDER_STATUS.SEARCHING activo: esperando que el usuario agregue productos.
+    </p>
+    <order-list data="ctrl.Data" on-plus="ctrl.onPlus" on-minus="ctrl.onMinus" on-remove="ctrl.onRemove"></order-list>
+    <div>
+        <button class="btn btn-success me-1" ng-click="ctrl.Request()">REQUEST</button>
+        <button class="btn btn-danger" ng-click="ctrl.Cancel()">CANCEL</button>
+    </div>
+</div>

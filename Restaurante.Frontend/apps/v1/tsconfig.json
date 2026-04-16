@@ -1,0 +1,75 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "allowJs": true,
+    "noEmit": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "strict": false,
+    "types": [
+      "node",
+      "jquery",
+      "typescript",
+      "angular",
+      "angular-animate",
+      "angular-aria",
+      "angular-cookies",
+      "angular-mocks",
+      "angular-resource",
+      "angular-route",
+      "angular-sanitize",
+      "@microsoft/signalr",
+      "bootstrap"
+    ],
+    "target": "ESNext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@components/*": [
+        "components/*"
+      ],
+      "@componentsView/*": [
+        "components/views/*"
+      ],
+      "@controllers/*": [
+        "controllers/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],        
+      "@modules/*": [
+        "modules/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
+      "@views/*": [
+        "views/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ],
+      "@interceptors/*": [
+        "interceptors/*"
+      ],
+      "@filters/*": [
+        "filters/*"
+      ],
+      "@styles/*": [
+        "global-styles/*"
+      ],
+      "@queries/*": [
+        "queries/*"
+      ],
+      "@store/*": [
+        "store/*"
+      ],
+    }
+  },"include": [
+    "src/**/*.js",  
+    "src/**/*.ts",
+    "global.d.ts"
+  ]
+}

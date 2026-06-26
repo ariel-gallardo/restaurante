@@ -14,6 +14,10 @@ export default class NavBarController {
         this.perfilUsuario = this.perfilUsuario.bind(this)
     }
 
+    public get isV2() {
+        return !!(window as any).__V2_RUNNING__;
+    }
+
     public get StatusCss(){
         switch(this.PedidosServices.EstadoPedido){
             case OrderAction.Realizar:

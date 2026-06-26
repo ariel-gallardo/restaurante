@@ -1,1 +1,175 @@
+// Navigation bar styles (V2 similar to V1)
+.navbar-v2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa; // bg-body-tertiary light grey
+  border-bottom: 1px solid #dee2e6;
+  padding: 8px 16px;
+  min-height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.navbar-container {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand-v2 {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  
+  .logo-img {
+    width: 70px;
+    height: auto;
+  }
+}
+
+.navbar-menu-v2 {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-item-v2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #212529;
+  text-decoration: none;
+  font-size: 14px;
+  position: relative;
+  user-select: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-img {
+    margin-bottom: 4px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+  }
+
+  .label-text {
+    font-weight: bold;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #212529;
+  }
+  
+  // For order status
+  .status-label {
+    margin: 0 0 4px 0;
+    font-weight: 500;
+    font-size: 12px;
+    color: #6c757d;
+  }
+
+  .badge-v2 {
+    margin: 0;
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: .75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50rem !important;
+  }
+}
+
+// Red count badge for Cart
+.badge-count {
+  position: absolute;
+  top: 2px;
+  right: 12px;
+  padding: 0.25em 0.5em;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background-color: #dc3545; // Bootstrap danger red
+  border-radius: 50rem !important;
+}
+
+// Badge color mappings (using standard Bootstrap 5 color definitions)
+.text-bg-primary {
+  color: #fff !important;
+  background-color: #0d6efd !important;
+}
+.text-bg-secondary {
+  color: #fff !important;
+  background-color: #6c757d !important;
+}
+.text-bg-success {
+  color: #fff !important;
+  background-color: #198754 !important;
+}
+.text-bg-danger {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+}
+.text-bg-warning {
+  color: #000 !important;
+  background-color: #ffc107 !important;
+}
+.text-bg-info {
+  color: #000 !important;
+  background-color: #0dcaf0 !important;
+}
+.text-bg-light {
+  color: #000 !important;
+  background-color: #f8f9fa !important;
+}
+.text-bg-dark {
+  color: #fff !important;
+  background-color: #212529 !important;
+}
+
+.content-container {
+  min-height: calc(100vh - 75px);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .premium-menu {
+  border-radius: 12px !important;
+  margin-top: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid #f1f5f9;
+
+  .mat-mdc-menu-item {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    color: #334155;
+    padding: 0 16px;
+    height: 44px;
+
+    &:hover {
+      background-color: #f1f5f9;
+    }
+
+    mat-icon {
+      color: #64748b;
+      margin-right: 12px;
+    }
+  }
+}
 

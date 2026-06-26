@@ -1,0 +1,99 @@
+<div class="profile-wrapper">
+  <mat-card class="profile-card">
+    <div class="profile-header-gradient"></div>
+    
+    <div class="profile-avatar-container">
+      <img class="profile-avatar" [src]="(user$ | async)?.imagenUrl || '/assets/images/commonUser.svg'" alt="User Profile Image" />
+    </div>
+
+    <mat-card-header class="profile-title-header">
+      <mat-card-title class="profile-title">Mi Perfil</mat-card-title>
+      <mat-card-subtitle class="profile-subtitle">Gestiona tu información personal</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="successMessage" class="feedback-alert success-alert">
+        <mat-icon>check_circle</mat-icon>
+        <span>{{ successMessage }}</span>
+      </div>
+
+      <div *ngIf="errorMessage" class="feedback-alert error-alert">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <form [formGroup]="profileForm" (ngSubmit)="saveChanges()" class="profile-form">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-col">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" placeholder="Nombre" />
+            <mat-error *ngIf="profileForm.get('nombre')?.hasError('required')">
+              El nombre es obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-col">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="apellido" placeholder="Apellido" />
+            <mat-error *ngIf="profileForm.get('apellido')?.hasError('required')">
+              El apellido es obligatorio.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-col">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput formControlName="correo" placeholder="Correo" type="email" />
+            <mat-error *ngIf="profileForm.get('correo')?.hasError('required')">
+              El correo es obligatorio.
+            </mat-error>
+            <mat-error *ngIf="profileForm.get('correo')?.hasError('email')">
+              Ingrese un correo válido.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-col">
+            <mat-label>Rol</mat-label>
+            <input matInput formControlName="rol" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-col-two-thirds">
+            <mat-label>Calle</mat-label>
+            <input matInput formControlName="calle" placeholder="Calle" />
+            <mat-error *ngIf="profileForm.get('calle')?.hasError('required')">
+              La calle es obligatoria.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-col-third">
+            <mat-label>Número</mat-label>
+            <input matInput formControlName="numero" placeholder="N°" />
+            <mat-error *ngIf="profileForm.get('numero')?.hasError('required')">
+              Obligatorio.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-col">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="telefono" placeholder="Teléfono" />
+          </mat-form-field>
+        </div>
+
+        <mat-card-actions class="profile-actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid || isSaving" class="save-btn">
+            <span *ngIf="!isSaving">Guardar Cambios</span>
+            <span *ngIf="isSaving">Guardando...</span>
+          </button>
+          <button mat-stroked-button color="warn" type="button" (click)="logout()" class="logout-btn">
+            Cerrar Sesión
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

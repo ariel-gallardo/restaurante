@@ -70,8 +70,7 @@ export default createConfig({
           "maximumError": "8kb"
         }
       ],
-      "outputHashing": "all",
-      "devServer": {}
+      "outputHashing": "all"
 
     }
   },
@@ -83,8 +82,7 @@ export default createConfig({
       "vendorChunk": true,
       "extractLicenses": false,
       "sourceMap": true,
-      "namedChunks": true,
-      "devServer": {}
+      "namedChunks": true
 
     }
   }

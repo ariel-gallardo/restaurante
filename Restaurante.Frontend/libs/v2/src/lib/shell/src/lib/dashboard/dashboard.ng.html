@@ -1,2 +1,55 @@
-<p>Dashboard works! Boots: {{ bootCount$ | async }}</p>
-<router-outlet></router-outlet>
+<nav class="navbar-v2" *ngIf="showNavbar">
+  <div class="navbar-container">
+    <a class="navbar-brand-v2" (click)="goTo('/home')">
+      <img src="/assets/images/logo.svg" alt="Restaurante" class="logo-img" />
+    </a>
+    
+    <div class="navbar-menu-v2">
+      <!-- Order Status -->
+      <div id="orderStatus" class="nav-item-v2 text-center" *ngIf="orderStatus$ | async as status">
+        <p class="status-label">ORDER_STATUS</p>
+        <span class="badge-v2 rounded-pill" [ngClass]="getStatusClass(status)">{{ status }}</span>
+      </div>
+
+      <!-- Carrito -->
+      <div class="nav-item-v2 cursor-pointer position-relative" (click)="goTo('/cart')">
+        <img src="/assets/images/carrito.svg" width="35" class="nav-img" />
+        <p class="fw-bold text-center label-text">Carrito</p>
+        <span class="badge-count rounded-circle" *ngIf="cartCount$ | async as count">{{ count }}</span>
+      </div>
+
+      <!-- Perfil (Authenticated / Dropdown) -->
+      <ng-container *ngIf="isAuthenticated$ | async; else anonymous">
+        <div class="nav-item-v2 cursor-pointer" [matMenuTriggerFor]="userMenu">
+          <img [src]="(user$ | async)?.imagenUrl || '/assets/images/commonUser.svg'" width="35" class="nav-img rounded-circle" />
+          <p class="fw-bold text-center label-text">{{ (user$ | async)?.nombreCompleto || 'Perfil' }}</p>
+        </div>
+      </ng-container>
+      
+      <!-- Perfil (Anonymous) -->
+      <ng-template #anonymous>
+        <div class="nav-item-v2 cursor-pointer" (click)="goTo('/profile')">
+          <img src="/assets/images/commonUser.svg" width="35" class="nav-img" />
+          <p class="fw-bold text-center label-text">Perfil</p>
+        </div>
+      </ng-template>
+
+      <!-- User Dropdown Menu -->
+      <mat-menu #userMenu="matMenu" class="premium-menu">
+        <button mat-menu-item (click)="goTo('/profile')">
+          <mat-icon>person</mat-icon>
+          <span>Mi Perfil</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</nav>
+
+<main class="content-container">
+  <router-outlet></router-outlet>
+</main>
+

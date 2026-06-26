@@ -52,9 +52,20 @@ export default class PedidosServices{
             this._pedidosHub.on('Order', (order: any) => {
                 this.LocalStorageServices.CurrentUser.pedido = order;
                 this.pushOrderStatusToRedux(order?.estado as OrderStatus);
+                this.pushCartCountToRedux(order);
             });
         }
         return this._pedidosHub;
+    }
+
+    private pushCartCountToRedux(order: any){
+        let count = 0;
+        if(order && order.data){
+            for(let i=0; i<order.data.length; i++){
+                count += order.data[i].cantidad || 0;
+            }
+        }
+        this.$ngRedux.dispatch({ type: 'CART/SET_COUNT', payload: count });
     }
 
     private pushOrderStatusToRedux(status: OrderStatus){

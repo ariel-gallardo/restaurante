@@ -12,7 +12,11 @@ import MessageServices from "@services/MessageServices";
  */
 const RequestInterceptorFN = ($q, $cookies, $location, $rootScope, EnvironmentServices, MessageServices) => {
     const toAbsolutePublicUrl = (relativePath) => {
+        if (!relativePath) return relativePath;
         const publicBase = EnvironmentServices.LegacyPublicBaseUrl;
+        if (relativePath.startsWith('http://') || relativePath.startsWith('https://') || relativePath.startsWith(publicBase)) {
+            return relativePath;
+        }
         return `${publicBase}${relativePath}`;
     };
 
@@ -74,8 +78,14 @@ const RequestInterceptorFN = ($q, $cookies, $location, $rootScope, EnvironmentSe
                 if(response.data && response.data.content){
                     if(response.data.content.token){
                         $cookies.put('auth_token', response.data.content.token);
-                        response.data.content = {...response.data.content,token:null}
-                        localStorage.setItem('userInfo', JSON.stringify(response.data.content));
+                        const userInfo = {...response.data.content, token: null};
+                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                        if (window.angularStore) {
+                            window.angularStore.dispatch({
+                                type: 'AUTH/SET_USER',
+                                payload: userInfo
+                            });
+                        }
                     }  
                     $rootScope.$emit('CheckNextUrl');
                 }

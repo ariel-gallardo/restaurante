@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" ng-if="!ctrl.isV2">
   <div class="container-fluid">
       <a class="navbar-brand" href="/home">
           <img src="/assets/images/logo.svg" alt="" width="70">

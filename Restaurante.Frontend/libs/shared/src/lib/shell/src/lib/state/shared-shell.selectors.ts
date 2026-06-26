@@ -24,3 +24,19 @@ export const selectSharedShellV2Events = createSelector(
   selectSharedShellState,
   (state) => state.bySource.v2
 );
+
+export const selectSharedUser = createSelector(
+  selectSharedShellState,
+  (state) => state.user
+);
+
+export const selectSharedIsAuthenticated = createSelector(
+  selectSharedShellState,
+  (state) => state.isAuthenticated
+);
+
+export const selectSharedCartCount = createSelector(
+  selectSharedShellState,
+  (state) => state.cartCount
+);
+

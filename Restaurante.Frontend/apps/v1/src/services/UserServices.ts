@@ -7,20 +7,22 @@ import { ILocationService } from "angular";
 
 export default class UserServices {
 
-    static $inject = ['ApiServices', '$cookies', '$location', '$rootScope', 'LocalStorageServices'];
+    static $inject = ['ApiServices', '$cookies', '$location', '$rootScope', 'LocalStorageServices', '$ngRedux'];
     private ApiServices : ApiServices;
     private cookies : angular.cookies.ICookiesService;
     private location : ILocationService;
     private LocalStorageServices: LocalStorageServices;
     private TiempoExpiracion: string;
     private RootScope: IRootScopeService;
+    private $ngRedux: any;
     
-    constructor(ApiServices : ApiServices, $cookies : angular.cookies.ICookiesService, $location: ILocationService, $rootScope: IRootScopeService, LocalStorageServices: LocalStorageServices) {
+    constructor(ApiServices : ApiServices, $cookies : angular.cookies.ICookiesService, $location: ILocationService, $rootScope: IRootScopeService, LocalStorageServices: LocalStorageServices, $ngRedux: any) {
         this.ApiServices = ApiServices;
         this.cookies = $cookies;
         this.location = $location;
         this.LocalStorageServices = LocalStorageServices;
         this.RootScope = $rootScope;
+        this.$ngRedux = $ngRedux;
         this.RootScope.$on('UpdateTokenTime', (e,time) => {this.TiempoExpiracion = time;});
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
@@ -28,15 +30,13 @@ export default class UserServices {
 
     logout(){
         try{
-            this.cookies.remove('auth_token');
-            this.LocalStorageServices.RemoveUserInfo();
+            this.$ngRedux.dispatch({ type: 'AUTH/LOGOUT' });
             this.RootScope.$emit('CancelTokenTime'); 
         }catch(e){
-        }finally{
-            if(!this.location.url().includes('/login'))
-                this.location.path('/login');
+            console.error('Error durante el cierre de sesión en Redux', e);
         }
     }
+
 
     update(data: UpdateUserDTO){
         this.ApiServices.put('/api/user',data);

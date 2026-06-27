@@ -42,3 +42,14 @@ export const setCartCount = createAction(
   props<{ payload: number }>()
 );
 
+export const setSharedTheme = createAction(
+  '[Shared Shell] Set Theme',
+  props<{ theme: 'light' | 'dark' }>()
+);
+
+export const setSharedLanguage = createAction(
+  '[Shared Shell] Set Language',
+  props<{ language: 'es' | 'en' }>()
+);
+
+

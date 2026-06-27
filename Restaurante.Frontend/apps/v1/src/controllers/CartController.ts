@@ -3,6 +3,7 @@ import ORDER_STATUS from "@models/Order/OrderStatus";
 import PedidosServices from "@services/PedidosServices";
 import UserServices from "@services/UserServices";
 import { IRootScopeService } from "angular";
+import { TRANSLATIONS } from "@org/shared-shell";
 
 export default class CartController
 {
@@ -10,6 +11,7 @@ export default class CartController
     public readonly ORDER_STATUS;
     private unsubscribeRedux: (() => void) | null = null;
     private reduxOrderStatus: string = '';
+    public currentLanguage: 'es' | 'en' = 'es';
 
     public get Data(){
         return this.UserServices.DetallesPedido;
@@ -25,6 +27,7 @@ export default class CartController
 
         const mapStateToThis = (state: any) => ({
             reduxOrderStatus: state?.orderState?.ORDER_STATUS || this.ORDER_STATUS.CREATED,
+            currentLanguage: state?.orderState?.language || 'es',
         });
         this.unsubscribeRedux = this.$ngRedux.connect(mapStateToThis)(this);
     }
@@ -33,8 +36,64 @@ export default class CartController
         return this.reduxOrderStatus || this.PedidosServices.EstadoPedido;
     }
 
+    public get TranslatedEstadoPedido() {
+        const status = this.EstadoPedido;
+        const keysMap: Record<string, string> = {
+            'SEARCHING': 'SEARCHING',
+            'CREATED': 'CREATED',
+            'PREPAIRING': 'PREPAIRING',
+            'RECEPTION': 'RECEPTION',
+            'DELIVERY': 'DELIVERY',
+            'CLIENT_DOOR': 'CLIENT_DOOR',
+            'DONE': 'DONE',
+            'CANCEL': 'CANCELED',
+            'CANCELED': 'CANCELED'
+        };
+        const mappedKey = keysMap[status] || status;
+        return this.t[mappedKey] || status;
+    }
+
+    public get t() {
+        const lang = this.currentLanguage || 'es';
+        return TRANSLATIONS[lang] || TRANSLATIONS.es;
+    }
+
     public get IsSearching(){
         return this.EstadoPedido === this.ORDER_STATUS.SEARCHING;
+    }
+
+    public get totalAmount() {
+        // Since we don't have price info in Data, we can sum the quantity or show total item count
+        let sum = 0;
+        if (this.Data) {
+            for (const x of this.Data) {
+                sum += x.cantidad || 0;
+            }
+        }
+        return sum;
+    }
+
+    public get getStatusBadgeClass() {
+        switch(this.EstadoPedido){
+            case 'SEARCHING':
+                return 'bg-secondary';
+            case 'CREATED':
+                return 'bg-primary';
+            case 'PREPAIRING':
+                return 'bg-info text-dark';
+            case 'RECEPTION':
+                return 'bg-warning text-dark';
+            case 'DELIVERY':
+                return 'bg-dark';
+            case 'CLIENT_DOOR':
+                return 'bg-info';
+            case 'DONE':
+                return 'bg-success';
+            case 'CANCEL':
+            case 'CANCELED':
+                return 'bg-danger';
+            default: return 'bg-light text-dark';
+        }
     }
 
     public onPlus(id: string){

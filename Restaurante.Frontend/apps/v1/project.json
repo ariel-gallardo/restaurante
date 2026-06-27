@@ -17,6 +17,13 @@
         "command": "npm run build",
         "cwd": "apps/v1"
       }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsc -p tsconfig.json --noEmit",
+        "cwd": "apps/v1"
+      }
     }
   }
 }

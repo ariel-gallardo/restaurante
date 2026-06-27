@@ -5,3 +5,10 @@ html, body {
   margin: 0;
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 }
+
+/* Ensure custom component tags behave as block layouts and fill available width */
+legacy-host, v1-shell, v2-shell, v2-dashboard {
+  display: block;
+  width: 100%;
+}
+

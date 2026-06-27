@@ -11,7 +11,8 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 
 module.exports = {
   entry: [
-    ...glob.sync('./src/**/*.js'),
+    './src/index.js',
+    ...glob.sync('./src/**/*.js').filter(f => !f.endsWith('index.js')),
     ...glob.sync('./src/**/*.ts')
   ],
   devtool: 'source-map',
@@ -160,6 +161,7 @@ module.exports = {
       '@filters': path.resolve(__dirname, 'src/filters/'),
       '@queries': path.resolve(__dirname, 'src/queries/'),
       '@store': path.resolve(__dirname, 'src/store/'),
+      '@org/shared-shell': path.resolve(__dirname, '../../libs/shared/src/lib/shell/src/index.ts')
     }
   }
 };

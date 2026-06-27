@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { selectV2ShellBootCount } from '../state/v2-shell.selectors';
 import { v2ShellBootstrapped } from '../state/v2-shell.actions';
@@ -10,8 +10,13 @@ import {
   selectSharedIsAuthenticated,
   selectSharedOrderStatus,
   selectSharedCartCount,
+  selectSharedTheme,
+  selectSharedLanguage,
   clearSharedUser,
-  SharedUser
+  setSharedTheme,
+  setSharedLanguage,
+  SharedUser,
+  TRANSLATIONS
 } from '@org/shared-shell';
 
 @Component({
@@ -20,13 +25,19 @@ import {
   templateUrl: './dashboard.ng.html',
   styleUrl: './dashboard.scss',
 })
-export class Dashboard implements OnInit {
+export class Dashboard implements OnInit, OnDestroy {
   bootCount$: Observable<number>;
   user$: Observable<SharedUser | null>;
   isAuthenticated$: Observable<boolean>;
   orderStatus$: Observable<string>;
   cartCount$: Observable<number>;
+  theme$: Observable<'light' | 'dark'>;
+  language$: Observable<'es' | 'en'>;
+  
   showNavbar = false;
+  isMenuCollapsed = true;
+  currentTheme: 'light' | 'dark' = 'light';
+  private themeSubscription?: Subscription;
 
   constructor(
     private readonly store: Store,
@@ -37,6 +48,8 @@ export class Dashboard implements OnInit {
     this.isAuthenticated$ = this.store.select(selectSharedIsAuthenticated);
     this.orderStatus$ = this.store.select(selectSharedOrderStatus);
     this.cartCount$ = this.store.select(selectSharedCartCount);
+    this.theme$ = this.store.select(selectSharedTheme);
+    this.language$ = this.store.select(selectSharedLanguage);
 
     // Initial check
     this.updateNavbarVisibility(this.router.url);
@@ -46,44 +59,93 @@ export class Dashboard implements OnInit {
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.updateNavbarVisibility(event.urlAfterRedirects || event.url);
+      this.isMenuCollapsed = true; // Close menu on navigation
     });
 
     (window as any).angularStore = this.store;
     this.store.subscribe((state) => {
       (window as any).angularStoreState = state;
     });
+
+    // Handle theme setting to body tag
+    this.themeSubscription = this.theme$.subscribe(theme => {
+      this.currentTheme = theme;
+      this.applyTheme(theme);
+    });
+  }
+
+  private applyTheme(theme: 'light' | 'dark'): void {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+      document.body.classList.remove('light-theme');
+    } else {
+      document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
+    }
   }
 
   private updateNavbarVisibility(url: string): void {
-    // Show the v2 navigation bar globally when running v2
     this.showNavbar = true;
   }
 
   getStatusClass(status: string | null): string {
-    if (!status) return 'text-bg-light';
+    if (!status) return 'badge-searching';
     switch (status) {
+      case 'SEARCHING':
+        return 'badge-searching';
       case 'CREATED':
-        return 'text-bg-secondary';
+        return 'badge-created';
       case 'PREPAIRING':
-        return 'text-bg-primary';
+        return 'badge-preparing';
       case 'RECEPTION':
-        return 'text-bg-info';
+        return 'badge-reception';
       case 'DELIVERY':
-        return 'text-bg-warning';
+        return 'badge-delivery';
       case 'CLIENT_DOOR':
-        return 'text-bg-dark';
+        return 'badge-door';
       case 'DONE':
-        return 'text-bg-success';
+        return 'badge-done';
       case 'CANCEL':
       case 'CANCELED':
-        return 'text-bg-danger';
+        return 'badge-canceled';
       default:
-        return 'text-bg-light';
+        return 'badge-searching';
     }
+  }
+
+  getTranslation(key: string, lang: 'es' | 'en' | null): string {
+    const activeLang = lang || 'es';
+    const dict = TRANSLATIONS[activeLang] || TRANSLATIONS.es;
+    return (dict as any)[key] || key;
+  }
+
+  getTranslatedStatus(status: string | null, lang: 'es' | 'en' | null): string {
+    if (!status) return '';
+    const activeLang = lang || 'es';
+    const dict = TRANSLATIONS[activeLang] || TRANSLATIONS.es;
+    const keysMap: Record<string, string> = {
+      'SEARCHING': 'SEARCHING',
+      'CREATED': 'CREATED',
+      'PREPAIRING': 'PREPAIRING',
+      'RECEPTION': 'RECEPTION',
+      'DELIVERY': 'DELIVERY',
+      'CLIENT_DOOR': 'CLIENT_DOOR',
+      'DONE': 'DONE',
+      'CANCEL': 'CANCELED',
+      'CANCELED': 'CANCELED'
+    };
+    const mappedKey = keysMap[status] || status;
+    return (dict as any)[mappedKey] || status;
   }
 
   ngOnInit(): void {
     this.store.dispatch(v2ShellBootstrapped());
+  }
+
+  ngOnDestroy(): void {
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
+    }
   }
 
   logout(): void {
@@ -92,7 +154,24 @@ export class Dashboard implements OnInit {
   }
 
   goTo(path: string): void {
+    this.isMenuCollapsed = true;
     this.router.navigate([path]);
   }
-}
 
+  toggleTheme(): void {
+    const nextTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+    this.store.dispatch(setSharedTheme({ theme: nextTheme }));
+  }
+
+  setLanguage(lang: 'es' | 'en'): void {
+    this.store.dispatch(setSharedLanguage({ language: lang }));
+  }
+
+  toggleMenu(): void {
+    this.isMenuCollapsed = !this.isMenuCollapsed;
+  }
+
+  get currentYear() {
+    return new Date().getFullYear();
+  }
+}

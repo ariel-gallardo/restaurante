@@ -1,14 +1,20 @@
-<div class="container">
-    <div class="row">
-        <div class="col-auto d-flex gap-1">
-            <p class="fw-bold">{{ctrl.infoId}}</p>
-            <p>x{{ctrl.infoQuantity}}</p>
+<div class="w-100 py-2">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 fw-bold font-monospace text-theme-colored" style="min-width: 45px; text-align: center;">
+                #{{ctrl.infoId}}
+            </div>
+            <div class="fw-semibold fs-5 text-theme-body product-quantity">
+                x{{ctrl.infoQuantity}}
+            </div>
         </div>
-        <div class="col-auto ms-auto">
-            <div class="gap-1">
-                <button class="btn btn-outline-success" ng-click="ctrl.onPlus(ctrl.infoId)">+</button>
-                <button class="btn btn-outline-warning" ng-click="ctrl.onMinus(ctrl.infoId)">-</button>
-                <button class="btn btn-outline-danger" ng-click="ctrl.onRemove(ctrl.infoId)">x</button>
+        <div>
+            <div class="btn-group shadow-sm" role="group">
+                <button type="button" class="btn btn-sm btn-outline-secondary px-3" ng-click="ctrl.onMinus(ctrl.infoId)" title="Quitar uno">-</button>
+                <button type="button" class="btn btn-sm btn-outline-primary px-3 fw-bold" ng-click="ctrl.onPlus(ctrl.infoId)" title="Agregar uno">+</button>
+                <button type="button" class="btn btn-sm btn-danger px-3" ng-click="ctrl.onRemove(ctrl.infoId)" title="Remover producto">
+                    <span>🗑️</span>
+                </button>
             </div>
         </div>
     </div>

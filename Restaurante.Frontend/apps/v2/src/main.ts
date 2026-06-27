@@ -1,3 +1,4 @@
+import '@angular/compiler';
 import { platformBrowser } from '@angular/platform-browser';
 import { ShellModule } from '@resto/shell';
 

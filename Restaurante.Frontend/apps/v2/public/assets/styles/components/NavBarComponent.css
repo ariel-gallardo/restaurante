@@ -1,0 +1,11 @@
+#orderStatus{
+    margin-top: 15px;
+}
+
+#orderStatus strong{
+    font-size: 12px;
+}
+
+#orderStatus p{
+    margin-bottom: -5px;
+}

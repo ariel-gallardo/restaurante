@@ -3,8 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f8f9fa; // bg-body-tertiary light grey
-  border-bottom: 1px solid #dee2e6;
+  background-color: #212529 !important; // Dark background
+  border-bottom: 1px solid #2d2d2d;
   padding: 8px 16px;
   min-height: 56px;
   position: sticky;
@@ -25,10 +25,51 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  text-decoration: none;
   
   .logo-img {
-    width: 70px;
+    width: 55px;
     height: auto;
+  }
+}
+
+.navbar-hamburger-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  display: none; // Hidden by default, shown in media query for mobile
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+  }
+
+  .hamburger-icon {
+    display: inline-block;
+    width: 22px;
+    height: 2px;
+    background-color: #fff;
+    position: relative;
+    vertical-align: middle;
+
+    &::before, &::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 2px;
+      background-color: #fff;
+      left: 0;
+    }
+
+    &::before {
+      top: -6px;
+    }
+
+    &::after {
+      bottom: -6px;
+    }
   }
 }
 
@@ -44,23 +85,24 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #212529;
+  color: #fff;
   text-decoration: none;
   font-size: 14px;
   position: relative;
   user-select: none;
   padding: 6px 12px;
   border-radius: 4px;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
   }
 
   .nav-img {
     margin-bottom: 4px;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     object-fit: cover;
   }
 
@@ -69,15 +111,15 @@
     margin: 0;
     font-size: 14px;
     line-height: 1.2;
-    color: #212529;
+    color: #fff;
   }
   
   // For order status
   .status-label {
     margin: 0 0 4px 0;
     font-weight: 500;
-    font-size: 12px;
-    color: #6c757d;
+    font-size: 10px;
+    color: #a0a0a0;
   }
 
   .badge-v2 {
@@ -97,8 +139,8 @@
 // Red count badge for Cart
 .badge-count {
   position: absolute;
-  top: 2px;
-  right: 12px;
+  top: -5px;
+  right: -5px;
   padding: 0.25em 0.5em;
   font-size: 10px;
   font-weight: 700;
@@ -142,11 +184,49 @@
   background-color: #212529 !important;
 }
 
+// Stretched body containing footer
 .content-container {
-  min-height: calc(100vh - 75px);
-  background-color: #ffffff;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 40px 16px;
+  width: 100%;
+  min-height: calc(100vh - 56px - 140px); // subtracts height of navbar and footer
+  transition: background-color 0.2s ease;
+
+  body.dark-theme & {
+    background-color: #121212 !important;
+  }
+
+  & > * {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+// Footer design
+.footer-v2 {
+  flex-shrink: 0;
+  width: 100%;
+  background-color: #212529 !important;
+  border-top: 1px solid #2d2d2d;
+  color: #a0a0a0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  .footer-logo {
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  h5, h6 {
+    color: #fff;
+  }
 }
 
 ::ng-deep .premium-menu {
@@ -172,4 +252,162 @@
     }
   }
 }
+
+// Responsive CSS
+@media (max-width: 991.98px) {
+  .navbar-hamburger-btn {
+    display: block; // Show hamburger on mobile
+  }
+
+  .navbar-menu-v2 {
+    display: none; // Hide menu list by default on mobile
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #212529;
+    border-bottom: 1px solid #2d2d2d;
+    padding: 16px;
+    gap: 16px !important;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+
+    &.show-menu {
+      display: flex; // Show vertical menu when active
+    }
+
+    .nav-item-v2 {
+      width: 100%;
+      align-items: center;
+      padding: 10px;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+
+  .navbar-container {
+    position: relative;
+  }
+}
+
+/* Premium Footer Styles */
+.footer-premium {
+  background: radial-gradient(circle at top, #1e293b, #0f172a) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #94a3b8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  .footer-logo {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    &:hover {
+      transform: rotate(5deg) scale(1.08) !important;
+    }
+  }
+
+  .text-muted {
+    color: #94a3b8 !important;
+  }
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.social-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    
+    svg {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.github-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.linkedin-btn:hover {
+  background: rgba(14, 165, 233, 0.15) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(14, 165, 233, 0.3) !important;
+}
+
+.contact-item {
+  transition: color 0.2s ease;
+  &:hover {
+    color: #f8fafc !important;
+  }
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.font-monospace {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Premium Status Badges */
+.badge-searching {
+  background-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+.badge-created {
+  background-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+.badge-preparing {
+  background-color: #bae6fd !important;
+  color: #0369a1 !important;
+}
+.badge-reception {
+  background-color: #cffafe !important;
+  color: #0891b2 !important;
+}
+.badge-delivery {
+  background-color: #fef08a !important;
+  color: #a16207 !important;
+}
+.badge-door {
+  background-color: #f3e8ff !important;
+  color: #6b21a8 !important;
+}
+.badge-done {
+  background-color: #dcfce7 !important;
+  color: #15803d !important;
+}
+.badge-canceled {
+  background-color: #fee2e2 !important;
+  color: #b91c1c !important;
+}
+
 

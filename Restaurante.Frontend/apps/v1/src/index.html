@@ -7,9 +7,10 @@
     <title>Restaurante</title>
     <base href="/">
 </head>
-<body ng-controller="RestauranteCtrl">
+<body ng-controller="RestauranteCtrl as ctrl" class="app-root-container">
     <nav-bar></nav-bar>
-    <div ng-view></div>
+    <div ng-view class="main-content-view"></div>
+    <footer-component ng-if="!ctrl.isV2"></footer-component>
     <message></message>
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

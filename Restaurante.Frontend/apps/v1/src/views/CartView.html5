@@ -1,11 +1,59 @@
-<div class="container">
-    <h1>CURRENT_ORDER - {{ctrl.EstadoPedido}}</h1>
-    <p ng-if="ctrl.IsSearching" class="text-muted mb-2">
-        ORDER_STATUS.SEARCHING activo: esperando que el usuario agregue productos.
-    </p>
-    <order-list data="ctrl.Data" on-plus="ctrl.onPlus" on-minus="ctrl.onMinus" on-remove="ctrl.onRemove"></order-list>
-    <div>
-        <button class="btn btn-success me-1" ng-click="ctrl.Request()">REQUEST</button>
-        <button class="btn btn-danger" ng-click="ctrl.Cancel()">CANCEL</button>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden premium-card">
+                <!-- Header with gradient -->
+                <div class="card-header bg-gradient bg-dark text-white p-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <h2 class="mb-0 fw-bold d-flex align-items-center gap-2">
+                        <span>🛒</span>
+                        <span>{{ctrl.t.CURRENT_ORDER}}</span>
+                    </h2>
+                    <span class="badge rounded-pill px-3 py-2 fs-6 shadow-sm border border-white border-opacity-10" ng-class="ctrl.getStatusBadgeClass">
+                        {{ctrl.TranslatedEstadoPedido}}
+                    </span>
+                </div>
+                
+                <div class="card-body p-4 bg-body-tertiary">
+                    <!-- Helper Text -->
+                    <p ng-if="ctrl.IsSearching" class="alert alert-info border-0 shadow-sm d-flex align-items-center gap-2 mb-4">
+                        <span>ℹ️</span>
+                        <span>{{ctrl.t.SEARCHING}}</span>
+                    </p>
+
+                    <!-- Cart Content -->
+                    <div ng-if="ctrl.Data && ctrl.Data.length > 0">
+                        <div class="mb-4">
+                            <order-list data="ctrl.Data" on-plus="ctrl.onPlus" on-minus="ctrl.onMinus" on-remove="ctrl.onRemove"></order-list>
+                        </div>
+                        
+                        <!-- Order Summary Card -->
+                        <div class="card border-0 shadow-sm rounded-3 p-4 bg-white mt-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="fw-semibold text-muted fs-5">{{ctrl.t.ITEMS}}:</span>
+                                <span class="fw-bold fs-5 text-primary">{{ctrl.totalAmount}}</span>
+                            </div>
+                            <hr class="my-3">
+                            <div class="d-flex flex-wrap gap-2 mt-2 justify-content-end">
+                                <button class="btn btn-danger btn-lg px-4 rounded-pill shadow-sm hover-scale d-flex align-items-center gap-2" ng-click="ctrl.Cancel()">
+                                    <span>❌</span>
+                                    <span>{{ctrl.t.CANCEL}}</span>
+                                </button>
+                                <button class="btn btn-success btn-lg px-4 rounded-pill shadow-sm hover-scale d-flex align-items-center gap-2" ng-click="ctrl.Request()">
+                                    <span>🚀</span>
+                                    <span>{{ctrl.t.REQUEST}}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div ng-if="!ctrl.Data || ctrl.Data.length === 0" class="text-center py-5">
+                        <div class="display-1 text-muted mb-3 opacity-50">🛍️</div>
+                        <h4 class="fw-semibold text-muted">{{ctrl.t.EMPTY_CART}}</h4>
+                        <a href="/home" class="btn btn-outline-primary rounded-pill px-4 mt-3 hover-scale">Ir al Menú</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

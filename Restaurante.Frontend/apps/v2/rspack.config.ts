@@ -61,8 +61,8 @@ export default createConfig({
       "budgets": [
         {
           "type": "initial",
-          "maximumWarning": "500kb",
-          "maximumError": "1mb"
+          "maximumWarning": "1.5mb",
+          "maximumError": "2mb"
         },
         {
           "type": "anyComponentStyle",

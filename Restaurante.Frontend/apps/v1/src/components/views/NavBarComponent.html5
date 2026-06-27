@@ -1,25 +1,53 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" ng-if="!ctrl.isV2">
-  <div class="container-fluid">
-      <a class="navbar-brand" href="/home">
-          <img src="/assets/images/logo.svg" alt="" width="70">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm border-bottom border-secondary" ng-if="!ctrl.isV2">
+  <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/home">
+          <img src="/assets/images/logo.svg" alt="Restaurante Logo" width="60" class="border p-1 rounded bg-light me-2">
+          <span class="fw-bold tracking-tight text-white">Restaurante</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      
+      <!-- Hamburger Toggle Button -->
+      <button class="navbar-toggler" type="button" ng-click="ctrl.toggleMenu()">
           <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li id="orderStatus" class="nav-item text-center ms-sm-center ms-md-auto me-md-2">
-                <p>ORDER_STATUS</p>
-                <p class="badge rounded-pill" ng-class="'text-'+ctrl.StatusCss" >{{ctrl.StatusText}}</p>     
+      
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" ng-class="{'show': !ctrl.isMenuCollapsed}" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto align-items-center gap-3 mt-3 mt-lg-0">
+              <!-- Order Status -->
+              <li id="orderStatus" class="nav-item text-center px-2 py-1 rounded bg-secondary-subtle bg-opacity-10 border border-secondary border-opacity-25" style="min-width: 140px;">
+                <p class="text-muted mb-0 small text-uppercase font-monospace" style="font-size: 10px;">{{ctrl.t.ORDER_STATUS}}</p>
+                <p class="badge rounded-pill mb-0 w-100 mt-1" ng-class="ctrl.StatusCss">{{ctrl.StatusText}}</p>     
               </li>
-              <li class="nav-item d-flex ms-auto flex-row-reverse flex-lg-column align-items-center me-ms-0 me-md-2 position-relative" ng-click="ctrl.verCarrito()">
-                  <img src="/assets/images/carrito.svg" width="35" class="mb-0 ms-1 ms-md-0 mb-md-2 mb-lg-0">
-                  <p class="fw-bold text-center mb-0 me-sm-2 me-md-0">Carrito</p>
-                  <span class="badge rounded-circle bg-danger position-absolute" style="top: -5px; right: -5px; font-size: 12px;">{{ctrl.Count}}</span>
+              
+              <!-- Cart -->
+              <li class="nav-item position-relative cursor-pointer text-center px-2 py-1 rounded hover-item" ng-click="ctrl.verCarrito()" style="cursor: pointer;">
+                  <div class="position-relative d-inline-block">
+                      <img src="/assets/images/carrito.svg" width="30" alt="Cart">
+                      <span class="badge rounded-circle bg-danger position-absolute top-0 start-100 translate-middle" style="font-size: 10px;">{{ctrl.Count}}</span>
+                  </div>
+                  <p class="fw-bold text-white small mb-0 mt-1">{{ctrl.t.CART}}</p>
               </li>
-              <li class="nav-item d-flex ms-auto flex-row-reverse flex-lg-column align-items-center me-ms-0 me-md-2" ng-click="ctrl.perfilUsuario()">
-                  <img src="/assets/images/commonUser.svg" width="35" class="mb-0 ms-1 ms-md-0 mb-md-2 mb-lg-0">
-                  <p class="fw-bold text-center mb-0 me-sm-2 me-md-0">Perfil</p>
+              
+              <!-- Profile -->
+              <li class="nav-item cursor-pointer text-center px-2 py-1 rounded hover-item" ng-click="ctrl.perfilUsuario()" style="cursor: pointer;">
+                  <img src="/assets/images/commonUser.svg" width="30" alt="User">
+                  <p class="fw-bold text-white small mb-0 mt-1">{{ctrl.t.PROFILE}}</p>
+              </li>
+
+              <!-- Theme Toggle -->
+              <li class="nav-item text-center">
+                  <button class="btn btn-outline-light btn-sm d-flex align-items-center gap-1" ng-click="ctrl.toggleTheme()" title="Cambiar Tema">
+                      <span ng-if="ctrl.currentTheme === 'dark'">☀️</span>
+                      <span ng-if="ctrl.currentTheme !== 'dark'">🌙</span>
+                  </button>
+              </li>
+
+              <!-- Language Select -->
+              <li class="nav-item text-center">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Language selector">
+                      <button type="button" class="btn btn-outline-light" ng-class="{'active': ctrl.currentLanguage === 'es'}" ng-click="ctrl.setLanguage('es')">ES</button>
+                      <button type="button" class="btn btn-outline-light" ng-class="{'active': ctrl.currentLanguage === 'en'}" ng-click="ctrl.setLanguage('en')">EN</button>
+                  </div>
               </li>
           </ul>
       </div>

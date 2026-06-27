@@ -1,3 +1,4 @@
+import '@angular/compiler';
 import angular from "angular";
 import ngRoute from "angular-route";
 import ngCookies from "angular-cookies";
@@ -14,6 +15,12 @@ import Interceptors from "@interceptors";
 import Filters from "@filters";
 import ORDER_STATUS from "@models/Order/OrderStatus";
 import { orderStatusReducer } from "@store/orderStatusStore";
+
+import "./global-styles/center-image.css";
+import "./global-styles/custom-toast.css";
+import "./global-styles/invisible.css";
+import "./global-styles/status-code.css";
+import "./global-styles/effects.css";
 
 const getPublicBaseUrl = () => {
     const value = process.env.LEGACY_PUBLIC_BASE_URL || window.location.origin;
@@ -79,7 +86,9 @@ RestauranteModule.config(['$provide', function ($provide) {
                 return {
                     ...ngrxState,
                     orderState: {
-                        ORDER_STATUS: sharedShell.ORDER_STATUS || 'SEARCHING'
+                        ORDER_STATUS: sharedShell.ORDER_STATUS || 'SEARCHING',
+                        theme: sharedShell.theme || 'light',
+                        language: sharedShell.language || 'es'
                     }
                 };
             };
@@ -170,9 +179,10 @@ export const mount = async (containerElement) => {
 
     if (el) {
         el.innerHTML = `
-            <div ng-controller="RestauranteCtrl">
+            <div ng-controller="RestauranteCtrl as ctrl" class="app-root-container">
                 <nav-bar></nav-bar>
-                <div ng-view></div>
+                <div ng-view class="main-content-view"></div>
+                <footer-component ng-if="!ctrl.isV2"></footer-component>
                 <message></message>
             </div>
         `;

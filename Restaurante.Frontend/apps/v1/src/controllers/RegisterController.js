@@ -1,21 +1,26 @@
 import GeoRefServices from "@services/GeoRefServices";
 import RouteServices from "@services/RouteServices";
-import angular from "angular";
+import UserServices from "@services/UserServices";
+import { TRANSLATIONS } from "@org/shared-shell";
 
-export default class RegisterController{
+export default class RegisterController {
+    static $inject = ['UserServices', 'RouteServices', '$scope', 'GeoRefServices', '$ngRedux'];
 
     /**
-     * @param {UserServices} UserServices,
-     * @param {RouteServices} RouteServices,
-     * @param {angular.IRootScopeService} $scope,
-     * @param {GeoRefServices} GeoRefServices,
-    */
-    constructor(UserServices, RouteServices, $scope, GeoRefServices){
+     * @param {UserServices} UserServices
+     * @param {RouteServices} RouteServices
+     * @param {angular.IScope} $scope
+     * @param {GeoRefServices} GeoRefServices
+     * @param {any} $ngRedux
+     */
+    constructor(UserServices, RouteServices, $scope, GeoRefServices, $ngRedux){
         this.GeoRefServices = GeoRefServices;
         this.FirstTimeLoad = true;
         this.RouteServices = RouteServices;
         this.UserServices = UserServices;
         this.scope = $scope;
+        this.$ngRedux = $ngRedux;
+        
         this.departamentos = [];
         this.localidades = [];
         this.name = '';
@@ -28,8 +33,9 @@ export default class RegisterController{
         this.street = '';
         this.numstreet = '';
         this.LocalidadActual = '';
+        this.currentLanguage = 'es';
 
-        this.scope.$on('firstTimeLoad',async () => {
+        this.scope.$on('firstTimeLoad', async () => {
             this.departamentos = await this.GeoRefServices.Departamentos;
             await this.scope.$applyAsync();
         });
@@ -39,13 +45,21 @@ export default class RegisterController{
             await this.scope.$applyAsync();
         });
 
-        if(this.FirstTimeLoad){
+        if (this.FirstTimeLoad) {
             this.scope.$emit('firstTimeLoad');
             this.FirstTimeLoad = false;
         }
+
+        const mapStateToThis = (state) => ({
+            currentLanguage: state?.orderState?.language || 'es'
+        });
+        this.unsubscribeRedux = this.$ngRedux.connect(mapStateToThis)(this);
     }
 
-
+    get t() {
+        const lang = this.currentLanguage || 'es';
+        return TRANSLATIONS[lang] || TRANSLATIONS.es;
+    }
 
     set DepartamentoActual(depto){
         this.GeoRefServices.DepartamentoActual = depto;
@@ -132,6 +146,12 @@ export default class RegisterController{
                 this.phone = 1;
             else if(num > 9999999)
                 this.phone = 9999999;
+        }
+    }
+
+    $onDestroy() {
+        if (this.unsubscribeRedux) {
+            this.unsubscribeRedux();
         }
     }
 }

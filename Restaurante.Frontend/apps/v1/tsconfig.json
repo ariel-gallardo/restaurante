@@ -6,7 +6,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": false,
     "types": [
       "node",
@@ -25,7 +25,6 @@
     ],
     "target": "ESNext",
     "outDir": "dist",
-    "rootDir": "src",
     "paths": {
       "@components/*": [
         "components/*"
@@ -66,10 +65,21 @@
       "@store/*": [
         "store/*"
       ],
+      "@org/shared-shell": [
+        "../../../libs/shared/src/lib/shell/src/index.ts"
+      ],
+      "@org/shared-shell/*": [
+        "../../../libs/shared/src/lib/shell/src/*"
+      ]
     }
   },"include": [
     "src/**/*.js",  
     "src/**/*.ts",
     "global.d.ts"
+  ],
+  "references": [
+    {
+      "path": "../../libs/shared/src/lib/shell"
+    }
   ]
 }

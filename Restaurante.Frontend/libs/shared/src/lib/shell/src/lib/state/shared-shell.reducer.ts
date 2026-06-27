@@ -7,7 +7,9 @@ import {
   setAuthUser,
   authLogout,
   setCartCount,
-  SharedUser
+  SharedUser,
+  setSharedTheme,
+  setSharedLanguage
 } from './shared-shell.actions';
 
 export const sharedShellFeatureKey = 'sharedShell';
@@ -22,6 +24,8 @@ export interface SharedShellState {
   user: SharedUser | null;
   isAuthenticated: boolean;
   cartCount: number;
+  theme: 'light' | 'dark';
+  language: 'es' | 'en';
 }
 
 const getInitialUser = (): SharedUser | null => {
@@ -75,6 +79,34 @@ const getInitialCartCount = (): number => {
   return 0;
 };
 
+const getInitialTheme = (): 'light' | 'dark' => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light' || theme === 'dark') {
+        return theme;
+      }
+    }
+  } catch (e) {
+    console.error('Error getting initial theme', e);
+  }
+  return 'light';
+};
+
+const getInitialLanguage = (): 'es' | 'en' => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const lang = localStorage.getItem('language');
+      if (lang === 'es' || lang === 'en') {
+        return lang;
+      }
+    }
+  } catch (e) {
+    console.error('Error getting initial language', e);
+  }
+  return 'es';
+};
+
 const initialState: SharedShellState = {
   ORDER_STATUS: 'SEARCHING',
   totalEvents: 0,
@@ -85,6 +117,8 @@ const initialState: SharedShellState = {
   user: getInitialUser(),
   isAuthenticated: getInitialIsAuthenticated(),
   cartCount: getInitialCartCount(),
+  theme: getInitialTheme(),
+  language: getInitialLanguage(),
 };
 
 export const sharedShellReducer = createReducer(
@@ -127,6 +161,26 @@ export const sharedShellReducer = createReducer(
   on(setCartCount, (state, { payload }) => ({
     ...state,
     cartCount: payload,
-  }))
+  })),
+  on(setSharedTheme, (state, { theme }) => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('theme', theme);
+      }
+    } catch (e) {
+      console.error('Error saving theme', e);
+    }
+    return { ...state, theme };
+  }),
+  on(setSharedLanguage, (state, { language }) => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('language', language);
+      }
+    } catch (e) {
+      console.error('Error saving language', e);
+    }
+    return { ...state, language };
+  })
 );
 

@@ -1,55 +1,144 @@
-<nav class="navbar-v2" *ngIf="showNavbar">
-  <div class="navbar-container">
-    <a class="navbar-brand-v2" (click)="goTo('/home')">
-      <img src="/assets/images/logo.svg" alt="Restaurante" class="logo-img" />
-    </a>
-    
-    <div class="navbar-menu-v2">
-      <!-- Order Status -->
-      <div id="orderStatus" class="nav-item-v2 text-center" *ngIf="orderStatus$ | async as status">
-        <p class="status-label">ORDER_STATUS</p>
-        <span class="badge-v2 rounded-pill" [ngClass]="getStatusClass(status)">{{ status }}</span>
-      </div>
-
-      <!-- Carrito -->
-      <div class="nav-item-v2 cursor-pointer position-relative" (click)="goTo('/cart')">
-        <img src="/assets/images/carrito.svg" width="35" class="nav-img" />
-        <p class="fw-bold text-center label-text">Carrito</p>
-        <span class="badge-count rounded-circle" *ngIf="cartCount$ | async as count">{{ count }}</span>
-      </div>
-
-      <!-- Perfil (Authenticated / Dropdown) -->
-      <ng-container *ngIf="isAuthenticated$ | async; else anonymous">
-        <div class="nav-item-v2 cursor-pointer" [matMenuTriggerFor]="userMenu">
-          <img [src]="(user$ | async)?.imagenUrl || '/assets/images/commonUser.svg'" width="35" class="nav-img rounded-circle" />
-          <p class="fw-bold text-center label-text">{{ (user$ | async)?.nombreCompleto || 'Perfil' }}</p>
-        </div>
-      </ng-container>
+<ng-container *ngIf="{ lang: language$ | async, theme: theme$ | async } as state">
+  <nav class="navbar-v2 shadow-sm border-bottom border-secondary bg-dark text-light" *ngIf="showNavbar">
+    <div class="navbar-container">
+      <a class="navbar-brand-v2 d-flex align-items-center" (click)="goTo('/home')">
+        <img src="/assets/images/logo.svg" alt="Restaurante" class="logo-img me-2 border p-1 rounded bg-light" style="width: 55px; height: auto;" />
+        <span class="fw-bold tracking-tight text-white fs-5">Restaurante v2</span>
+      </a>
       
-      <!-- Perfil (Anonymous) -->
-      <ng-template #anonymous>
-        <div class="nav-item-v2 cursor-pointer" (click)="goTo('/profile')">
-          <img src="/assets/images/commonUser.svg" width="35" class="nav-img" />
-          <p class="fw-bold text-center label-text">Perfil</p>
+      <!-- Mobile Hamburger Toggle Button -->
+      <button class="navbar-hamburger-btn d-lg-none" type="button" (click)="toggleMenu()" aria-label="Toggle navigation">
+        <span class="hamburger-icon"></span>
+      </button>
+      
+      <!-- Menu items: both desktop (horizontal) and mobile (vertical dropdown) -->
+      <div class="navbar-menu-v2" [class.show-menu]="!isMenuCollapsed">
+        <!-- Order Status -->
+        <div id="orderStatus" class="nav-item-v2 text-center" *ngIf="orderStatus$ | async as status">
+          <p class="status-label text-uppercase text-muted font-monospace" style="font-size: 10px; margin: 0;">
+            {{ getTranslation('ORDER_STATUS', state.lang) }}
+          </p>
+          <span class="badge-v2 rounded-pill mt-1" [ngClass]="getStatusClass(status)">
+            {{ getTranslatedStatus(status, state.lang) }}
+          </span>
         </div>
-      </ng-template>
 
-      <!-- User Dropdown Menu -->
-      <mat-menu #userMenu="matMenu" class="premium-menu">
-        <button mat-menu-item (click)="goTo('/profile')">
-          <mat-icon>person</mat-icon>
-          <span>Mi Perfil</span>
-        </button>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Cerrar Sesión</span>
-        </button>
-      </mat-menu>
+        <!-- Carrito -->
+        <div class="nav-item-v2 cursor-pointer position-relative text-center" (click)="goTo('/cart')">
+          <div class="position-relative d-inline-block">
+            <img src="/assets/images/carrito.svg" width="30" class="nav-img" />
+            <span class="badge-count rounded-circle" *ngIf="cartCount$ | async as count">{{ count }}</span>
+          </div>
+          <p class="fw-bold text-white small mb-0 mt-1">
+            {{ getTranslation('CART', state.lang) }}
+          </p>
+        </div>
+
+        <!-- Perfil (Authenticated / Dropdown) -->
+        <ng-container *ngIf="isAuthenticated$ | async; else anonymous">
+          <div class="nav-item-v2 cursor-pointer text-center" [matMenuTriggerFor]="userMenu">
+            <img [src]="(user$ | async)?.imagenUrl || '/assets/images/commonUser.svg'" width="30" class="nav-img rounded-circle border border-white border-opacity-25" />
+            <p class="fw-bold text-white small mb-0 mt-1">{{ (user$ | async)?.nombreCompleto || 'Perfil' }}</p>
+          </div>
+        </ng-container>
+        
+        <!-- Perfil (Anonymous) -->
+        <ng-template #anonymous>
+          <div class="nav-item-v2 cursor-pointer text-center" (click)="goTo('/profile')">
+            <img src="/assets/images/commonUser.svg" width="30" class="nav-img" />
+            <p class="fw-bold text-white small mb-0 mt-1">
+              {{ getTranslation('PROFILE', state.lang) }}
+            </p>
+          </div>
+        </ng-template>
+
+        <!-- User Dropdown Menu -->
+        <mat-menu #userMenu="matMenu" class="premium-menu">
+          <button mat-menu-item (click)="goTo('/profile')">
+            <mat-icon>person</mat-icon>
+            <span>{{ getTranslation('MY_PROFILE', state.lang) }}</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>{{ getTranslation('LOGOUT', state.lang) }}</span>
+          </button>
+        </mat-menu>
+
+        <!-- Theme Toggle -->
+        <div class="nav-item-v2 text-center">
+          <button type="button" class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-center" (click)="toggleTheme()" title="Cambiar Tema">
+            <span *ngIf="state.theme === 'dark'">☀️</span>
+            <span *ngIf="state.theme !== 'dark'">🌙</span>
+          </button>
+        </div>
+
+        <!-- Language Select -->
+        <div class="nav-item-v2 text-center">
+          <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-outline-light" [class.active]="state.lang === 'es'" (click)="setLanguage('es')">ES</button>
+            <button type="button" class="btn btn-outline-light" [class.active]="state.lang === 'en'" (click)="setLanguage('en')">EN</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<main class="content-container">
-  <router-outlet></router-outlet>
-</main>
+  <!-- Main Wrapper that stretches -->
+  <main class="content-container">
+    <router-outlet></router-outlet>
+  </main>
 
+  <!-- Footer -->
+  <footer class="footer-premium text-light py-5 mt-auto border-top">
+    <div class="container footer-content-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 0 16px;">
+      <div class="row gy-4 align-items-start">
+        <!-- Brand & Logo -->
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center mb-3 brand-container">
+            <img src="/assets/images/logo.svg" alt="Logo" class="footer-logo me-3 border p-1 rounded-circle bg-light shadow-sm" style="width: 55px; height: 55px; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div>
+              <h4 class="mb-0 fw-bold tracking-tight text-gradient">Restaurante</h4>
+              <span class="text-xs text-muted font-monospace">Version 2.0 (Angular)</span>
+            </div>
+          </div>
+          <p class="text-muted small mb-0 pe-lg-4 lead-sm">{{ getTranslation('DESCRIPTION', state.lang) }}</p>
+        </div>
+
+        <!-- Quick links or info -->
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-uppercase fw-bold mb-3 text-white tracking-widest text-xs border-bottom border-secondary pb-2 d-inline-block">{{ getTranslation('CONTACT', state.lang) }}</h6>
+          <div class="contact-item d-flex align-items-center mb-2 text-muted small">
+            <span class="me-2">✉️</span> info@restaurante.com
+          </div>
+          <div class="contact-item d-flex align-items-center text-muted small">
+            <span class="me-2">📞</span> +54 11 1234-5678
+          </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-uppercase fw-bold mb-3 text-white tracking-widest text-xs border-bottom border-secondary pb-2 d-inline-block">Conéctate</h6>
+          <div class="d-flex gap-3">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-btn github-btn shadow-sm" aria-label="GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+              </svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-btn linkedin-btn shadow-sm" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 4.8 2.4 5.508c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Copyright info -->
+        <div class="col-lg-2 col-md-6 text-md-end text-lg-start">
+          <h6 class="text-uppercase fw-bold mb-3 text-white tracking-widest text-xs border-bottom border-secondary pb-2 d-inline-block">Legal</h6>
+          <p class="small text-muted mb-1">&copy; {{ currentYear }} Restaurante.</p>
+          <p class="small text-muted mb-0">{{ getTranslation('RIGHTS', state.lang) }}</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</ng-container>

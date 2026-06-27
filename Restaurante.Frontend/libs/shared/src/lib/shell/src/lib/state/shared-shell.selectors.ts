@@ -40,3 +40,14 @@ export const selectSharedCartCount = createSelector(
   (state) => state.cartCount
 );
 
+export const selectSharedTheme = createSelector(
+  selectSharedShellState,
+  (state) => state.theme
+);
+
+export const selectSharedLanguage = createSelector(
+  selectSharedShellState,
+  (state) => state.language
+);
+
+

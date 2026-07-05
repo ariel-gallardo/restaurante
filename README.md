@@ -47,8 +47,5 @@ pnpm nx run <project>:serve
 
 ## Accounts de prueba
 
-- cliente@restaurante.com:123456aA$
-- delivery@restaurante.com:123456aA$
-- recepcionista@restaurante.com:123456aA$
-- cocinero@restaurante.com:123456aA$
-- administrador@restaurante.com:123456aA$
+Seed account credentials are managed via environment variables or user secrets.
+See the project's setup documentation for details on configuring test accounts.

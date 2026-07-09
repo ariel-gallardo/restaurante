@@ -13,10 +13,14 @@ namespace Restaurante.API
             if (!AppSettings.UseSqlite)
             {
                 AppSettings.MSSQLConnectionString = cfg["MSSQL:ConnectionString"];
-                services.AddDbContext<RestauranteContext>(options =>
+                services.AddDbContext<RestauranteContext>((serviceProvider, options) =>
                 {
-                    options.UseSqlServer(AppSettings.MSSQLConnectionString)
-                    .EnableSensitiveDataLogging();
+                    options.UseSqlServer(AppSettings.MSSQLConnectionString);
+                    var env = serviceProvider.GetService<IWebHostEnvironment>();
+                    if (env != null && env.IsDevelopment())
+                    {
+                        options.EnableSensitiveDataLogging();
+                    }
                 });
             }
             return services;

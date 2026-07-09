@@ -42,7 +42,7 @@ namespace Restaurante.API
             services.AddControllers(o =>
             {
                 o.Filters.Add<DeactivateMethodFilter>();
-                o.Filters.Add<Status500Filter>();
+                o.Filters.AddService<Status500Filter>();
                 o.Filters.Add<ValidationFilter>();
             });
             services.Configure<ApiBehaviorOptions>(options =>
@@ -100,6 +100,7 @@ namespace Restaurante.API
                 o.IncludeXmlComments(ctrlOutput, true);
                 o.EnableAnnotations();
             });
+            services.AddTransient<Status500Filter>();
             services.AddInternalServices();
             services
                 .AddSqliteCFG(_cfg)

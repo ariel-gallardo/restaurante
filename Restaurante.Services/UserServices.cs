@@ -83,8 +83,7 @@ namespace Restaurante.Services
         public async Task<ResultResponse> Info(string token)
         {
             var result = new ResultResponse();
-            var tData = new JwtSecurityToken(token.Replace("Bearer ",string.Empty));
-            var claims = tData.Claims;
+            var claims = CurrentUserClaims;
             var content = _mapper.Map<IEnumerable<Claim>, UserInfoDTO>(claims);
             content.Pedido = _mapper.Map<Pedido,PedidoDTO>(await _pRepository.PedidoActual(long.Parse(content.UsuarioId)));
             result.Content = content;
@@ -116,14 +115,14 @@ namespace Restaurante.Services
                 else
                 {
                     response.StatusCode = 401;
-                    response.Message = $"USER_WRONG_PASSWORD {dto.Correo}";
+                    response.Message = "INVALID_CREDENTIALS";
                     await _smsServices.SendMessage(response.Message, response.StatusCode);
                 }
             }
             else
             {
                 response.StatusCode = 401;
-                response.Message = $"USER_EMAIL_NOT_FOUND {dto.Correo}";
+                response.Message = "INVALID_CREDENTIALS";
                 await _smsServices.SendMessage(response.Message,response.StatusCode);
             }
             return response;

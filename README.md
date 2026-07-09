@@ -47,8 +47,5 @@ pnpm nx run <project>:serve
 
 ## Accounts de prueba
 
-- cliente@restaurante.com:123456aA$
-- delivery@restaurante.com:123456aA$
-- recepcionista@restaurante.com:123456aA$
-- cocinero@restaurante.com:123456aA$
-- administrador@restaurante.com:123456aA$
+Default test accounts are seeded automatically. See your local secrets or environment configuration for credentials.
+Do **not** commit real passwords to this file.
